@@ -74,6 +74,11 @@ $routes->get('/legalisir', 'LegalisirController::index', ['filter' => 'auth']);
 // Manajemen Data Lowongan Kerja
 $routes->get('/lowongan-kerja', 'LowonganKerjaController::index', ['filter' => 'auth']);
 
+// Detail Lowongan Kerja
+$routes->get('/lowongan-kerja/detail/(:any)', 'LowonganKerjaController::detail/$1', ['filter' => 'auth']);
+
+
+
 
 
 

@@ -135,4 +135,49 @@ function get_data_setup_ts_with_tahun_keluar($tahun_keluar)
     return $results;
 }
 
+
+// Random Alphanumeric
+function generateRandomString($length = 20) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+// Format Rupiah
+function format_rupiah($angka){
+    $rupiah = number_format($angka,0,',','.');
+    return $rupiah;
+}
+
+// Format Tanggal Misalnya 20 November 2023
+function format_tanggal($tanggal){
+    $bulan = array (
+        1 =>   'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember' 
+    );
+    $pecahkan = explode('-', $tanggal);
+    return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+}
+
+// Get Current Date
+function get_current_date(){
+    $date = date('Y-m-d');
+    return $date;
+}
+
+
 ?>

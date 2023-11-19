@@ -27,20 +27,20 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!--end::Fonts-->
 
 	<!--begin::Page Vendors Styles(used by this page)-->
-	<link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+	<link href="<?= base_url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') ?>" rel="stylesheet" type="text/css" />
 	<!--end::Page Vendors Styles-->
 
 
 	<!--begin::Global Theme Styles(used by all pages)-->
-	<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
-	<link href="assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
-	<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+	<link href="<?= base_url('assets/plugins/global/plugins.bundle.css') ?>" rel="stylesheet" type="text/css" />
+	<link href="<?= base_url('assets/plugins/custom/prismjs/prismjs.bundle.css') ?>" rel="stylesheet" type="text/css" />
+	<link href="<?= base_url('assets/css/style.bundle.css') ?>" rel="stylesheet" type="text/css" />
 	<!--end::Global Theme Styles-->
 
 	<!--begin::Layout Themes(used by all pages)-->
 	<!--end::Layout Themes-->
 
-	<link rel="shortcut icon" href="assets/media/logos/umi.png" />
+	<link rel="shortcut icon" href="<?= base_url('assets/media/logos/favicon.ico') ?>" />
 
 </head>
 <!--end::Head-->
@@ -55,7 +55,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<div id="kt_header_mobile" class="header-mobile  header-mobile-fixed ">
 		<!--begin::Logo-->
 		<a href="<?php base_url('/dashboard') ?>">
-			<img alt="Logo" src="assets/media/logos/umi.png" class="logo-default max-h-30px" />
+			<img alt="Logo" src="<?= base_url('assets/media/logos/umi.png') ?>" class="logo-default max-h-30px" />
 		</a>
 		<!--end::Logo-->
 
@@ -234,7 +234,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 							<!--begin::Logo-->
 							<a href="<?php base_url('/dashboard') ?>">
-								<img alt="Logo" src="assets/media/logos/umi.png" class="logo-sticky max-h-50px" />
+								<img alt="Logo" src="<?= base_url('assets/media/logos/umi.png') ?>" class="logo-sticky max-h-35px" />
 							</a>
 							<!--end::Logo-->
 
