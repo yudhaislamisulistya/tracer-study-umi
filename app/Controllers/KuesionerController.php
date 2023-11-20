@@ -8,6 +8,7 @@ use CodeIgniter\Session\Session;
 
 class KuesionerController extends BaseController
 {
+    public $ModelKuesioner;
     public function __construct() {
         $this->ModelKuesioner = new ModelKuesioner();
     }
@@ -16,16 +17,16 @@ class KuesionerController extends BaseController
     {
         if (get_data_setup_ts_with_tahun_keluar(get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_keluar) != NULL) {
             if (get_data_setup_ts_with_tahun_keluar(get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_keluar)->jenis_kuesioner == "kue_2017") {
-                return view('kuesioner/2017');
+                return view('kuesioner/2021');
             }else if(get_data_setup_ts_with_tahun_keluar(get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_keluar)->jenis_kuesioner == "kue_2021"){
                 return view('kuesioner/2021');
             }else{
-                $this->data['status'] = 0;
-                return view('kuesioner', $this->data);
+                $data['status'] = 0;
+                return view('kuesioner', $data);
             }
         }else{
-            $this->data['status'] = 0;
-            return view('kuesioner', $this->data);
+            $data['status'] = 0;
+            return view('kuesioner', $data);
         }
     }
 

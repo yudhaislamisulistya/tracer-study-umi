@@ -179,5 +179,23 @@ function get_current_date(){
     return $date;
 }
 
+// Short Isi Content
+function short_isi($isi){
+    $isi = strip_tags($isi);
+    if (strlen($isi) > 300) {
+        $isi = substr($isi, 0, 300) . '...';
+    }
+    return $isi;
+}
+
+// shor isi conten with limit
+function short_isi_limit($isi, $limit){
+    $isi = strip_tags($isi);
+    if (strlen($isi) > $limit) {
+        $isi = substr($isi, 0, $limit) . '...';
+    }
+    return $isi;
+}
+
 
 ?>

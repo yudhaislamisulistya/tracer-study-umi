@@ -64,12 +64,16 @@ $routes->post('/kuesioner_2021/store', 'KuesionerController::post_kuesioner_2021
 
 // Manajemen Data Berita
 $routes->get('/berita', 'BeritaController::index', ['filter' => 'auth']);
+// Detail Data Berita
+$routes->get('/berita/detail/(:any)', 'BeritaController::detail/$1', ['filter' => 'auth']);
 
 // Manajamen Data Portal Alumni
 $routes->get('/portal-alumni', 'PortalAlumniController::index', ['filter' => 'auth']);
 
 // Manajamen Data Legalisir
 $routes->get('/legalisir', 'LegalisirController::index', ['filter' => 'auth']);
+$routes->post('/legalisir/store', 'LegalisirController::post_add_pengajuan', ['filter' => 'auth']);
+$routes->get('/legalisir/pengajuan', 'LegalisirController::pengajuan', ['filter' => 'auth']);
 
 // Manajemen Data Lowongan Kerja
 $routes->get('/lowongan-kerja', 'LowonganKerjaController::index', ['filter' => 'auth']);
@@ -77,6 +81,8 @@ $routes->get('/lowongan-kerja', 'LowonganKerjaController::index', ['filter' => '
 // Detail Lowongan Kerja
 $routes->get('/lowongan-kerja/detail/(:any)', 'LowonganKerjaController::detail/$1', ['filter' => 'auth']);
 
+// Ongkir
+$routes->get("legalisir/raja_ongkir_cost/(:any)/(:any)/(:any)/(:any)", "LegalisirController::raja_ongkir_cost/$1/$2/$3/$4");
 
 
 

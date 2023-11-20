@@ -209,6 +209,8 @@
     <script src="<?=  base_url() ?>/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
     <script src="<?=  base_url() ?>/assets/js/pages/widgets.js"></script>
     <script src="<?=  base_url() ?>/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <script src="<?=  base_url() ?>/assets/js/pages/crud/ktdatatable/base/html-table.js"></script>
     <script src="<?=  base_url() ?>/assets/js/pages/crud/ktdatatable/api/methods.js"></script>
     <script src="<?=  base_url() ?>/assets/js/sweetalert2.init.js"></script>
     <script src="<?=  base_url() ?>/assets/js/pages/crud/forms/validation/form-widgets.js"></script>
+
