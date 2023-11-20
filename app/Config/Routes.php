@@ -84,6 +84,9 @@ $routes->get('/lowongan-kerja/detail/(:any)', 'LowonganKerjaController::detail/$
 // Ongkir
 $routes->get("legalisir/raja_ongkir_cost/(:any)/(:any)/(:any)/(:any)", "LegalisirController::raja_ongkir_cost/$1/$2/$3/$4");
 
+// Curiculum Vitae
+$routes->get('/curiculum-vitae', 'CuriculumVitaeController::index', ['filter' => 'auth']);
+
 
 
 

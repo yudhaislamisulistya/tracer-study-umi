@@ -10,6 +10,16 @@ function get_data_kode_prodi_with_name($name)
     return $results;
 }
 
+function get_data_nama_prodi_with_kode($kode)
+{
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('program_studi')
+            ->where('C_KODE_PRODI',$kode)
+            ->get();
+    $results = $query->getUnbufferedRow();
+    return $results;
+}
+
 function get_data_provinsi_with_id($id)
 {
     $db = \Config\Database::connect('accext_tracer');
