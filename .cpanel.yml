@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home4/alumniumi/public_html/
-    - /bin/cp -R * $DEPLOYPATH
+    - /usr/bin/rsync -Paz * $DEPLOYPATH
