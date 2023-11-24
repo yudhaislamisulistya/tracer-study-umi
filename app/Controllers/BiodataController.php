@@ -7,7 +7,9 @@ use App\Models\ModelBiodata;
 
 class BiodataController extends BaseController
 {
-    public function __construct() {
+    protected $ModelBiodata;
+    public function __construct()
+    {
         $this->ModelBiodata = new ModelBiodata();
     }
 
@@ -28,12 +30,13 @@ class BiodataController extends BaseController
         $jenis_pekerjaan = $this->request->getPost('jenis_pekerjaan');
         $nama_perusahaan = $this->request->getPost('nama_perusahaan');
         $tanggal_masuk_kerja = $this->request->getPost('tanggal_masuk_kerja');
+        $status_pekerjaan = $this->request->getPost('status_pekerjaan');
         $email = $this->request->getPost('email');
         $nomor_handphone = $this->request->getPost('nomor_handphone');
-        if ($this->ModelBiodata->update_biodata($nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $nim, $program_studi, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja,$email, $nomor_handphone)) {
+        if ($this->ModelBiodata->update_biodata($nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $nim, $program_studi, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja, $status_pekerjaan, $email, $nomor_handphone)) {
             session()->setFlashdata('status', 'berhasil');
             return redirect()->to(base_url('biodata'));
-        }else{
+        } else {
             session()->setFlashdata('status', 'gagal');
             return redirect()->to(base_url('biodata'));
         }

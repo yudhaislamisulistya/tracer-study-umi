@@ -20,11 +20,64 @@ function get_data_nama_prodi_with_kode($kode)
     return $results;
 }
 
+function get_data_country_by_id($id)
+{
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('country')
+            ->where('id',$id)
+            ->get();
+    $results = $query->getUnbufferedRow();
+    return $results;
+}
+
+function get_data_regencies_with_id($id)
+{
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('regencies')
+            ->where('id',$id)
+            ->get();
+    $results = $query->getUnbufferedRow();
+    return $results;
+}
+
 function get_data_provinsi_with_id($id)
 {
     $db = \Config\Database::connect('accext_tracer');
     $query = $db->table('provinces')
             ->where('id',$id)
+            ->get();
+    $results = $query->getUnbufferedRow();
+    return $results;
+}
+
+function get_data_pekerjaan(){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('pekerjaan')->get();
+    $results = $query->getResult();
+    return $results;
+
+}
+
+function get_data_pekerjaan_by_id($id){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('pekerjaan')
+            ->where('id_pekerjaan',$id)
+            ->get();
+    $results = $query->getUnbufferedRow();
+    return $results;
+}
+
+function get_data_status_pekerjaan(){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('status_pekerjaan')->get();
+    $results = $query->getResult();
+    return $results;
+}
+
+function get_data_status_pekerjaan_by_id($id){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('status_pekerjaan')
+            ->where('id_job',$id)
             ->get();
     $results = $query->getUnbufferedRow();
     return $results;

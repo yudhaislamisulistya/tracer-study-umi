@@ -15,7 +15,7 @@ class ModelBiodata extends Model
         $this->dbext_tracer = db_connect("accext_tracer");
     }
 
-    public function update_biodata($nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $nim, $program_studi, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja,$email, $nomor_handphone)
+    public function update_biodata($nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $nim, $program_studi, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja, $status_pekerjaan, $email, $nomor_handphone)
     {
         try {
             $this->dbext_tracer->table('ref_biodata')
@@ -35,6 +35,7 @@ class ModelBiodata extends Model
                     "jenis_pekerjaan" => $jenis_pekerjaan,
                     "nama_perusahaan" => $nama_perusahaan,
                     "tanggal_masuk_kerja" => $tanggal_masuk_kerja,
+                    "status_pekerjaan" => $status_pekerjaan,
                     "email" => $email,
                     "nomor_handphone" => $nomor_handphone,
                 ]);
@@ -43,5 +44,4 @@ class ModelBiodata extends Model
             return 0;
         }
     }
-
 }

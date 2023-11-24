@@ -47,7 +47,7 @@
                                 <a href="#"
                                     class="btn btn-sm btn-light-success font-weight-bolder text-uppercase mr-3 mb-3"><?= get_data_registrasi(Session()->get('C_NPM'))->nim ?></a>
                                 <a href="#"
-                                    class="btn btn-sm btn-info font-weight-bolder text-uppercase mb-3"><?= get_data_biodata(Session()->get('C_NPM'))->program_studi ?></a>
+                                    class="btn btn-sm btn-info font-weight-bolder text-uppercase mb-3"><?= get_data_nama_prodi_with_kode(get_data_biodata(Session()->get('C_NPM'))->program_studi)->NAMA_PRODI ?></a>
                             </div>
                         </div>
                         <!--end::Title-->
@@ -121,7 +121,7 @@
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Negara</span>
                             <span
-                                class="font-weight-bolder font-size-h5"><?= get_data_biodata(Session()->get('C_NPM'))->negara ?></span>
+                                class="font-weight-bolder font-size-h5"><?= get_data_country_by_id(get_data_biodata(Session()->get('C_NPM'))->negara)->name ?>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -147,7 +147,7 @@
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Kab/Kota</span>
                             <span
-                                class="font-weight-bolder font-size-h5"><?= get_data_biodata(Session()->get('C_NPM'))->kabupaten ?></span>
+                                class="font-weight-bolder font-size-h5"><?= get_data_regencies_with_id(get_data_biodata(Session()->get('C_NPM'))->kabupaten)->name ?></span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -159,7 +159,7 @@
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Pekerjaan</span>
                             <span
-                                class="font-weight-bolder font-size-h5"><?= get_data_biodata(Session()->get('C_NPM'))->jenis_pekerjaan ?></span>
+                                class="font-weight-bolder font-size-h5"><?= get_data_pekerjaan_by_id(get_data_biodata(Session()->get('C_NPM'))->jenis_pekerjaan)->nm_pekerjaan ?></span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -219,39 +219,39 @@
                         <div class="mb-7">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">Nama Lengkap:</span>
-                                <a href="#" class="text-muted text-hover-primary"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->nama ?></a>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->nama ? get_data_alumni_by_nim(Session()->get('C_NPM'))->nama : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                             <div class="d-flex justify-content-between align-items-cente my-1">
                                 <span class="text-dark-75 font-weight-bolder mr-2">NIM:</span>
-                                <a href="#" class="text-muted text-hover-primary"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->nim ?></a>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->nim ? get_data_alumni_by_nim(Session()->get('C_NPM'))->nim : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">Tahun Masuk:</span>
-                                <span class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_masuk ?></span>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_masuk ? get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_masuk : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">Tahun Lulus:</span>
-                                <span class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_lulus ?></span>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_lulus ? get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_lulus : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">Tanggal Yudisium:</span>
-                                <span class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->tanggal_keluar ?></span>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->tanggal_keluar ? get_data_alumni_by_nim(Session()->get('C_NPM'))->tanggal_keluar : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">Nomor SK Yudisium:</span>
-                                <span class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->sk_yudisium ?></span>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->sk_yudisium ? get_data_alumni_by_nim(Session()->get('C_NPM'))->sk_yudisium : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">IP Kumulatif:</span>
-                                <span class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->ip_kumulatif ?></span>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->ip_kumulatif ? get_data_alumni_by_nim(Session()->get('C_NPM'))->ip_kumulatif : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">Nomor Ijazah:</span>
-                                <span class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->nomor_seri_ijazah ?></span>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->nomor_seri_ijazah ? get_data_alumni_by_nim(Session()->get('C_NPM'))->nomor_seri_ijazah : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">Judul Tugas Akhir:</span>
-                                <span class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->judul_tugas_akhir ?></span>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->judul_tugas_akhir ? get_data_alumni_by_nim(Session()->get('C_NPM'))->judul_tugas_akhir : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                         </div>
                     </div>
