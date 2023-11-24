@@ -128,3 +128,5 @@ nb-configuration.xml
 Tracer.zip
 /app/*.zip
 public/assets/berkas/*
+
+app/Config/Database.php
