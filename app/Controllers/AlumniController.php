@@ -54,4 +54,11 @@ class AlumniController extends BaseController
             return json_encode(0);
         }
     }
+
+    // Admin
+    public function admin_perusahaan_alumni()
+    {
+        $data['alumni'] = $this->ModelAlumni->get_perusahaan_alumni();
+        return view('admin/karir_dan_pekerjaan/daftar_perusahaan_alumni', $data);
+    }
 }

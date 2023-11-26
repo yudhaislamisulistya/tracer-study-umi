@@ -166,6 +166,41 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
             // $routes->get('delete/(:any)', 'BiodataController::delete/$1', ['as' => 'admin_biodata_delete']);
         });
     });
+    // Karir dan Pekerjaan
+    $routes->group('karir-dan-pekerjaan', function ($routes) {
+        // Lowongan Kerja
+        $routes->group('lowongan-kerja', function ($routes) {
+            $routes->get('/', 'LowonganKerjaController::admin_lowongan_kerja', ['as' => 'admin_lowongan_kerja']);
+            // $routes->get('detail/(:any)', 'LowonganKerjaController::detail/$1', ['as' => 'admin_lowongan_kerja_detail']);
+            // $routes->get('edit/(:any)', 'LowonganKerjaController::edit/$1', ['as' => 'admin_lowongan_kerja_edit']);
+            // $routes->post('update', 'LowonganKerjaController::update', ['as' => 'admin_lowongan_kerja_update']);
+            // $routes->get('delete/(:any)', 'LowonganKerjaController::delete/$1', ['as' => 'admin_lowongan_kerja_delete']);
+        });
+        // Pekerjaan Alumni
+        $routes->group('pekerjaan-alumni', function ($routes) {
+            $routes->get('/', 'PekerjaanController::index2', ['as' => 'admin_pekerjaan_alumni']);
+            // $routes->get('detail/(:any)', 'PekerjaanController::detail/$1', ['as' => 'admin_pekerjaan_alumni_detail']);
+            // $routes->get('edit/(:any)', 'PekerjaanController::edit/$1', ['as' => 'admin_pekerjaan_alumni_edit']);
+            // $routes->post('update', 'PekerjaanController::update', ['as' => 'admin_pekerjaan_alumni_update']);
+            // $routes->get('delete/(:any)', 'PekerjaanController::delete/$1', ['as' => 'admin_pekerjaan_alumni_delete']);
+        });
+        // Status Pekerjaan
+        $routes->group('status-pekerjaan', function ($routes) {
+            $routes->get('/', 'StatusPekerjaanController::index2', ['as' => 'admin_status_pekerjaan_alumni']);
+            // $routes->get('detail/(:any)', 'StatusPekerjaanController::detail/$1', ['as' => 'admin_status_pekerjaan_alumni_detail']);
+            // $routes->get('edit/(:any)', 'StatusPekerjaanController::edit/$1', ['as' => 'admin_status_pekerjaan_alumni_edit']);
+            // $routes->post('update', 'StatusPekerjaanController::update', ['as' => 'admin_status_pekerjaan_alumni_update']);
+            // $routes->get('delete/(:any)', 'StatusPekerjaanController::delete/$1', ['as' => 'admin_status_pekerjaan_alumni_delete']);
+        });
+        // Daftar Perusahaan Alumni
+        $routes->group('perusahaan-alumni', function ($routes) {
+            $routes->get('/', 'AlumniController::admin_perusahaan_alumni', ['as' => 'admin_perusahaan_alumni']);
+            // $routes->get('detail/(:any)', 'AlumniController::detail/$1', ['as' => 'admin_daftar_perusahaan_alumni_detail']);
+            // $routes->get('edit/(:any)', 'AlumniController::edit/$1', ['as' => 'admin_daftar_perusahaan_alumni_edit']);
+            // $routes->post('update', 'AlumniController::update', ['as' => 'admin_daftar_perusahaan_alumni_update']);
+            // $routes->get('delete/(:any)', 'AlumniController::delete/$1', ['as' => 'admin_daftar_perusahaan_alumni_delete']);
+        });
+    });
 });
 
 // Grpup API

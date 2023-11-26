@@ -1,5 +1,13 @@
 <?php
 
+function get_data_lowongan_kerja(){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('lowongan_kerja')->get();
+    $results = $query->getResult();
+    return $results;
+
+}
+
 function get_data_kode_prodi_with_name($name)
 {
     $db = \Config\Database::connect('accext_tracer');

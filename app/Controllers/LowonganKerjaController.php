@@ -68,4 +68,10 @@ class LowonganKerjaController extends BaseController
         }
     }
 
+    // Admin
+
+    public function admin_lowongan_kerja()
+    {
+        return view('admin/karir_dan_pekerjaan/daftar_lowongan_kerja');
+    }
 }

@@ -249,27 +249,27 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <div class="menu-submenu "><i class="menu-arrow"></i>
                                         <ul class="menu-subnav">
                                             <li class="menu-item " aria-haspopup="true">
-                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                <a href="<?= route_to('admin_lowongan_kerja') ?>" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Daftar Lowongan Kerja</span>
                                                 </a>
                                             </li>
                                             <li class="menu-item " aria-haspopup="true">
-                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                <a href="<?= route_to('admin_pekerjaan_alumni') ?>" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Daftar Pekerjaan Alumni</span>
                                                 </a>
                                             </li>
                                             <li class="menu-item " aria-haspopup="true">
-                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                <a href="<?= route_to('admin_status_pekerjaan_alumni') ?>" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Status Pekerjaan Alumni</span>
                                                 </a>
                                             </li>
                                             <li class="menu-item " aria-haspopup="true">
-                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                <a href="<?= route_to('admin_perusahaan_alumni') ?>" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                    <span class="menu-text">Perusahaan Pengguna Lulusan</span>
+                                                    <span class="menu-text">Daftar Perusahaan Alumni</span>
                                                 </a>
                                             </li>
                                         </ul>
