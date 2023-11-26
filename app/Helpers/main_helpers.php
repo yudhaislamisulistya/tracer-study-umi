@@ -30,6 +30,15 @@ function get_data_country_by_id($id)
     return $results;
 }
 
+function get_data_regencies(){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('regencies')->get();
+    $results = $query->getResult();
+    return $results;
+
+
+}
+
 function get_data_regencies_with_id($id)
 {
     $db = \Config\Database::connect('accext_tracer');
@@ -38,6 +47,14 @@ function get_data_regencies_with_id($id)
             ->get();
     $results = $query->getUnbufferedRow();
     return $results;
+}
+
+function get_data_jenis_keluar(){
+    $db = \Config\Database::connect('acc_tracer');
+    $query = $db->table('jenis_keluar')->get();
+    $results = $query->getResult();
+    return $results;
+
 }
 
 function get_data_provinsi_with_id($id)
@@ -128,6 +145,14 @@ function check_permission_user()
             ->get();
     $results = $query->getUnbufferedRow();
     return $results;
+}
+
+function get_all_data_biodata(){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('ref_biodata')->get();
+    $results = $query->getResult();
+    return $results;
+
 }
 
 function get_data_biodata($nim)

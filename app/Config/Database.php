@@ -75,17 +75,17 @@ class Database extends Config
         'port'     => 3306,
     ];
 
-        /**
+    /**
      * The default database connection.
      *
      * @var array
      */
     // public $accext_tracer = [
     //     'DSN'      => '',
-    //     'hostname' => '192.168.162.38',
-    //     'username' => 'nasidaging',
-    //     'password' => '--kUninG%%',
-    //     'database' => 'accext_tracer',
+    //     'hostname' => '172.104.58.116',
+    //     'username' => 'alumniumi_root',
+    //     'password' => 'oZ5Gqe4UROpo',
+    //     'database' => 'alumniumi_accext_tracer',
     //     'DBDriver' => 'MySQLi',
     //     'DBPrefix' => '',
     //     'pConnect' => false,
@@ -100,17 +100,17 @@ class Database extends Config
     //     'port'     => 3306,
     // ];
 
-        /**
-     * The default database connection.
-     *
-     * @var array
-     */
+    //     /**
+    //  * The default database connection.
+    //  *
+    //  * @var array
+    //  */
     // public $acc_tracer = [
     //     'DSN'      => '',
-    //     'hostname' => '192.168.162.37',
-    //     'username' => 'nasi',
-    //     'password' => '--kUninG%%**',
-    //     'database' => 'acc_tracer',
+    //     'hostname' => '172.104.58.116',
+    //     'username' => 'alumniumi_root',
+    //     'password' => 'oZ5Gqe4UROpo',
+    //     'database' => 'alumniumi_acc_tracer',
     //     'DBDriver' => 'MySQLi',
     //     'DBPrefix' => '',
     //     'pConnect' => false,

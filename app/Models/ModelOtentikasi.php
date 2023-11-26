@@ -140,10 +140,15 @@ class ModelOtentikasi extends Model
             if ($password === $pass) {
                 $pass_hash = $data->password_hash;
                 if (password_verify($pass, $pass_hash)) {
+                    $status = 'alumni';
+                    if($data->nim == "admin"){
+                        $status = 'admin';
+                    }
                     $ses_data = [
                         'C_NPM'       => $data->nim,
                         'PASSWORD'     => $data->password,
                         'U_DATE'     => $data->updated_at,
+                        'STATUS'     => $status,
                         'logged_in'     => TRUE
                     ];
                     Session()->set($ses_data);

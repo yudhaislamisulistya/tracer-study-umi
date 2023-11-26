@@ -8,6 +8,8 @@ use CodeIgniter\Session\Session;
 
 class OtentikasiController extends BaseController
 {
+    public $ModelOtentikasi;
+
     public function __construct() {
         $this->ModelOtentikasi = new ModelOtentikasi();
     }
@@ -25,7 +27,11 @@ class OtentikasiController extends BaseController
         $nim = $this->request->getPost('nim');
         $password = $this->request->getPost('password');
         if ($this->ModelOtentikasi->validation_login($nim, $password)) {
-            return redirect()->to(base_url('dashboard'));
+            if(session()->get('STATUS') == "admin"){
+                return redirect()->to(base_url('admin/dashboard'));
+            }else{
+                return redirect()->to(base_url('dashboard'));
+            }
         }else{
             return redirect()->to(base_url('/'));
         }
@@ -457,5 +463,11 @@ class OtentikasiController extends BaseController
             $email->send();
             return redirect()->to(base_url('/'));
         }
+    }
+
+    function logout_coba()
+    {
+        session()->destroy();
+        return redirect()->to(base_url('/'));
     }
 }

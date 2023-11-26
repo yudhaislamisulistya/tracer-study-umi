@@ -8,6 +8,8 @@ use App\Models\ModelPengguna;
 
 class MainController extends BaseController
 {
+    public $ModelOtentikasi;
+    public $ModelPengguna;
     public function __construct() {
         $this->ModelOtentikasi = new ModelOtentikasi();
         $this->ModelPengguna = new ModelPengguna();
@@ -136,5 +138,10 @@ class MainController extends BaseController
             session()->setFlashdata('status', 'gagal');
             return redirect()->to(base_url('pengguna-kesehatan'));
         }
+    }
+
+    // Admin
+    function admin_dashboard(){
+        return view('admin/dashboard');
     }
 }

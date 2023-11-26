@@ -41,4 +41,43 @@ class BiodataController extends BaseController
             return redirect()->to(base_url('biodata'));
         }
     }
+
+    // Admin
+    public function admin_biodata()
+    {
+        return view('admin/manajemen_data/biodata');
+    }
+
+    // For API or Return JSON
+    public function get_biodata_json()
+    {
+        try {
+            $page = $this->request->getVar('page') ?? 1;
+            $perPage = $this->request->getVar('perpage') ?? 10;
+            $offset = ($page - 1) * $perPage;
+            $limit = $perPage;
+            $nameSearch = $this->request->getVar('nameSearch');
+            $nimSearch = $this->request->getVar('nimSearch');
+            $programStudiSearch = $this->request->getVar('programStudiSearch');
+            $tahunMasukSearch = $this->request->getVar('tahunMasukSearch');
+            $tahunKeluarSearch = $this->request->getVar('tahunKeluarSearch');
+
+
+            $data['data'] = $this->ModelBiodata->get_biodata_pagination($limit, $offset, $nameSearch, $nimSearch, $programStudiSearch, $tahunMasukSearch, $tahunKeluarSearch);
+            $totalRecord = count($this->ModelBiodata->get_biodata($nameSearch, $nimSearch, $programStudiSearch, $tahunMasukSearch, $tahunKeluarSearch));
+            $pages = ceil(count($data['data']) / $perPage);
+            $data['draw'] = $this->request->getVar('draw') ?? 1;
+            $data['recordsTotal'] = $totalRecord;
+            $data['recordsFiltered'] = $totalRecord;
+            $data['meta'] = [
+                'page' => $page,
+                'pages' => $pages,
+                'perpage' => $perPage,
+                'total' => $totalRecord,
+            ];
+            return $this->response->setJSON($data);
+        } catch (\Exception $th) {
+            return json_encode(0);
+        }
+    }
 }

@@ -32,6 +32,18 @@ class TracerFilter implements FilterInterface
         if (!session()->get('logged_in')) {
             return redirect()->to(base_url('/'));
         }
+
+        $userStatus = session()->get('STATUS');
+
+        $path = $request->uri->getPath();
+
+        $isAdminPath = strpos($path, 'admin/') === 0;
+
+        if ($isAdminPath && $userStatus !== 'admin') {
+            return redirect()->to(base_url('dashboard'));
+        } elseif (!$isAdminPath && $userStatus === 'admin') {
+            return redirect()->to(base_url('admin/dashboard'));
+        }
     }
 
     /**
