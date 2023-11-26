@@ -460,7 +460,19 @@ view('layouts/footer');
                     }
                     return '<span class="label font-weight-bold label-lg ' + status[data].class + ' label-inline">' + status[data].title + '</span>';
                 }
-            }],
+            },
+            {
+                "targets": [0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+                // render if data is null or empty or undefined or false or 0 and then replace with Data Belum Diisi
+                "render": function(data, type, row, meta) {
+                    if (data == null || data == "" || data == undefined || data == false || data == 0) {
+                        return "<span class='badge badge-danger'>Data Belum Diisi</span>";
+                    } else {
+                        return data;
+                    }
+                }
+            }
+            ],
         });
 
         $('#kt_search').on('click', function(e) {
