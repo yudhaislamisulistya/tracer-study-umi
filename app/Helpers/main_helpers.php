@@ -1,6 +1,16 @@
 <?php
 
 
+function get_data_berita_by_kategori($kategori)
+{
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('berita')
+            ->where('kategori',$kategori)
+            ->get();
+    $results = $query->getResult();
+    return $results;
+}
+
 function get_data_legalisir(){
     $db = \Config\Database::connect('accext_tracer');
     $query = $db->table('legalisir')->get();

@@ -125,6 +125,33 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
             // $routes->get('delete/(:any)', 'RegistrasiController::delete/$1', ['as' => 'admin_registrasi_delete']);
         });
     });
+    // Informasi Dan Berita
+    $routes->group('informasi-dan-berita', function ($routes) {
+        // Berita
+        $routes->group('berita', function ($routes) {
+            $routes->get('/', 'BeritaController::admin_berita', ['as' => 'admin_berita']);
+            // $routes->get('detail/(:any)', 'BeritaController::detail/$1', ['as' => 'admin_berita_detail']);
+            // $routes->get('edit/(:any)', 'BeritaController::edit/$1', ['as' => 'admin_berita_edit']);
+            // $routes->post('update', 'BeritaController::update', ['as' => 'admin_berita_update']);
+            // $routes->get('delete/(:any)', 'BeritaController::delete/$1', ['as' => 'admin_berita_delete']);
+        });
+        // Artikel
+        $routes->group('artikel', function ($routes) {
+            $routes->get('/', 'BeritaController::admin_artikel', ['as' => 'admin_artikel']);
+            // $routes->get('detail/(:any)', 'BeritaController::detail/$1', ['as' => 'admin_artikel_detail']);
+            // $routes->get('edit/(:any)', 'BeritaController::edit/$1', ['as' => 'admin_artikel_edit']);
+            // $routes->post('update', 'BeritaController::update', ['as' => 'admin_artikel_update']);
+            // $routes->get('delete/(:any)', 'BeritaController::delete/$1', ['as' => 'admin_artikel_delete']);
+        });
+        // Event
+        $routes->group('event', function ($routes) {
+            $routes->get('/', 'BeritaController::admin_event', ['as' => 'admin_event']);
+            // $routes->get('detail/(:any)', 'BeritaController::detail/$1', ['as' => 'admin_event_detail']);
+            // $routes->get('edit/(:any)', 'BeritaController::edit/$1', ['as' => 'admin_event_edit']);
+            // $routes->post('update', 'BeritaController::update', ['as' => 'admin_event_update']);
+            // $routes->get('delete/(:any)', 'BeritaController::delete/$1', ['as' => 'admin_event_delete']);
+        });
+    });
     // Manajemen Data
     $routes->group('manajemen-data', function ($routes) {
         // Status Pekerjaan

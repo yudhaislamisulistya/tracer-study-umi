@@ -44,4 +44,17 @@ class BeritaController extends BaseController
             return redirect()->to(base_url('berita'));
         }
     }
+
+    // Admin
+    public function admin_berita(){
+        return view('admin/informasi_dan_berita/berita');
+    }
+
+    public function admin_artikel(){
+        return view('admin/informasi_dan_berita/artikel');
+    }
+
+    public function admin_event(){
+        return view('admin/informasi_dan_berita/event');
+    }
 }

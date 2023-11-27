@@ -30,62 +30,12 @@ class Database extends Config
     //  *
     //  * @var array
     //  */
-    public $accext_tracer = [
-        'DSN'      => '',
-        'hostname' => '127.0.0.1',
-        'username' => 'root',
-        'password' => '',
-        'database' => 'accext_tracer',
-        'DBDriver' => 'MySQLi',
-        'DBPrefix' => '',
-        'pConnect' => false,
-        'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8',
-        'DBCollat' => 'utf8_general_ci',
-        'swapPre'  => '',
-        'encrypt'  => false,
-        'compress' => false,
-        'strictOn' => false,
-        'failover' => [],
-        'port'     => 3306,
-    ];
-
-    //     /**
-    //  * The default database connection.
-    //  *
-    //  * @var array
-    //  */
-    public $acc_tracer = [
-        'DSN'      => '',
-        'hostname' => '127.0.0.1',
-        'username' => 'root',
-        'password' => '',
-        'database' => 'acc_tracer',
-        'DBDriver' => 'MySQLi',
-        'DBPrefix' => '',
-        'pConnect' => false,
-        'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8',
-        'DBCollat' => 'utf8_general_ci',
-        'swapPre'  => '',
-        'encrypt'  => false,
-        'compress' => false,
-        'strictOn' => false,
-        'failover' => [],
-        'port'     => 3306,
-    ];
-
-    /**
-     * The default database connection.
-     *
-     * @var array
-     */
     // public $accext_tracer = [
     //     'DSN'      => '',
-    //     'hostname' => '172.104.58.116',
-    //     'username' => 'alumniumi_root',
-    //     'password' => 'oZ5Gqe4UROpo',
-    //     'database' => 'alumniumi_accext_tracer',
+    //     'hostname' => '127.0.0.1',
+    //     'username' => 'root',
+    //     'password' => '',
+    //     'database' => 'accext_tracer',
     //     'DBDriver' => 'MySQLi',
     //     'DBPrefix' => '',
     //     'pConnect' => false,
@@ -107,10 +57,10 @@ class Database extends Config
     //  */
     // public $acc_tracer = [
     //     'DSN'      => '',
-    //     'hostname' => '172.104.58.116',
-    //     'username' => 'alumniumi_root',
-    //     'password' => 'oZ5Gqe4UROpo',
-    //     'database' => 'alumniumi_acc_tracer',
+    //     'hostname' => '127.0.0.1',
+    //     'username' => 'root',
+    //     'password' => '',
+    //     'database' => 'acc_tracer',
     //     'DBDriver' => 'MySQLi',
     //     'DBPrefix' => '',
     //     'pConnect' => false,
@@ -124,6 +74,56 @@ class Database extends Config
     //     'failover' => [],
     //     'port'     => 3306,
     // ];
+
+    /**
+     * The default database connection.
+     *
+     * @var array
+     */
+    public $accext_tracer = [
+        'DSN'      => '',
+        'hostname' => '172.104.58.116',
+        'username' => 'alumniumi_root',
+        'password' => 'oZ5Gqe4UROpo',
+        'database' => 'alumniumi_accext_tracer',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
+    //     /**
+    //  * The default database connection.
+    //  *
+    //  * @var array
+    //  */
+    public $acc_tracer = [
+        'DSN'      => '',
+        'hostname' => '172.104.58.116',
+        'username' => 'alumniumi_root',
+        'password' => 'oZ5Gqe4UROpo',
+        'database' => 'alumniumi_acc_tracer',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
 
     /**
      * This database connection is used when
