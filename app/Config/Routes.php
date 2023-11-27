@@ -99,13 +99,31 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
         // $routes->post('update', 'AlumniController::update', ['as' => 'admin_alumni_update']);
         // $routes->get('delete/(:any)', 'AlumniController::delete/$1', ['as' => 'admin_alumni_delete']);
     });
-    // Program Studi
-    $routes->group('program-studi', function ($routes) {
-        $routes->get('/', 'ProgramStudiController::index', ['as' => 'admin_program_studi']);
-        // $routes->get('detail/(:any)', 'ProgramStudiController::detail/$1', ['as' => 'admin_program_studi_detail']);
-        // $routes->get('edit/(:any)', 'ProgramStudiController::edit/$1', ['as' => 'admin_program_studi_edit']);
-        // $routes->post('update', 'ProgramStudiController::update', ['as' => 'admin_program_studi_update']);
-        // $routes->get('delete/(:any)', 'ProgramStudiController::delete/$1', ['as' => 'admin_program_studi_delete']);
+    // Akademik
+    $routes->group('akademik', function ($routes) {
+        $routes->group('program-studi', function ($routes) {
+            $routes->get('/', 'ProgramStudiController::index', ['as' => 'admin_program_studi']);
+            // $routes->get('detail/(:any)', 'ProgramStudiController::detail/$1', ['as' => 'admin_program_studi_detail']);
+            // $routes->get('edit/(:any)', 'ProgramStudiController::edit/$1', ['as' => 'admin_program_studi_edit']);
+            // $routes->post('update', 'ProgramStudiController::update', ['as' => 'admin_program_studi_update']);
+            // $routes->get('delete/(:any)', 'ProgramStudiController::delete/$1', ['as' => 'admin_program_studi_delete']);
+        });
+        // Legalisir Dokumen
+        $routes->group('legalisir-dokumen', function ($routes) {
+            $routes->get('/', 'LegalisirController::admin_legalisir_dokumen', ['as' => 'admin_legalisir_dokumen']);
+            // $routes->get('detail/(:any)', 'LegalisirController::detail/$1', ['as' => 'admin_legalisir_dokumen_detail']);
+            // $routes->get('edit/(:any)', 'LegalisirController::edit/$1', ['as' => 'admin_legalisir_dokumen_edit']);
+            // $routes->post('update', 'LegalisirController::update', ['as' => 'admin_legalisir_dokumen_update']);
+            // $routes->get('delete/(:any)', 'LegalisirController::delete/$1', ['as' => 'admin_legalisir_dokumen_delete']);
+        });
+        // Registrasi Alumni
+        $routes->group('registrasi-alumni', function ($routes) {
+            $routes->get('/', 'RegistrasiController::index', ['as' => 'admin_registrasi']);
+            // $routes->get('detail/(:any)', 'RegistrasiController::detail/$1', ['as' => 'admin_registrasi_detail']);
+            // $routes->get('edit/(:any)', 'RegistrasiController::edit/$1', ['as' => 'admin_registrasi_edit']);
+            // $routes->post('update', 'RegistrasiController::update', ['as' => 'admin_registrasi_update']);
+            // $routes->get('delete/(:any)', 'RegistrasiController::delete/$1', ['as' => 'admin_registrasi_delete']);
+        });
     });
     // Manajemen Data
     $routes->group('manajemen-data', function ($routes) {
@@ -217,6 +235,11 @@ $routes->group('api-v2', function ($routes) {
     $routes->group('biodata', function ($routes) {
         $routes->get('/', 'BiodataController::get_biodata_json');
         $routes->post('/', 'BiodataController::get_biodata_json');
+    });
+    // Registrasi Alumni API
+    $routes->group('registrasi-alumni', function ($routes) {
+        $routes->get('/', 'RegistrasiController::get_registrasi_json');
+        $routes->post('/', 'RegistrasiController::get_registrasi_json');
     });
 });
 

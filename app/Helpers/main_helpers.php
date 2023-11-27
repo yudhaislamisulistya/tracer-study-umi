@@ -1,5 +1,14 @@
 <?php
 
+
+function get_data_legalisir(){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('legalisir')->get();
+    $results = $query->getResult();
+    return $results;
+
+}
+
 function get_data_lowongan_kerja(){
     $db = \Config\Database::connect('accext_tracer');
     $query = $db->table('lowongan_kerja')->get();

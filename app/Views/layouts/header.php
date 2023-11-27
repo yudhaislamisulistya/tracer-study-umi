@@ -295,13 +295,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 </a>
                                             </li>
                                             <li class="menu-item " aria-haspopup="true">
-                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                <a href="<?= route_to("admin_legalisir_dokumen") ?>" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Legalisir Dokumen</span>
                                                 </a>
                                             </li>
                                             <li class="menu-item " aria-haspopup="true">
-                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                <a href="<?= route_to('admin_registrasi') ?>" class="menu-link ">
                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                     <span class="menu-text">Registrasi Alumni</span>
                                                 </a>

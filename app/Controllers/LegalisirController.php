@@ -120,4 +120,14 @@ class LegalisirController extends BaseController
 
         return $this->response->setJSON($response);
     }
+
+    // Admin
+    public function admin_legalisir_dokumen()
+    {
+        try {
+            return view('admin/akademik/legalisir_dokumen');
+        } catch (\Exception $th) {
+            throw $th;
+        }
+    }
 }
