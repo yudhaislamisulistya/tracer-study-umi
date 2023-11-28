@@ -231,7 +231,7 @@
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">Tahun Lulus:</span>
-                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_lulus ? get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_lulus : '<span class="text-danger">Belum Ada Data</span>' ?></a>
+                                <a class="text-muted font-weight-bold"><?= get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_keluar ? get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_keluar : '<span class="text-danger">Belum Ada Data</span>' ?></a>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder mr-2">Tanggal Yudisium:</span>
