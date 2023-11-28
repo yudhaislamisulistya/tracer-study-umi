@@ -130,3 +130,4 @@ Tracer.zip
 public/assets/berkas/*
 
 app/Config/Database.php
+app/Config/App.php

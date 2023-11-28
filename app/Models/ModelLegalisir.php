@@ -19,9 +19,9 @@ class ModelLegalisir extends Model
     {
         try {
             $query = $this->dbext_tracer->table('legalisir')
-                    ->where('nim', $nim)
-                    ->orderBy('id', 'DESC')
-                    ->get();
+                ->where('nim', $nim)
+                ->orderBy('id', 'DESC')
+                ->get();
             $results = $query->getResult();
             return $results;
         } catch (\Exception $th) {
@@ -37,6 +37,38 @@ class ModelLegalisir extends Model
         } catch (\Exception $th) {
             var_dump($th->getMessage());
             die();
+            return 0;
+        }
+    }
+
+    // Admin
+    public function get_total_legalisir()
+    {
+        try {
+            $sql = "SELECT COUNT(*) AS total_legalisir FROM legalisir";
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getRow();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_legalisir_based_status(){
+        try {
+            $sql = "SELECT COUNT(*) AS total_legalisir, status FROM legalisir GROUP BY status";
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_legalisir_by_ttd_berkas_path(){
+        try {
+            $sql = "SELECT COUNT(*) AS total_legalisir, ttd_berkas_path FROM legalisir GROUP BY ttd_berkas_path";
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
             return 0;
         }
     }

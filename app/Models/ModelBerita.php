@@ -76,4 +76,16 @@ class ModelBerita extends Model
             return 0;
         }
     }
+    
+    // Admin
+    public function get_total_berita()
+    {
+        try {
+            $sql = "SELECT COUNT(*) AS total_berita FROM berita";
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getRow();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
 }

@@ -311,7 +311,7 @@ if (session()->get('STATUS') != 'admin') {
                                                                 </a>
                                                             </li>
                                                             <li class="menu-item " aria-haspopup="true">
-                                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                                <a href="<?= route_to('admin_statistik') ?>" class="menu-link ">
                                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                     <span class="menu-text">Statistik</span>
                                                                 </a>

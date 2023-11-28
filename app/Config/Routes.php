@@ -92,6 +92,7 @@ $routes->get('/curiculum-vitae', 'CuriculumVitaeController::index', ['filter' =>
 $routes->group('admin', ['filter' => 'auth'], function ($routes) {
     // add name
     $routes->get('dashboard', 'MainController::admin_dashboard', ['as' => 'admin_dashboard']);
+    $routes->get('statistik', 'MainController::admin_statistik', ['as' => 'admin_statistik']);
     $routes->group('alumni', function ($routes) {
         $routes->get('/', 'AlumniController::index', ['as' => 'admin_alumni']);
         // $routes->get('detail/(:any)', 'AlumniController::detail/$1', ['as' => 'admin_alumni_detail']);

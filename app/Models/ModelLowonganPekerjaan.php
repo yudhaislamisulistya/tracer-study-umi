@@ -104,4 +104,16 @@ class ModelLowonganPekerjaan extends Model
             return 0;
         }
     }
+
+    // Admin
+    public function get_total_lowongan_pekerjaan()
+    {
+        try {
+            $sql = "SELECT COUNT(*) AS total_lowongan_pekerjaan FROM lowongan_kerja";
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getRow();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
 }

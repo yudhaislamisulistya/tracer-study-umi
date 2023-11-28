@@ -312,5 +312,11 @@ function short_isi_limit($isi, $limit){
     return $isi;
 }
 
+// format ribuan, misalnya 1000 menjadi 1.000
+function format_ribuan($angka){
+    $ribuan = number_format($angka,0,',','.');
+    return $ribuan;
+}
+
 
 ?>

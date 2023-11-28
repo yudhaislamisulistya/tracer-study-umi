@@ -97,4 +97,16 @@ class ModelBiodata extends Model
             return 0;
         }
     }
+
+    // Admin
+    public function get_total_biodata()
+    {
+        try {
+            $sql = "SELECT COUNT(*) AS total_biodata FROM ref_biodata;";
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getRow();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
 }
