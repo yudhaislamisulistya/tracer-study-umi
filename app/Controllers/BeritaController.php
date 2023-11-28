@@ -31,7 +31,8 @@ class BeritaController extends BaseController
             ];
             return view('berita', $data);
         } catch (\Exception $th) {
-            return redirect()->to(base_url('berita'));
+            var_dump($th->getMessage());
+            die();
         }
     }
 
