@@ -91,7 +91,7 @@
                             <button id="kt_login_signin_submit"
                                 class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">Sign In</button>
                         </form>
-                        <div class="mt-2">
+                        <!-- <div class="mt-2">
                             <span class="opacity-70 mr-4">
                                 Anda Belum Memiliki Akun ?
                             </span>
@@ -104,7 +104,7 @@
                             </span>
                             <a href="<?= base_url() ?>/assets/Panduan Aktivasi Akun Tracer Study TS.UMI.AC.ID 2021.pdf" id="kt_login_forgot"
                                 class="btn btn-light-success">Download Panduan Sekarang</a>
-                        </div>
+                        </div> -->
                     </div>
                     <!--end::Login Sign in form-->
 

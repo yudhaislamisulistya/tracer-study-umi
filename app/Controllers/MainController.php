@@ -37,12 +37,18 @@ class MainController extends BaseController
     }
     public function index()
     {
-        return view('dashboard');
+        $biodataController = new BiodataController();
+        $data = $biodataController->get_current_user();
+        $data = $data["response"];
+
+        return view('dashboard', compact('data'));
     }
 
     public function biodata()
     {
-        return view('biodata');
+        $biodataController = new BiodataController();
+        $data = $biodataController->get_current_user();
+        return view('biodata', compact('data'));
     }
 
     public function get_regencies($code)

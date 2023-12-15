@@ -61,15 +61,15 @@
             </div>
             <div class="d-flex flex-column">
                 <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-                    <?= get_data_registrasi(Session()->get('C_NPM'))->nama ?>
+                    <?= get_data_registrasi(Session()->get('C_NPM'))->nama ?? 'Nama Lengkap' ?>
                 </a>
                 <div class="text-muted mt-1">
-                    <?= get_data_registrasi(Session()->get('C_NPM'))->email ?>
+                    <?= get_data_registrasi(Session()->get('C_NPM'))->email ?? 'Email' ?>
                 </div>
                 <div class="navi mt-2">
                     <a href="#" class="navi-item">
                         <span class="navi-link p-0 pb-2">
-                            <span class="navi-text text-muted text-hover-primary"><?= get_data_registrasi(Session()->get('C_NPM'))->nomor_handphone ?></span>
+                            <span class="navi-text text-muted text-hover-primary"><?= get_data_registrasi(Session()->get('C_NPM'))->nomor_handphone ?? 'Nomor Handphone' ?></span>
                         </span>
                     </a>
 

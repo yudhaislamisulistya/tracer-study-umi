@@ -5,42 +5,99 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ModelOtentikasi;
 use CodeIgniter\Session\Session;
+use DateTime;
 
 class OtentikasiController extends BaseController
 {
     public $ModelOtentikasi;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->ModelOtentikasi = new ModelOtentikasi();
     }
     public function index()
     {
         if (Session()->get('logged_in')) {
-			return redirect()->to(base_url('dashboard'));
-		}else{
-            return view('login');        
-		}
+            return redirect()->to(base_url('dashboard'));
+        } else {
+            return view('login');
+        }
     }
 
     public function login_store()
     {
         $nim = $this->request->getPost('nim');
         $password = $this->request->getPost('password');
-        if ($this->ModelOtentikasi->validation_login($nim, $password)) {
-            if(session()->get('STATUS') == "admin"){
-                return redirect()->to(base_url('admin/dashboard'));
-            }else{
-                return redirect()->to(base_url('dashboard'));
-            }
-        }else{
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => getenv('app.endpointGateway') . 'login',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+                "password": "' . $password . '",
+                "username": "' . $nim . '"
+            }',
+            CURLOPT_HTTPHEADER => array(
+                'accept: application/json',
+                'operator: web',
+                'appversion: 1',
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        // check before username admin and password getenv('app.passwordAdmin')
+        if ($nim == "admin" && $password == getenv('app.passwordAdmin')) {
+            $data = [
+                'C_NPM'       => $nim,
+                'PASSWORD'     => $password,
+                'U_DATE'     => DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')),
+                'STATUS'     => 'admin',
+                'logged_in'     => TRUE
+            ];
+            session()->set($data);
+            return redirect()->to(base_url('admin/dashboard'));
+        } else if ($httpcode == 200){
+            $data = json_decode($response);
+            $data = [
+                "ID_PROFIL" => $data->response->id_profil,
+                'C_NPM'       => $nim,
+                'PASSWORD'     => $password,
+                'U_DATE'     => DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')),
+                'STATUS'     => 'alumni',
+                "TOKEN" => $data->response->access_token,
+                'logged_in'     => TRUE
+            ];
+            session()->set($data);
+            return redirect()->to(base_url('dashboard'));
+        } else {
             return redirect()->to(base_url('/'));
         }
+
+
+
+        // if ($this->ModelOtentikasi->validation_login($nim, $password)) {
+        //     if(session()->get('STATUS') == "admin"){
+        //         return redirect()->to(base_url('admin/dashboard'));
+        //     }else{
+        //         return redirect()->to(base_url('dashboard'));
+        //     }
+        // }else{
+        //     return redirect()->to(base_url('/'));
+        // }
     }
 
     public function logout()
     {
-		Session()->destroy();
-		return redirect()->to(base_url('/'));
+        Session()->destroy();
+        return redirect()->to(base_url('/'));
     }
 
     public function get_alumni($nim, $nama)
@@ -182,7 +239,7 @@ class OtentikasiController extends BaseController
                                             <td align="center" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, "helvetica neue", helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Jika Anda tidak mendaftar dengan kami, harap abaikan email ini.</p></td> 
                                             </tr> 
                                             <tr> 
-                                            <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#5C68E2;border-width:0px;display:inline-block;border-radius:20px;width:auto"><a href="'.base_url('/get_activate_now').'/'.$activation_code.'" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;border-style:solid;border-color:#5C68E2;border-width:10px 30px 10px 30px;display:inline-block;background:#5C68E2;border-radius:6px;font-family:arial, "helvetica neue", helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px;width:auto;text-align:center;border-left-width:30px;border-right-width:30px; color: white">Aktivasi Akun</a></span></td> 
+                                            <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#5C68E2;border-width:0px;display:inline-block;border-radius:20px;width:auto"><a href="' . base_url('/get_activate_now') . '/' . $activation_code . '" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;border-style:solid;border-color:#5C68E2;border-width:10px 30px 10px 30px;display:inline-block;background:#5C68E2;border-radius:6px;font-family:arial, "helvetica neue", helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px;width:auto;text-align:center;border-left-width:30px;border-right-width:30px; color: white">Aktivasi Akun</a></span></td> 
                                             </tr> 
                                             <tr> 
                                             <td align="center" class="es-m-p0r es-m-p0l" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, "helvetica neue", helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Setelah Konfirmasi Akun. Akun Anda Akan Segera Aktif!</p></td> 
@@ -262,7 +319,7 @@ class OtentikasiController extends BaseController
                 "status" => 200,
                 "pesan" => "Kode Akivasi Berhasil Terkirim",
             ];
-        }else{
+        } else {
             $results = $status;
         }
         return $this->response->setJSON($results);
@@ -276,7 +333,7 @@ class OtentikasiController extends BaseController
             $data['statusCode'] = 200;
             $data['activationCode'] = $activation_code;
             return view('aktivasi_akun', $data);
-        }else{
+        } else {
             $data['statusCode'] = 403;
             return view('aktivasi_akun', $data);
         }
@@ -390,7 +447,7 @@ class OtentikasiController extends BaseController
                                                 <td align="center" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, "helvetica neue", helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Jika Anda tidak mendaftar dengan kami, harap abaikan email ini.</p></td> 
                                                 </tr> 
                                                 <tr> 
-                                                <td align="center" style="padding:0;Margin:0;padding-bottom:10px"><h4 style="Margin:0;line-height:46px;mso-line-height-rule:exactly;font-family:arial, "helvetica neue", helvetica, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#333333">Password Anda Adalah : '.$password.'</h4></td> 
+                                                <td align="center" style="padding:0;Margin:0;padding-bottom:10px"><h4 style="Margin:0;line-height:46px;mso-line-height-rule:exactly;font-family:arial, "helvetica neue", helvetica, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#333333">Password Anda Adalah : ' . $password . '</h4></td> 
                                                 </tr> 
                                             </table></td> 
                                             </tr> 

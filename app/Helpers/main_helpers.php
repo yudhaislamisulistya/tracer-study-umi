@@ -214,11 +214,17 @@ function check_biodata($nim){
             ->where('nim',$nim)
             ->get();
     $results = $query->getUnbufferedRow();
-    if ($results->nama_lengkap == '' || $results->jenis_kelamin == '' || $results->tempat_lahir == '' || $results->tanggal_lahir == '' || $results->nim == '' || $results->program_studi == '' || $results->tahun_masuk == '' || $results->tahun_keluar == '' || $results->alamat == '' || $results->negara == '' || $results->provinsi == '' || $results->kabupaten == '' || $results->jenis_pekerjaan == '' || $results->nama_perusahaan == '' || $results->tanggal_masuk_kerja == '' || $results->email == '' || $results->nomor_handphone == '') {
+    // if result == null and then return 0
+    if ($results == null) {
         return 0;
     }else{
         return 1;
     }
+    // if ($results->nama_lengkap == '' || $results->jenis_kelamin == '' || $results->tempat_lahir == '' || $results->tanggal_lahir == '' || $results->nim == '' || $results->program_studi == '' || $results->tahun_masuk == '' || $results->tahun_keluar == '' || $results->alamat == '' || $results->negara == '' || $results->provinsi == '' || $results->kabupaten == '' || $results->jenis_pekerjaan == '' || $results->nama_perusahaan == '' || $results->tanggal_masuk_kerja == '' || $results->email == '' || $results->nomor_handphone == '') {
+    //     return 0;
+    // }else{
+    //     return 1;
+    // }
 }
 
 
@@ -316,6 +322,33 @@ function short_isi_limit($isi, $limit){
 function format_ribuan($angka){
     $ribuan = number_format($angka,0,',','.');
     return $ribuan;
+}
+function format_date_indonesian($dateString) {
+    $date = new DateTime($dateString);
+    // Uncomment the next line if you need to set a specific timezone
+    // $date->setTimezone(new DateTimeZone('Your/Timezone'));
+
+    $monthNames = [
+        'January' => 'Januari',
+        'February' => 'Februari',
+        'March' => 'Maret',
+        'April' => 'April',
+        'May' => 'Mei',
+        'June' => 'Juni',
+        'July' => 'Juli',
+        'August' => 'Agustus',
+        'September' => 'September',
+        'October' => 'Oktober',
+        'November' => 'November',
+        'December' => 'Desember'
+    ];
+
+    $formattedDate = $date->format('d F Y');
+    foreach ($monthNames as $english => $indonesian) {
+        $formattedDate = str_replace($english, $indonesian, $formattedDate);
+    }
+
+    return $formattedDate;
 }
 
 
