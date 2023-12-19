@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\ModelBiodata;
 use App\Models\ModelOtentikasi;
 use CodeIgniter\Session\Session;
 use DateTime;
@@ -10,10 +11,12 @@ use DateTime;
 class OtentikasiController extends BaseController
 {
     public $ModelOtentikasi;
+    public $ModelBiodata;
 
     public function __construct()
     {
         $this->ModelOtentikasi = new ModelOtentikasi();
+        $this->ModelBiodata = new ModelBiodata();
     }
     public function index()
     {
@@ -76,6 +79,24 @@ class OtentikasiController extends BaseController
                 'logged_in'     => TRUE
             ];
             session()->set($data);
+            //  check model biodata
+            $check = $this->ModelBiodata->check_data($nim);
+            $biodata = new BiodataController();
+            $dataUserCurrent = $biodata->get_current_user();
+            $nama_lengkap = $dataUserCurrent["response"]["nama"];
+            $jenis_kelamin = $dataUserCurrent["response"]["personal"]["jns_kelamin"];
+            if ($jenis_kelamin == "Laki-laki") {
+                $jenis_kelamin = "L";
+            } else {
+                $jenis_kelamin = "P";
+            }
+            $tempat_lahir = $dataUserCurrent["response"]["personal"]["tempat_lahir"];
+            $tanggal_lahir = $dataUserCurrent["response"]["personal"]["tgl_lahir"];
+            $program_studi = $dataUserCurrent["response"]["nm_prodi"];
+
+            if (!$check) {
+                $this->ModelBiodata->insert_data_default($nim, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $program_studi);
+            }
             return redirect()->to(base_url('dashboard'));
         } else {
             return redirect()->to(base_url('/'));

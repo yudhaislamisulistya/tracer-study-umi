@@ -214,17 +214,16 @@ function check_biodata($nim){
             ->where('nim',$nim)
             ->get();
     $results = $query->getUnbufferedRow();
-    // if result == null and then return 0
-    if ($results == null) {
-        return 0;
-    }else{
-        return 1;
-    }
-    // if ($results->nama_lengkap == '' || $results->jenis_kelamin == '' || $results->tempat_lahir == '' || $results->tanggal_lahir == '' || $results->nim == '' || $results->program_studi == '' || $results->tahun_masuk == '' || $results->tahun_keluar == '' || $results->alamat == '' || $results->negara == '' || $results->provinsi == '' || $results->kabupaten == '' || $results->jenis_pekerjaan == '' || $results->nama_perusahaan == '' || $results->tanggal_masuk_kerja == '' || $results->email == '' || $results->nomor_handphone == '') {
+    // if ($results == null) {
     //     return 0;
     // }else{
     //     return 1;
     // }
+    if ($results->nama_lengkap == '' || $results->jenis_kelamin == '' || $results->tempat_lahir == '' || $results->tanggal_lahir == '' || $results->nim == '' || $results->program_studi == '' || $results->tahun_masuk == '' || $results->tahun_keluar == '' || $results->alamat == '' || $results->negara == '' || $results->provinsi == '' || $results->kabupaten == '' || $results->jenis_pekerjaan == '' || $results->nama_perusahaan == '' || $results->tanggal_masuk_kerja == '' || $results->email == '' || $results->nomor_handphone == '') {
+        return 0;
+    }else{
+        return 1;
+    }
 }
 
 

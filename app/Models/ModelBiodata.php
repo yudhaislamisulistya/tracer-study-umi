@@ -68,29 +68,84 @@ class ModelBiodata extends Model
         }
     }
 
-    public function update_biodata($nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $nim, $program_studi, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja, $status_pekerjaan, $email, $nomor_handphone)
+    public function get_single_biodata($nim)
     {
         try {
+            $query = $this->dbext_tracer->table('ref_biodata')
+                        ->select()
+                        ->where('nim', $nim)
+                        ->get();
+            return $query->getRow();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+public function update_biodata($nim, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja, $status_pekerjaan, $email, $nomor_handphone)
+{
+    try {
+        $this->dbext_tracer->table('ref_biodata')
+            ->where('nim', $nim)
+            ->update([
+                "tahun_masuk" => $tahun_masuk,
+                "tahun_keluar" => $tahun_keluar,
+                "alamat" => $alamat,
+                "negara" => $negara,
+                "provinsi" => $provinsi,
+                "kabupaten" => $kabupaten,
+                "jenis_pekerjaan" => $jenis_pekerjaan,
+                "nama_perusahaan" => $nama_perusahaan,
+                "tanggal_masuk_kerja" => $tanggal_masuk_kerja,
+                "status_pekerjaan" => $status_pekerjaan,
+                "email" => $email,
+                "nomor_handphone" => $nomor_handphone,
+            ]);
+        return 1;
+    } catch (\Exception $th) {
+        return 0;
+    }
+}
+
+
+    // Check Data by NIM
+    public function check_data($nim)
+    {
+        try {
+            $sql = "SELECT COUNT(*) AS total_biodata FROM ref_biodata WHERE nim = '$nim';";
+            $query = $this->dbext_tracer->query($sql);
+
+            if ($query->getRow()->total_biodata > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+            
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function insert_data_default($nim, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $program_studi){
+        try {
             $this->dbext_tracer->table('ref_biodata')
-                ->replace([
+                ->insert([
+                    "nim" => $nim,
                     "nama_lengkap" => $nama_lengkap,
                     "jenis_kelamin" => $jenis_kelamin,
                     "tempat_lahir" => $tempat_lahir,
                     "tanggal_lahir" => $tanggal_lahir,
-                    "nim" => $nim,
                     "program_studi" => $program_studi,
-                    "tahun_masuk" => $tahun_masuk,
-                    "tahun_keluar" => $tahun_keluar,
-                    "alamat" => $alamat,
-                    "negara" => $negara,
-                    "provinsi" => $provinsi,
-                    "kabupaten" => $kabupaten,
-                    "jenis_pekerjaan" => $jenis_pekerjaan,
-                    "nama_perusahaan" => $nama_perusahaan,
-                    "tanggal_masuk_kerja" => $tanggal_masuk_kerja,
-                    "status_pekerjaan" => $status_pekerjaan,
-                    "email" => $email,
-                    "nomor_handphone" => $nomor_handphone,
+                    "tahun_masuk" => "",
+                    "tahun_keluar" => "",
+                    "alamat" => "",
+                    "negara" => "",
+                    "provinsi" => "",
+                    "kabupaten" => "",
+                    "jenis_pekerjaan" => "",
+                    "nama_perusahaan" => "",
+                    "tanggal_masuk_kerja" => "",
+                    "email" => "",
+                    "nomor_handphone" => "",
                 ]);
             return 1;
         } catch (\Exception $th) {

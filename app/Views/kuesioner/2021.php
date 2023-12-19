@@ -126,7 +126,7 @@
                                     <label class="control-label">Program Studi :</label>
                                 </div>
                                 <div class="col-lg-9">
-                                    <input type="hidden" readonly required="" value="<?= get_data_nama_prodi_with_kode(get_data_biodata(Session()->get('C_NPM'))->program_studi)->C_KODE_PRODI ?>" name="kode_prodi" class="form-control">
+                                    <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->program_studi ?>" name="kode_prodi" class="form-control">
                                     <input readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->program_studi ?>" name="program_studi" class="form-control">
                                 </div>
                             </div>
@@ -248,7 +248,7 @@
                                             if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1)) == '') {
                                                 echo '<option value="">--Pilih Provinsi--</option>';
                                             } else {
-                                                // echo '<option value="'.(trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1)).'">'.get_data_provinsi_with_id((trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1)))->id.'</option>';
+                                                echo '<option value="' . (trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1)) . '">' . get_data_provinsi_with_id((trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1)))->name . '</option>';
                                                 echo '<option value="">--Pilih Provinsi--</option>';
                                             }
                                             ?>
@@ -260,10 +260,10 @@
                                         </select><small>(f5a1)</small><br>
                                         <select name="f5a2" id="f5a2" class="form-control">
                                             <?php
-                                            if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f5a2)) == '') {
+                                            if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f5a2)) == 0 || (trim(get_data_lulusan(Session()->get('C_NPM'))->f5a2)) == '') {
                                                 echo '<option value="">--Pilih Kabupaten--</option>';
                                             } else {
-                                                // echo '<option value="'.(trim(get_data_lulusan(Session()->get('C_NPM'))->f5a2)).'">'.get_data_biodata((trim(get_data_lulusan(Session()->get('C_NPM'))->f5a2)))->name.'</option>';
+                                                echo '<option value="' . (trim(get_data_lulusan(Session()->get('C_NPM'))->f5a2)) . '">' . get_data_regencies_with_id((trim(get_data_lulusan(Session()->get('C_NPM'))->f5a2)))->name . '</option>';
                                                 echo '<option value="">--Pilih Kabupaten--</option>';
                                             }
                                             ?>
@@ -499,8 +499,8 @@
                                         <input name="f21" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f21)) == '1') {
                                                                 echo "checked";
                                                             } ?> <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f21)) == '1') {
-                                                                                        echo "checked";
-                                                                                    } ?> value="1" type="radio"> [1] Sangat Besar<br>
+                                                                        echo "checked";
+                                                                    } ?> value="1" type="radio"> [1] Sangat Besar<br>
                                         <input name="f21" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f21)) == '2') {
                                                                 echo "checked";
                                                             } ?> value="2" type="radio"> [2] Besar<br>
@@ -873,15 +873,12 @@
                                     <div class="col-sm-7">
                                         <div class="row">
                                             <div class="col-sm-10">
-                                                <input name="f1001" value="1" onclick="hide2()" type="radio"> [1] Tidak<br>
-                                                <input name="f1001" value="2" type="radio"> [2] Tidak, tapi saya sedang menunggu hasil lamaran kerja<br>
-                                                <input name="f1001" value="3" type="radio"> [3] Ya, saya akan mulai bekerja dalam 2 minggu ke depan<br>
-                                                <input name="f1001" value="4" type="radio"> [4] Ya, tapi saya belum pasti akan bekerja dalam 2 minggu ke depan<br>
-                                                <input name="f1001" value="5" type="radio"> [5] Lainnya
-                                                <!-- <input name="f1001" value="2" onclick="hide2()" type="radio"> [2] Tidak, tapi saya sedang menunggu hasil lamaran kerja<br>
-                                                                <input name="f1001" value="3" onclick="hide2()" type="radio"> [3] Ya, saya akan mulai bekerja dalam 2 minggu ke depan<br>
-                                                                <input name="f1001" value="4" onclick="hide2()" type="radio"> [4] Ya, tapi saya belum pasti akan bekerja dalam 2 minggu ke depan<br>
-                                                                <input name="f1001" value="5" onclick="hide2()" type="radio"> [5] Lainnya -->
+                                                <?php $f1001 = get_data_lulusan(Session()->get('C_NPM'))->f1001; ?>
+                                                <input name="f1001" value="1" onclick="hide2()" type="radio" <?= $f1001 == 1 ? 'checked' : '' ?>> [1] Tidak<br>
+                                                <input name="f1001" value="2" onclick="hide2()" type="radio" <?= $f1001 == 2 ? 'checked' : '' ?>> [2] Tidak, tapi saya sedang menunggu hasil lamaran kerja<br>
+                                                <input name="f1001" value="3" onclick="unHide2()" type="radio" <?= $f1001 == 3 ? 'checked' : '' ?>> [3] Ya, saya akan mulai bekerja dalam 2 minggu ke depan<br>
+                                                <input name="f1001" value="4" onclick="unHide2()" type="radio" <?= $f1001 == 4 ? 'checked' : '' ?>> [4] Ya, tapi saya belum pasti akan bekerja dalam 2 minggu ke depan<br>
+                                                <input name="f1001" value="5" onclick="unHide2()" type="radio" <?= $f1001 == 5 ? 'checked' : '' ?>> [5] Lainnya
                                             </div>
                                             <div class="col-sm-2">
                                                 f10-01
@@ -907,8 +904,14 @@
                                     document.getElementById('f14').style.display = "none";
                                     document.getElementById('f15').style.display = "none";
                                     document.getElementById('f16').style.display = "none";
+                                }
 
-
+                                function unHide2() {
+                                    document.getElementById('f11').style.display = "";
+                                    document.getElementById('f13').style.display = "";
+                                    document.getElementById('f14').style.display = "";
+                                    document.getElementById('f15').style.display = "";
+                                    document.getElementById('f16').style.display = "";
                                 }
                             </script>
 
@@ -2041,7 +2044,7 @@
             dataType: "json",
             success: function(response) {
                 $.each(response.data, function(i, v) {
-                    $('#f5a2').append('<option value="' + v.name + '">' + v.name + '</option>');
+                    $('#f5a2').append('<option value="' + v.id + '">' + v.name + '</option>');
                 });
             }
         });

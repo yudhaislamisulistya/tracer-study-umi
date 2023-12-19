@@ -15,12 +15,7 @@ class BiodataController extends BaseController
 
     public function post_biodata()
     {
-        $nama_lengkap = $this->request->getPost('nama_lengkap');
-        $jenis_kelamin = $this->request->getPost('jenis_kelamin');
-        $tempat_lahir = $this->request->getPost('tempat_lahir');
-        $tanggal_lahir = $this->request->getPost('tanggal_lahir');
-        $nim = $this->request->getPost('nim');
-        $program_studi = $this->request->getPost('program_studi');
+        $nim = session()->get('C_NPM');
         $tahun_masuk = $this->request->getPost('tahun_masuk');
         $tahun_keluar = $this->request->getPost('tahun_keluar');
         $alamat = $this->request->getPost('alamat');
@@ -33,7 +28,7 @@ class BiodataController extends BaseController
         $status_pekerjaan = $this->request->getPost('status_pekerjaan');
         $email = $this->request->getPost('email');
         $nomor_handphone = $this->request->getPost('nomor_handphone');
-        if ($this->ModelBiodata->update_biodata($nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $nim, $program_studi, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja, $status_pekerjaan, $email, $nomor_handphone)) {
+        if ($this->ModelBiodata->update_biodata($nim, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja, $status_pekerjaan, $email, $nomor_handphone)) {
             session()->setFlashdata('status', 'berhasil');
             return redirect()->to(base_url('biodata'));
         } else {

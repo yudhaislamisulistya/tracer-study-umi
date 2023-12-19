@@ -46,8 +46,7 @@ class MainController extends BaseController
 
     public function biodata()
     {
-        $biodataController = new BiodataController();
-        $data = $biodataController->get_current_user();
+        $data = $this->ModelBiodata->get_single_biodata(session()->get('C_NPM'));
         return view('biodata', compact('data'));
     }
 

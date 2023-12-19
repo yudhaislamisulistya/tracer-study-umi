@@ -87,6 +87,13 @@ $routes->get("legalisir/raja_ongkir_cost/(:any)/(:any)/(:any)/(:any)", "Legalisi
 // Curiculum Vitae
 $routes->get('/curiculum-vitae', 'CuriculumVitaeController::index', ['filter' => 'auth']);
 
+// Get Token
+$routes->get('/get_token', function (){
+    // get token by session
+    $token = session()->get('TOKEN');
+    var_dump($token);
+});
+
 
 // Group Admin
 $routes->group('admin', ['filter' => 'auth'], function ($routes) {

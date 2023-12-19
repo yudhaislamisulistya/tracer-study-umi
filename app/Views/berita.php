@@ -4,6 +4,7 @@
 <?= view('layouts/header.php') ?>
 
 
+
 <div class="d-flex flex-column-fluid mt-5">
     <div class="container">
         <div class="card card-custom gutter-b">
@@ -97,14 +98,21 @@
                             $startRecord = ($current_page - 1) * $perPage + 1;
                             $endRecord = min($current_page * $perPage, $totalRecords);
 
-                            $perusahaan = $filter['perusahaan'];
-                            $programStudi = $filter['program_studi'];
-                            $keahlian = $filter['keahlian'];
-                            $periodePembukaan = $filter['periode_pembukaan'];
-                            $periodePenutupan = $filter['periode_penutupan'];
-                            $gajiMin = $filter['gaji_min'];
-                            $gajiMax = $filter['gaji_max'];
-                            $penempatan = $filter['penempatan'];
+
+                            if ($filter['search'] == null) {
+                                $search = '';
+                            } else {
+                                $perusahaan = $filter['perusahaan'] == null ? '' : $filter['perusahaan'];
+                                $programStudi = $filter['program_studi'];
+                                $keahlian = $filter['keahlian'];
+                                $periodePembukaan = $filter['periode_pembukaan'];
+                                $periodePenutupan = $filter['periode_penutupan'];
+                                $gajiMin = $filter['gaji_min'];
+                                $gajiMax = $filter['gaji_max'];
+                                $penempatan = $filter['penempatan'];
+                            }
+
+
 
 
                             if ($current_page > 1) {

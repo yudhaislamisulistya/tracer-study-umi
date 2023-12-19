@@ -60,7 +60,7 @@
                         <label class="col-form-label col-md-2">Tahun Masuk Kuliah *</label>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="tahun_masuk" placeholder="Tahun Masuk" id="tahun_masuk" value="" />
+                                <input type="text" class="form-control" name="tahun_masuk" placeholder="Tahun Masuk" id="tahun_masuk" value="<?= $data->tahun_masuk ?>" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-angle-down"></i>
@@ -71,7 +71,7 @@
                         <label class="col-form-label col-md-2">Tahun Keluar Kuliah *</label>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="tahun_keluar" placeholder="Tahun Keluar" id="tahun_keluar" value="" />
+                                <input type="text" class="form-control" name="tahun_keluar" placeholder="Tahun Keluar" id="tahun_keluar" value="<?= $data->tahun_keluar ?>" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-angle-up"></i>
@@ -85,7 +85,7 @@
                         <label class="col-form-label col-md-2">Alamat *</label>
                         <div class="col-md-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="alamat" placeholder="Alamat Lengkap" id="alamat" value="" />
+                                <input type="text" class="form-control" name="alamat" placeholder="Alamat Lengkap" id="alamat" value="<?= $data->alamat ?>" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-institution"></i>
@@ -100,6 +100,15 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <select name="negara" id="negara" class="form-control">
+                                    <?php
+
+                                    if ($data->negara === "") {
+                                        echo '<option value="">Pilih Negara</option>';
+                                    } else {
+                                        echo '<option value="' . $data->negara . '">' . get_data_country_by_id($data->negara)->name . '</option>';
+                                    }
+
+                                    ?>
                                     <?php
                                     foreach (get_data_country() as $key => $value) {
                                         echo '<option value="' . $value->id . '">' . $value->name . '</option>';
@@ -118,6 +127,13 @@
                             <div class="input-group">
                                 <select name="provinsi" id="provinsi" class="form-control">
                                     <?php
+                                    if ($data->provinsi === "") {
+                                        echo '<option value="">Pilih Provinsi</option>';
+                                    } else {
+                                        echo '<option value="' . $data->provinsi . '">' . get_data_provinsi_with_id($data->provinsi)->name . '</option>';
+                                    }
+                                    ?>
+                                    <?php
                                     foreach (get_data_provinces() as $key => $value) {
                                         echo '<option value="' . $value->id . '">' . $value->name . '</option>';
                                     }
@@ -134,6 +150,13 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <select name="kabupaten" id="kabupaten" class="form-control">
+                                    <?php
+                                    if ($data->kabupaten === "") {
+                                        echo '<option value="">Pilih Kabupaten</option>';
+                                    } else {
+                                        echo '<option value="' . $data->kabupaten . '">' . get_data_regencies_with_id($data->kabupaten)->name . '</option>';
+                                    }
+                                    ?>
                                 </select>
                                 <div class="input-group-append">
                                     <span class="input-group-text">
@@ -149,6 +172,11 @@
                             <div class="input-group">
                                 <select name="jenis_pekerjaan" id="jenis_pekerjaan" class="form-control">
                                     <?php
+                                    if ($data->jenis_pekerjaan === "") {
+                                        echo '<option value="">Pilih Jenis Pekerjaan</option>';
+                                    } else {
+                                        echo '<option value="' . $data->jenis_pekerjaan . '">' . get_data_pekerjaan_by_id($data->jenis_pekerjaan)->nm_pekerjaan . '</option>';
+                                    }
                                     ?>
                                     <?php
                                     foreach (get_data_pekerjaan() as $key => $value) {
@@ -166,7 +194,7 @@
                         <label class="col-form-label col-md-1">Nama Kantor/Perusahaan *</label>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="nama_perusahaan" placeholder="Nama Kantor atau Perusahaan" id="nama_perusahaan" value="" />
+                                <input type="text" class="form-control" name="nama_perusahaan" placeholder="Nama Kantor atau Perusahaan" id="nama_perusahaan" value="<?= $data->nama_perusahaan ?>" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-server"></i>
@@ -177,7 +205,7 @@
                         <label class="col-form-label col-md-1">Tanggal Masuk Kerja *</label>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <input type="date" class="form-control" name="tanggal_masuk_kerja" placeholder="Tanggal Masuk Kerja" id="tanggal_masuk_kerja" value="" />
+                                <input type="date" class="form-control" name="tanggal_masuk_kerja" placeholder="Tanggal Masuk Kerja" id="tanggal_masuk_kerja" value="<?= $data->tanggal_masuk_kerja ?>" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-calendar-minus-o"></i>
@@ -185,11 +213,18 @@
                                 </div>
                             </div>
                         </div>
+
                         <label class="col-form-label col-md-1">Status Pekerjaan *</label>
                         <div class="col-md-3">
                             <div class="input-group">
                                 <select name="status_pekerjaan" id="status_pekerjaan" class="form-control">
                                     <?php
+                                    
+                                    if ($data->status_pekerjaan === "0" || $data->status_pekerjaan === "") {
+                                        echo '<option value="">Pilih Status Pekerjaan</option>';
+                                    } else {
+                                        echo '<option value="' . $data->status_pekerjaan . '">' . get_data_status_pekerjaan_by_id($data->status_pekerjaan)->status_job . '</option>';
+                                    }
                                     ?>
                                     <?php
                                     foreach (get_data_status_pekerjaan() as $key => $value) {
@@ -211,7 +246,7 @@
                         <label class="col-form-label col-md-2">Email *</label>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="email" placeholder="Email" id="email" value="" />
+                                <input type="text" class="form-control" name="email" placeholder="Email" id="email" value="<?= $data->email ?>" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-google"></i>
@@ -222,7 +257,7 @@
                         <label class="col-form-label col-md-2">Nohp/Whatsapp *</label>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="nomor_handphone" placeholder="Whatsapp" id="nomor_handphone" value="" />
+                                <input type="text" class="form-control" name="nomor_handphone" placeholder="Whatsapp" id="nomor_handphone" value="<?= $data->nomor_handphone ?>" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-mobile-phone"></i>
@@ -249,7 +284,7 @@
     var HOST_URL = "http://localhost:8080"
 </script>
 <script>
-    $('#provinsi').on('click', function() {
+    $('#provinsi').on('change', function() {
         $('#kabupaten').html('');
         console.log("Selamat Datang");
         var code = $('#provinsi').val();

@@ -15,10 +15,11 @@ class KuesionerController extends BaseController
 
     public function index()
     {
-        if (get_data_setup_ts_with_tahun_keluar(get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_keluar) != NULL) {
-            if (get_data_setup_ts_with_tahun_keluar(get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_keluar)->jenis_kuesioner == "kue_2017") {
+        $this->ModelKuesioner->insert_or_update_kuesioner();
+        if (get_data_setup_ts_with_tahun_keluar(get_data_biodata(Session()->get('C_NPM'))->tahun_keluar) != NULL) {
+            if (get_data_setup_ts_with_tahun_keluar(get_data_biodata(Session()->get('C_NPM'))->tahun_keluar)->jenis_kuesioner == "kue_2017") {
                 return view('kuesioner/2021');
-            }else if(get_data_setup_ts_with_tahun_keluar(get_data_alumni_by_nim(Session()->get('C_NPM'))->tahun_keluar)->jenis_kuesioner == "kue_2021"){
+            }else if(get_data_setup_ts_with_tahun_keluar(get_data_biodata(Session()->get('C_NPM'))->tahun_keluar)->jenis_kuesioner == "kue_2021"){
                 return view('kuesioner/2021');
             }else{
                 $data['status'] = 0;
@@ -333,6 +334,7 @@ class KuesionerController extends BaseController
             'status_lulus'      => 1,
             'waktu_pengisian' => date('Y-m-d H:i:s')
         );
+
         if ($this->ModelKuesioner->update_biodata($data)) {
             session()->setFlashdata('status', 'berhasil');
             return redirect()->to(base_url('kuesioner'));

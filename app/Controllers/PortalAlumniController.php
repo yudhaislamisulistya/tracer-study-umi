@@ -19,13 +19,15 @@ class PortalAlumniController extends BaseController
             $page = $this->request->getGet('page') ?? 1;
             $search = $this->request->getGet('search') ?? '';
 
-            $perPage = 12;
-            $offset = ($page - 1) * $perPage;
-            $data['alumni'] = $this->ModelPortalAlumni->get_alumni_pagination($perPage, $offset, $search);
-            $totalPosts = $this->ModelPortalAlumni->get_all_alumni_by_search($search);
-            $data['pagination_count'] = ceil(count($totalPosts) / $perPage);
-            $data['perPage'] = $perPage;
-            $data['totalRecords'] = count($totalPosts);
+            $data = [];
+
+            $paginationData = $this->ModelPortalAlumni->get_alumni_pagination($page, 20, $search);
+
+
+            $data['alumni'] = $paginationData->items;
+            $data['pagination_count'] = $paginationData->total_pages - 1;
+            $data['perPage'] = $paginationData->size;
+            $data['totalRecords'] = $paginationData->total;
             $data['filter'] = [
                 'search' => $search,
             ];

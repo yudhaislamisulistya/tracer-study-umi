@@ -87,11 +87,11 @@
                             </div>
                         </div>
                         <div class="my-2">
-                            <a href="#" class="text-dark font-weight-bold text-hover-primary font-size-h4">' . $value->nama . '</a>
+                            <a href="#" class="text-dark font-weight-bold text-hover-primary font-size-h4">' . $value->personal->nama . '</a>
                         </div>
-                        <span class="label label-inline label-lg label-light-warning btn-sm font-weight-bold">Tahun Lulus: ' . $value->tahun_keluar . '</span>
+                        <span class="label label-inline label-lg label-light-warning btn-sm font-weight-bold">Keterangan: ' . $value->personal->ket_sts_aktif . '</span>
                         <div class="my-2">
-                            <span href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">' . $value->NAMA_PRODI . '</span>
+                            <span href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">' . $value->nm_prodi . '</span>
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                             <div class='mb-3 text-center'>
                                 <img src='" . base_url('assets/svg/data-not-found.svg') . "' class='img-fluid' alt='empty' height='400' width='400'>
                                 <h5 class='font-weight-semibold mb-1 text-center'>
-                                    Lowongan Pekerjaan Tidak Ditemukan
+                                    Data Alumni Tidak Tersedia
                                 </h5>
                             </div>
                         </div>
