@@ -507,9 +507,9 @@ if (session()->get('STATUS') != 'admin') {
                                                         </ul>
                                                     </div>
                                                 </li>
-                                                <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
-                                                        <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Files/Upload.svg-->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <!-- <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
+                                                        <span class="svg-icon menu-icon">
+                                                            < <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                                     <rect x="0" y="0" width="24" height="24" />
                                                                     <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3" />
@@ -521,8 +521,8 @@ if (session()->get('STATUS') != 'admin') {
                                                                     <rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1" />
                                                                     <rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1" />
                                                                 </g>
-                                                            </svg>
-                                                            <!--end::Svg Icon--></span>
+                                                                </svg>
+                                                        </span>
                                                         <span class="menu-text">Laporan</span><i class="menu-arrow"></i></a>
                                                     <div class="menu-submenu "><i class="menu-arrow"></i>
                                                         <ul class="menu-subnav">
@@ -546,7 +546,7 @@ if (session()->get('STATUS') != 'admin') {
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                </li>
+                                                </li> -->
                                             </ul>
                                             <!--end::Menu Nav-->
                                         </div>

@@ -88,7 +88,7 @@ $routes->get("legalisir/raja_ongkir_cost/(:any)/(:any)/(:any)/(:any)", "Legalisi
 $routes->get('/curiculum-vitae', 'CuriculumVitaeController::index', ['filter' => 'auth']);
 
 // Get Token
-$routes->get('/get_token', function (){
+$routes->get('/get_token', function () {
     // get token by session
     $token = session()->get('TOKEN');
     var_dump($token);
@@ -138,10 +138,9 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
         // Berita
         $routes->group('berita', function ($routes) {
             $routes->get('/', 'BeritaController::admin_berita', ['as' => 'admin_berita']);
-            // $routes->get('detail/(:any)', 'BeritaController::detail/$1', ['as' => 'admin_berita_detail']);
-            // $routes->get('edit/(:any)', 'BeritaController::edit/$1', ['as' => 'admin_berita_edit']);
-            // $routes->post('update', 'BeritaController::update', ['as' => 'admin_berita_update']);
-            // $routes->get('delete/(:any)', 'BeritaController::delete/$1', ['as' => 'admin_berita_delete']);
+            $routes->post('/', 'BeritaController::admin_berita_post', ['as' => 'admin_berita_alumni_post']);
+            $routes->post('delete', 'BeritaController::delete_admin_berita', ['as' => 'admin_berita_alumni_delete']);
+            $routes->post('update', 'BeritaController::update_admin_berita', ['as' => 'admin_berita_alumni_update']);
         });
         // Artikel
         $routes->group('artikel', function ($routes) {
@@ -165,26 +164,17 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
         // Status Pekerjaan
         $routes->group('status-pekerjaan', function ($routes) {
             $routes->get('/', 'StatusPekerjaanController::index', ['as' => 'admin_status_pekerjaan']);
-            // $routes->get('detail/(:any)', 'StatusPekerjaanController::detail/$1', ['as' => 'admin_status_pekerjaan_detail']);
-            // $routes->get('edit/(:any)', 'StatusPekerjaanController::edit/$1', ['as' => 'admin_status_pekerjaan_edit']);
-            // $routes->post('update', 'StatusPekerjaanController::update', ['as' => 'admin_status_pekerjaan_update']);
-            // $routes->get('delete/(:any)', 'StatusPekerjaanController::delete/$1', ['as' => 'admin_status_pekerjaan_delete']);
         });
         // Pekerjaan
         $routes->group('pekerjaan', function ($routes) {
             $routes->get('/', 'PekerjaanController::index', ['as' => 'admin_pekerjaan']);
-            // $routes->get('detail/(:any)', 'PekerjaanController::detail/$1', ['as' => 'admin_pekerjaan_detail']);
-            // $routes->get('edit/(:any)', 'PekerjaanController::edit/$1', ['as' => 'admin_pekerjaan_edit']);
-            // $routes->post('update', 'PekerjaanController::update', ['as' => 'admin_pekerjaan_update']);
-            // $routes->get('delete/(:any)', 'PekerjaanController::delete/$1', ['as' => 'admin_pekerjaan_delete']);
         });
         // Jenis Keluar
         $routes->group('jenis-keluar', function ($routes) {
             $routes->get('/', 'JenisKeluarController::index', ['as' => 'admin_jenis_keluar']);
-            // $routes->get('detail/(:any)', 'JenisKeluarController::detail/$1', ['as' => 'admin_jenis_keluar_detail']);
-            // $routes->get('edit/(:any)', 'JenisKeluarController::edit/$1', ['as' => 'admin_jenis_keluar_edit']);
-            // $routes->post('update', 'JenisKeluarController::update', ['as' => 'admin_jenis_keluar_update']);
-            // $routes->get('delete/(:any)', 'JenisKeluarController::delete/$1', ['as' => 'admin_jenis_keluar_delete']);
+            $routes->post('/', 'JenisKeluarController::post_jenis_keluar', ['as' => 'admin_jenis_keluar_alumni_post']);
+            $routes->post('update', 'JenisKeluarController::update', ['as' => 'admin_jenis_keluar_alumni_update']);
+            $routes->POST('delete', 'JenisKeluarController::delete', ['as' => 'admin_jenis_keluar_alumni_delete']);
         });
         // Negara
         $routes->group('negara', function ($routes) {
@@ -232,18 +222,16 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
         // Pekerjaan Alumni
         $routes->group('pekerjaan-alumni', function ($routes) {
             $routes->get('/', 'PekerjaanController::index2', ['as' => 'admin_pekerjaan_alumni']);
-            // $routes->get('detail/(:any)', 'PekerjaanController::detail/$1', ['as' => 'admin_pekerjaan_alumni_detail']);
-            // $routes->get('edit/(:any)', 'PekerjaanController::edit/$1', ['as' => 'admin_pekerjaan_alumni_edit']);
-            // $routes->post('update', 'PekerjaanController::update', ['as' => 'admin_pekerjaan_alumni_update']);
-            // $routes->get('delete/(:any)', 'PekerjaanController::delete/$1', ['as' => 'admin_pekerjaan_alumni_delete']);
+            $routes->post('/', 'PekerjaanController::post_pekerjaan', ['as' => 'admin_pekerjaan_alumni_post']);
+            $routes->post('update', 'PekerjaanController::update', ['as' => 'admin_pekerjaan_alumni_update']);
+            $routes->POST('delete', 'PekerjaanController::delete', ['as' => 'admin_pekerjaan_alumni_delete']);
         });
         // Status Pekerjaan
         $routes->group('status-pekerjaan', function ($routes) {
             $routes->get('/', 'StatusPekerjaanController::index2', ['as' => 'admin_status_pekerjaan_alumni']);
-            // $routes->get('detail/(:any)', 'StatusPekerjaanController::detail/$1', ['as' => 'admin_status_pekerjaan_alumni_detail']);
-            // $routes->get('edit/(:any)', 'StatusPekerjaanController::edit/$1', ['as' => 'admin_status_pekerjaan_alumni_edit']);
-            // $routes->post('update', 'StatusPekerjaanController::update', ['as' => 'admin_status_pekerjaan_alumni_update']);
-            // $routes->get('delete/(:any)', 'StatusPekerjaanController::delete/$1', ['as' => 'admin_status_pekerjaan_alumni_delete']);
+            $routes->post('/', 'StatusPekerjaanController::post_status_pekerjaan', ['as' => 'admin_status_pekerjaan_alumni_post']);
+            $routes->post('update', 'StatusPekerjaanController::update', ['as' => 'admin_status_pekerjaan_alumni_update']);
+            $routes->POST('delete', 'StatusPekerjaanController::delete', ['as' => 'admin_status_pekerjaan_alumni_delete']);
         });
         // Daftar Perusahaan Alumni
         $routes->group('perusahaan-alumni', function ($routes) {

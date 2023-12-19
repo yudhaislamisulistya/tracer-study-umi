@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ModelPekerjaan extends Model
+class ModelStatusPekerjaan extends Model
 {
     private $db_tracer;
     private $dbext_tracer;
@@ -16,21 +16,10 @@ class ModelPekerjaan extends Model
     }
 
     // Admin
-    public function get_total_pekerjaan()
+    public function post_status_pekerjaan($data)
     {
         try {
-            $sql = "SELECT COUNT(*) AS total_pekerjaan FROM pekerjaan";
-            $query = $this->dbext_tracer->query($sql);
-            return $query->getRow();
-        } catch (\Exception $th) {
-            return 0;
-        }
-    }
-
-    public function post_pekerjaan($data)
-    {
-        try {
-            $query = $this->dbext_tracer->table('pekerjaan')->insert($data);
+            $query = $this->dbext_tracer->table('status_pekerjaan')->insert($data);
             if ($query) {
                 return true;
             } else {
@@ -41,10 +30,10 @@ class ModelPekerjaan extends Model
         }
     }
 
-    public function delete_pekerjaan($hapusId)
+    public function delete_status_pekerjaan($hapusId)
     {
         try {
-            $query = $this->dbext_tracer->table('pekerjaan')->delete(['id_pekerjaan' => $hapusId]);
+            $query = $this->dbext_tracer->table('status_pekerjaan')->delete(['id_job' => $hapusId]);
             if ($query) {
                 return true;
             } else {
@@ -55,10 +44,9 @@ class ModelPekerjaan extends Model
         }
     }
 
-    public function update_pekerjaan($data)
-    {
+    public function update_status_pekerjaan($data){
         try {
-            $query = $this->dbext_tracer->table('pekerjaan')->update($data, ['id_pekerjaan' => $data['id_pekerjaan']]);
+            $query = $this->dbext_tracer->table('status_pekerjaan')->update($data, ['id_job' => $data['id_job']]);
             if ($query) {
                 return true;
             } else {

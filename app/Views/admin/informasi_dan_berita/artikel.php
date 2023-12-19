@@ -28,11 +28,11 @@ view('layouts/header');
                     </li>
                     <li class="breadcrumb-item text-muted">
                         <a href="#" class="text-muted">
-                            Informasi dan Berita
+                            Informasi dan Artikel
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_artikel') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_negara') ?>" class="text-muted">
                             Artikel
                         </a>
                     </li>
@@ -79,31 +79,31 @@ view('layouts/header');
                                     Choose an option:
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="printButton">
                                         <span class="navi-icon"><i class="la la-print"></i></span>
                                         <span class="navi-text">Print</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="copyButton">
                                         <span class="navi-icon"><i class="la la-copy"></i></span>
                                         <span class="navi-text">Copy</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="excelButton">
                                         <span class="navi-icon"><i class="la la-file-excel-o"></i></span>
                                         <span class="navi-text">Excel</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="csvButton">
                                         <span class="navi-icon"><i class="la la-file-text-o"></i></span>
                                         <span class="navi-text">CSV</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="pdfButton">
                                         <span class="navi-icon"><i class="la la-file-pdf-o"></i></span>
                                         <span class="navi-text">PDF</span>
                                     </a>
@@ -114,8 +114,9 @@ view('layouts/header');
                         <!--end::Dropdown Menu-->
                     </div>
                     <!--end::Dropdown-->
+
                     <!--begin::Button-->
-                    <a href="#" class="btn btn-primary font-weight-bolder">
+                    <a id="btnNewRecord" href="#" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:/metronic/theme/html/demo5/dist/assets/media/svg/icons/Design/Flatten.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <rect x="0" y="0" width="24" height="24" />
@@ -134,7 +135,7 @@ view('layouts/header');
                         <tr>
                             <!-- "id","berita_hash","judul","isi","penulis","tanggal_publish","gambar","kategori","status","created_at","updated_at" -->
                             <th>ID</th>
-                            <th>Berita Hash</th>
+                            <th>Artikel Hash</th>
                             <th>Judul</th>
                             <th>Isi</th>
                             <th>Penulis</th>
@@ -148,12 +149,10 @@ view('layouts/header');
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Get Data Negara -->
                         <?php
                         foreach (get_data_berita_by_kategori("Artikel") as $key => $value) {
-                            // if value->gambar == null
-                            $gambar = $value->gambar == null ? base_url('assets/images/default-image.png') : $value->gambar;
-
+                            $isiArtikelEncoded = htmlspecialchars($value->isi);
+                            $gambar = $value->gambar == null ? base_url('assets/images/default-image.png') : "assets/img/berita/$value->gambar";
                             echo '<tr>';
                             echo '<td>' . $value->id . '</td>';
                             echo '<td>' . $value->berita_hash . '</td>';
@@ -169,7 +168,7 @@ view('layouts/header');
                             echo '<td>' . $value->created_at . '</td>';
                             echo '<td>' . $value->updated_at . '</td>';
                             echo '<td nowrap="nowrap">';
-                            echo '<a href="#" class="btn btn-sm btn-clean btn-icon mr-2 btn-edit" title="Edit details">';
+                            echo '<a href="#" class="btn btn-sm btn-clean btn-icon mr-2 btn-edit" title="Edit details" data-isi="' . htmlspecialchars($value->isi, ENT_QUOTES) . '" data-judul="' . htmlspecialchars($value->judul, ENT_QUOTES) . '" ... >';
                             echo '<i class="fas fa-edit"></i>';
                             echo '</span>';
                             echo '</a>';
@@ -194,12 +193,141 @@ view('layouts/header');
 <!--end::Entry-->
 <!--end::Content-->
 
+<!-- Modal Tambah Data -->
+<div class="modal fade" id="modalTambahData" tabindex="-1" role="dialog" aria-labelledby="modalTambahDataTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTambahDataTitle">Tambah Data Artikel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Form Tambah Data -->
+                <form id="formTambahData" action="<?= route_to('admin_berita_alumni_post') ?>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="judulArtikel">Judul</label>
+                        <input type="text" class="form-control" id="judulArtikel" name="judulArtikel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="isiArtikel">Isi</label>
+                        <textarea class="form-control" id="isiArtikel" name="isiArtikel" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggalArtikel">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggalArtikel" name="tanggalArtikel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gambarArtikel">Gambar</label>
+                        <input type="file" class="form-control" id="gambarArtikel" name="gambarArtikel">
+                    </div>
+                    <div class="form-group">
+                        <label for="kategoriArtikel">Kategori</label>
+                        <input type="text" class="form-control" id="kategoriArtikel" name="kategoriArtikel" readonly value="Artikel">
+                    </div>
+                    <div class="form-group">
+                        <label for="statusArtikel">Status</label>
+                        <select class="form-control" id="statusArtikel" name="statusArtikel">
+                            <option value="Draft">Draft</option>
+                            <option value="Published">Published</option>
+                            <option value="Archived">Archived</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary" form="formTambahData">Tambah</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Data -->
+<div class="modal fade" id="modalEditData" tabindex="-1" role="dialog" aria-labelledby="modalEditDataTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditDataTitle">Edit Data Artikel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Form Edit Data -->
+                <form id="formEditData" action="<?= route_to('admin_berita_alumni_update') ?>" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="editId" name="editId">
+                    <div class="form-group">
+                        <label for="editJudulArtikel">Judul</label>
+                        <input type="text" class="form-control" id="editJudulArtikel" name="editJudulArtikel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editIsiArtikel">Isi</label>
+                        <textarea class="form-control" id="editIsiArtikel" name="editIsiArtikel" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTanggalArtikel">Tanggal</label>
+                        <input type="date" class="form-control" id="editTanggalArtikel" name="editTanggalArtikel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editGambarArtikel">Gambar</label>
+                        <input type="file" class="form-control" id="editGambarArtikel" name="editGambarArtikel">
+                    </div>
+                    <div class="form-group">
+                        <label for="editKategoriArtikel">Kategori</label>
+                        <input type="text" class="form-control" id="editKategoriArtikel" name="editKategoriArtikel" readonly value="Artikel">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStatusArtikel">Status</label>
+                        <select class="form-control" id="editStatusArtikel" name="editStatusArtikel">
+                            <option value="Draft">Draft</option>
+                            <option value="Published">Published</option>
+                            <option value="Archived">Archived</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary" form="formEditData">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Hapus Data -->
+<div class="modal fade" id="modalHapusData" tabindex="-1" role="dialog" aria-labelledby="modalHapusDataTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalHapusDataTitle">Hapus Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda yakin ingin menghapus data ini?
+            </div>
+            <div class="modal-footer">
+                <form action="<?= route_to('admin_berita_alumni_delete') ?>" method="POST">
+                    <input type="hidden" id="hapusId" name="hapusId">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.tiny.cloud/1/ig8di9cz1xxzwf89x6bwrjtfy1q368sa2l4m3dl9j0356w0c/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
 <?=
 
 view('layouts/footer');
 
 ?>
-
 <script>
     $(document).ready(function() {
         toastr.options = {
@@ -219,6 +347,12 @@ view('layouts/footer');
             "hideMethod": "fadeOut"
         };
 
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+
         var table = $('#alumniTable').DataTable({
             "responsive": true,
             "columnDefs": [{
@@ -229,17 +363,53 @@ view('layouts/footer');
 
         });
 
-        // Event handler untuk tombol edit
+        $('#btnNewRecord').click(function() {
+            $('#formTambahData')[0].reset();
+            $('#modalTambahData').modal('show');
+        });
+
+        $('#formTambahData').on('submit', function(e) {
+            tinymce.triggerSave();
+            var content = tinymce.get('isiArtikel').getContent();
+            if (content.length === 0) {
+                e.preventDefault();
+            }
+        });
+
+
         $('#alumniTable').on('click', '.btn-edit', function(e) {
             e.preventDefault();
-            // Tampilkan toast warning
-            toastr.warning('Fitur ini belum tersedia!');
+
+            var row = $(this).closest('tr');
+            var id = row.find('td:eq(0)').text();
+            var judul = row.find('td:eq(2)').text();
+            var isi = $(this).data('isi');
+            var tanggal = row.find('td:eq(5)').text();
+            var kategori = row.find('td:eq(7)').text();
+            var status = row.find('td:eq(8)').text();
+
+            $('#formEditData #editId').val(id);
+            $('#formEditData #editJudulArtikel').val(judul);
+            tinymce.get('editIsiArtikel').setContent(isi);
+            $('#formEditData #editTanggalArtikel').val(tanggal);
+            $('#formEditData #editKategoriArtikel').val(kategori);
+            $('#formEditData #editStatusArtikel').val(status);
+
+            $('#modalEditData').modal('show');
         });
-        // Event handler untuk tombol edit
+
+
+
+
         $('#alumniTable').on('click', '.btn-delete', function(e) {
             e.preventDefault();
-            // Tampilkan toast warning
-            toastr.warning('Fitur ini belum tersedia!');
+
+            var row = $(this).closest('tr');
+            var id = row.find('td:eq(0)').text();
+
+            $('#modalHapusData #hapusId').val(id);
+            $('#modalHapusData').modal('show');
+
         });
     });
 </script>

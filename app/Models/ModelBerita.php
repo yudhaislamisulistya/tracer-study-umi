@@ -88,4 +88,43 @@ class ModelBerita extends Model
             return 0;
         }
     }
+
+    public function insert_data($data){
+        try {
+            $this->dbext_tracer->table('berita')->insert($data);
+            return true;
+        } catch (\Exception $th) {
+            return false;
+        }
+    }
+
+    public function update_data($data, $id){
+        try {
+            $this->dbext_tracer->table('berita')->update($data, ['id' => $id]);
+            return true;
+        } catch (\Exception $th) {
+            return false;
+        }
+    }
+
+    public function delete_data($id){
+        try {
+            $this->dbext_tracer->table('berita')->delete(['id' => $id]);
+            return true;
+        } catch (\Exception $th) {
+            return false;
+        }
+    }
+
+    public function get_detail_berita_by_id($id){
+        try {
+            $query = $this->dbext_tracer->table('berita')
+                ->where('id', $id)
+                ->get();
+
+            return $query->getUnbufferedRow();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
 }
