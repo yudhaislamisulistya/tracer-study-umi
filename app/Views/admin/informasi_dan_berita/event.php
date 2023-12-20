@@ -60,7 +60,7 @@ view('layouts/header');
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
-                    <div class="dropdown dropdown-inline mr-2">
+  <div class="dropdown dropdown-inline mr-2">
                         <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:/metronic/theme/html/demo5/dist/assets/media/svg/icons/Design/PenAndRuller.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -352,15 +352,80 @@ view('layouts/footer');
             plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         });
-
+        var title = document.getElementsByClassName('card-label')[0].innerText
         var table = $('#alumniTable').DataTable({
+            "buttons": [{
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                }
+            ],
             "responsive": true,
             "columnDefs": [{
                 "targets": -1,
                 "orderable": false,
                 "responsivePriority": 1,
             }],
+        });
 
+        $('#printButton').on('click', function() {
+            $('#alumniTable').DataTable().button('4').trigger();
+        });
+
+        $('#copyButton').on('click', function() {
+            $('#alumniTable').DataTable().button('0').trigger();
+        });
+
+        $('#csvButton').on('click', function() {
+            $('#alumniTable').DataTable().button('1').trigger();
+        });
+
+        $('#excelButton').on('click', function() {
+            $('#alumniTable').DataTable().button('2').trigger();
+        });
+
+        $('#pdfButton').on('click', function() {
+            $('#alumniTable').DataTable().button('3').trigger();
         });
 
         $('#btnNewRecord').click(function() {

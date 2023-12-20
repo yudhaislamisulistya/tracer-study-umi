@@ -79,31 +79,31 @@ view('layouts/header');
                                     Choose an option:
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="printButton">
                                         <span class="navi-icon"><i class="la la-print"></i></span>
                                         <span class="navi-text">Print</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="copyButton">
                                         <span class="navi-icon"><i class="la la-copy"></i></span>
                                         <span class="navi-text">Copy</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="excelButton">
                                         <span class="navi-icon"><i class="la la-file-excel-o"></i></span>
                                         <span class="navi-text">Excel</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="csvButton">
                                         <span class="navi-icon"><i class="la la-file-text-o"></i></span>
                                         <span class="navi-text">CSV</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="pdfButton">
                                         <span class="navi-icon"><i class="la la-file-pdf-o"></i></span>
                                         <span class="navi-text">PDF</span>
                                     </a>
@@ -175,27 +175,65 @@ view('layouts/footer');
             "hideMethod": "fadeOut"
         };
 
+        var title = document.getElementsByClassName('card-label')[0].innerText
         var table = $('#alumniTable').DataTable({
+            "buttons": [{
+                    extend: 'copy',
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'csv',
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'excel',
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'print',
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                }
+            ],
             "responsive": true,
             "columnDefs": [{
                 "targets": -1,
                 "orderable": false,
                 "responsivePriority": 1,
             }],
-
         });
 
-        // Event handler untuk tombol edit
-        $('#alumniTable').on('click', '.btn-edit', function(e) {
-            e.preventDefault();
-            // Tampilkan toast warning
-            toastr.warning('Fitur ini belum tersedia!');
+        $('#printButton').on('click', function() {
+            $('#alumniTable').DataTable().button('4').trigger();
         });
-        // Event handler untuk tombol edit
-        $('#alumniTable').on('click', '.btn-delete', function(e) {
-            e.preventDefault();
-            // Tampilkan toast warning
-            toastr.warning('Fitur ini belum tersedia!');
+
+        $('#copyButton').on('click', function() {
+            $('#alumniTable').DataTable().button('0').trigger();
+        });
+
+        $('#csvButton').on('click', function() {
+            $('#alumniTable').DataTable().button('1').trigger();
+        });
+
+        $('#excelButton').on('click', function() {
+            $('#alumniTable').DataTable().button('2').trigger();
+        });
+
+        $('#pdfButton').on('click', function() {
+            $('#alumniTable').DataTable().button('3').trigger();
         });
     });
 </script>

@@ -352,15 +352,80 @@ view('layouts/footer');
             plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         });
-
+        var title = document.getElementsByClassName('card-label')[0].innerText
         var table = $('#alumniTable').DataTable({
+            "buttons": [{
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                }
+            ],
             "responsive": true,
             "columnDefs": [{
                 "targets": -1,
                 "orderable": false,
                 "responsivePriority": 1,
             }],
+        });
 
+        $('#printButton').on('click', function() {
+            $('#alumniTable').DataTable().button('4').trigger();
+        });
+
+        $('#copyButton').on('click', function() {
+            $('#alumniTable').DataTable().button('0').trigger();
+        });
+
+        $('#csvButton').on('click', function() {
+            $('#alumniTable').DataTable().button('1').trigger();
+        });
+
+        $('#excelButton').on('click', function() {
+            $('#alumniTable').DataTable().button('2').trigger();
+        });
+
+        $('#pdfButton').on('click', function() {
+            $('#alumniTable').DataTable().button('3').trigger();
         });
 
         $('#btnNewRecord').click(function() {
