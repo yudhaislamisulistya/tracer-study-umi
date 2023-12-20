@@ -2,14 +2,20 @@
 
 namespace App\Controllers;
 
+ini_set('max_execution_time', 300);
+ini_set('memory_limit', '256M');
+
 use App\Controllers\BaseController;
 use App\Models\ModelKuesioner;
 use CodeIgniter\Session\Session;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class KuesionerController extends BaseController
 {
     public $ModelKuesioner;
-    public function __construct() {
+    public function __construct()
+    {
         $this->ModelKuesioner = new ModelKuesioner();
     }
 
@@ -19,13 +25,13 @@ class KuesionerController extends BaseController
         if (get_data_setup_ts_with_tahun_keluar(get_data_biodata(Session()->get('C_NPM'))->tahun_keluar) != NULL) {
             if (get_data_setup_ts_with_tahun_keluar(get_data_biodata(Session()->get('C_NPM'))->tahun_keluar)->jenis_kuesioner == "kue_2017") {
                 return view('kuesioner/2021');
-            }else if(get_data_setup_ts_with_tahun_keluar(get_data_biodata(Session()->get('C_NPM'))->tahun_keluar)->jenis_kuesioner == "kue_2021"){
+            } else if (get_data_setup_ts_with_tahun_keluar(get_data_biodata(Session()->get('C_NPM'))->tahun_keluar)->jenis_kuesioner == "kue_2021") {
                 return view('kuesioner/2021');
-            }else{
+            } else {
                 $data['status'] = 0;
                 return view('kuesioner', $data);
             }
-        }else{
+        } else {
             $data['status'] = 0;
             return view('kuesioner', $data);
         }
@@ -174,7 +180,7 @@ class KuesionerController extends BaseController
         if ($this->ModelKuesioner->update_biodata($data)) {
             session()->setFlashdata('status', 'berhasil');
             return redirect()->to(base_url('kuesioner'));
-        }else{
+        } else {
             session()->setFlashdata('status', 'gagal');
             return redirect()->to(base_url('kuesioner'));
         }
@@ -338,10 +344,67 @@ class KuesionerController extends BaseController
         if ($this->ModelKuesioner->update_biodata($data)) {
             session()->setFlashdata('status', 'berhasil');
             return redirect()->to(base_url('kuesioner'));
-        }else{
+        } else {
             session()->setFlashdata('status', 'gagal');
             return redirect()->to(base_url('kuesioner'));
         }
     }
+
+    // Admin Kuisioner Umum
+
+    public function admin_kuesioner_universitas_umum_download()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        try {
+            $limit = 200;
+            $offset = 0;
+
+            $firstBatch = $this->ModelKuesioner->get_kuesioner_batch($offset, 1);
+            if (!empty($firstBatch)) {
+                $columnNames = array_keys((array)$firstBatch[0]);
+                $columnLetter = 'A';
+                foreach ($columnNames as $columnName) {
+                    $sheet->setCellValue($columnLetter . '1', $columnName);
+                    $columnLetter++;
+                }
+            }
+
+            while (true) {
+                $data = $this->ModelKuesioner->get_kuesioner_batch($offset, $limit);
+                if (empty($data)) {
+                    break;
+                }
+
+                $rowCount = $offset + 2;
+                foreach ($data as $row) {
+                    $columnLetter = 'A';
+                    foreach ($row as $cellValue) {
+                        $sheet->setCellValue($columnLetter . $rowCount, $cellValue);
+                        $columnLetter++;
+                    }
+                    $rowCount++;
+                }
+
+                $offset += $limit;
+            }
+
+            // make name file is Kuesioner Universitas Umum YYYY-MM-DD HH:MM:SS.xlsx
+            $filename = 'Kuesioner Universitas Umum ' . date('Y-m-d h:i:s') . '.xlsx';
+
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+
+            ob_start();
+            $writer = new Xlsx($spreadsheet);
+            $writer->save('php://output');
+            ob_end_flush();
+            exit;
+        } catch (\Exception $th) {
+            var_dump($th);
+            die();
+        }
+    }
 }
-    

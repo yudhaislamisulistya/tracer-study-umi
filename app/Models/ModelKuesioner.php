@@ -15,6 +15,28 @@ class ModelKuesioner extends Model
         $this->dbext_tracer = db_connect("accext_tracer");
     }
 
+    public function get_kuesioner()
+    {
+        try {
+            $data = $this->dbext_tracer->table('lulusan_satu')->get()->getResult();
+            return $data;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_kuesioner_batch($offset, $limit)
+    {
+        try {
+            $data = $this->dbext_tracer->table('lulusan_satu')
+                ->limit($limit, $offset)
+                ->get()->getResult();
+            return $data;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
     public function update_biodata($data)
     {
         try {

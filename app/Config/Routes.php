@@ -240,6 +240,13 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
             // $routes->get('delete/(:any)', 'AlumniController::delete/$1', ['as' => 'admin_daftar_perusahaan_alumni_delete']);
         });
     });
+
+    // Kuesioner
+    $routes->group('kuesioner', function ($routes) {
+        $routes->group('universitas-umum', function ($routes) {
+            $routes->get('/', 'KuesionerController::admin_kuesioner_universitas_umum_download', ['as' => 'admin_kuesioner_universitas_umum_download']);
+        });
+    });
 });
 
 // Grpup API
