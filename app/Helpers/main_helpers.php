@@ -81,7 +81,13 @@ function get_data_jenis_keluar(){
     $query = $db->table('jenis_keluar')->get();
     $results = $query->getResult();
     return $results;
+}
 
+function get_data_kuesioner(){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('kuesioner')->get();
+    $results = $query->getResult();
+    return $results;
 }
 
 function get_data_provinsi_with_id($id)

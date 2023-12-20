@@ -76,4 +76,38 @@ class ModelKuesioner extends Model
             return 0;
         }
     }
+
+    public function insert_data($data){
+        try {
+            $this->dbext_tracer->table('kuesioner')
+                ->insert($data);
+            return 1;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function update_data($data){
+        try {
+            $this->dbext_tracer->table('kuesioner')
+                ->where('kuesioner_id', $data['kuesioner_id'])
+                ->update($data);
+            return 1;
+        } catch (\Exception $th) {
+            var_dump($th);
+            die();
+            return 0;
+        }
+    }
+
+    public function delete_data($id){
+        try {
+            $this->dbext_tracer->table('kuesioner')
+                ->where('kuesioner_id', $id)
+                ->delete();
+            return 1;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
 }

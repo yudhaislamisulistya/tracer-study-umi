@@ -407,4 +407,80 @@ class KuesionerController extends BaseController
             die();
         }
     }
+
+    // Kuesioner Prodi
+    public function admin_kuesioner_prodi()
+    {
+        return view('admin/kuesioner/prodi');
+    }
+
+    public function admin_kuesioner_prodi_post()
+    {
+        try {
+            $data = [
+                'nama_kuesioner' => $this->request->getPost('nama_kuesioner'),
+                'nama_prodi' => $this->request->getPost('nama_prodi'),
+                'periode_mulai' => $this->request->getPost('periode_mulai'),
+                'periode_selesai' => $this->request->getPost('periode_selesai'),
+            ];
+            $query = $this->ModelKuesioner->insert_data($data);
+            
+            if($query){
+                session()->setFlashdata('success', 'Berhasil menambahkan data kuesioner');
+                return redirect()->to(base_url('admin/kuesioner/prodi'));
+            }else{
+                session()->setFlashdata('error', 'Gagal menambahkan data kuesioner');
+                return redirect()->to(base_url('admin/kuesioner/prodi'));
+            }
+
+        } catch (\Exception $th) {
+            session()->setFlashdata('error', 'Gagal menghapus data kuesioner');
+            return redirect()->to(base_url('admin/kuesioner/prodi'));
+        }
+    }
+
+    public function update(){
+        try {
+            $data = [
+                'kuesioner_id' => $this->request->getPost('editId'),
+                'nama_kuesioner' => $this->request->getPost('editNamaKuesioner'),
+                'nama_prodi' => $this->request->getPost('editNamaProdi'),
+                'periode_mulai' => $this->request->getPost('editPeriodeMulai'),
+                'periode_selesai' => $this->request->getPost('editPeriodeSelesai'),
+            ];
+
+            $query = $this->ModelKuesioner->update_data($data);
+            
+            if($query){
+                session()->setFlashdata('success', 'Berhasil mengubah data kuesioner');
+                return redirect()->to(base_url('admin/kuesioner/prodi'));
+            }else{
+                session()->setFlashdata('error', 'Gagal mengubah data kuesioner');
+                return redirect()->to(base_url('admin/kuesioner/prodi'));
+            }
+
+        } catch (\Exception $th) {
+            session()->setFlashdata('error', 'Gagal mengubah data kuesioner');
+            return redirect()->to(base_url('admin/kuesioner/prodi'));
+        }
+    }
+
+    public function delete(){
+        try {
+            $hapusId = $this->request->getPost('hapusId');
+            $query = $this->ModelKuesioner->delete_data($hapusId);
+            
+            if($query){
+                session()->setFlashdata('success', 'Berhasil menghapus data kuesioner');
+                return redirect()->to(base_url('admin/kuesioner/prodi'));
+            }else{
+                session()->setFlashdata('error', 'Gagal menghapus data kuesioner');
+                return redirect()->to(base_url('admin/kuesioner/prodi'));
+            }
+
+        } catch (\Exception $th) {
+            session()->setFlashdata('error', 'Gagal menghapus data kuesioner');
+            return redirect()->to(base_url('admin/kuesioner/prodi'));
+        }
+    }
 }

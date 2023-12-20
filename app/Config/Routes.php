@@ -243,6 +243,14 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
 
     // Kuesioner
     $routes->group('kuesioner', function ($routes) {
+        // kuesioner prodi
+        $routes->group('prodi', function ($routes) {
+            $routes->get('/', 'KuesionerController::admin_kuesioner_prodi', ['as' => 'admin_kuesioner_prodi']);
+            $routes->post('/', 'KuesionerController::admin_kuesioner_prodi_post', ['as' => 'admin_kuesioner_prodi_post']);
+            $routes->post('delete', 'KuesionerController::delete', ['as' => 'admin_kuesioner_prodi_delete']);
+            $routes->post('update', 'KuesionerController::update', ['as' => 'admin_kuesioner_prodi_update']);
+        });
+
         $routes->group('universitas-umum', function ($routes) {
             $routes->get('/', 'KuesionerController::admin_kuesioner_universitas_umum_download', ['as' => 'admin_kuesioner_universitas_umum_download']);
         });

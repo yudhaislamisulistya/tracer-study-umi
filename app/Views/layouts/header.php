@@ -527,6 +527,16 @@ if (session()->get('STATUS') != 'admin') {
                                                     <div class="menu-submenu "><i class="menu-arrow"></i>
                                                         <ul class="menu-subnav">
                                                             <li class="menu-item " aria-haspopup="true">
+                                                                <a href="<?= route_to('admin_kuesioner_prodi') ?>" class="menu-link ">
+                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                    <span class="menu-text">Kuesioner Prodi</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="menu-submenu "><i class="menu-arrow"></i>
+                                                        <ul class="menu-subnav">
+                                                            <li class="menu-item " aria-haspopup="true">
                                                                 <a href="<?= route_to('admin_kuesioner_universitas_umum_download') ?>" class="menu-link ">
                                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                     <span class="menu-text">Kuesioner Universitas Umum (Download)</span>
