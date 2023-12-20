@@ -28,12 +28,12 @@ view('layouts/header');
                     </li>
                     <li class="breadcrumb-item text-muted">
                         <a href="#" class="text-muted">
-                            Manajemen Data
+                            Kuesioner
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_jenis_keluar') ?>" class="text-muted">
-                            Kuesioner
+                        <a href="<?= route_to('admin_kuesioner_prodi') ?>" class="text-muted">
+                            Prodi
                         </a>
                     </li>
                 </ul>
@@ -157,8 +157,12 @@ view('layouts/header');
                             echo '<i class="fas fa-edit"></i>';
                             echo '</span>';
                             echo '</a>';
-                            echo '<a href="#" class="btn btn-sm btn-clean btn-icon btn-delete" title="Delete">';
+                            echo '<a href="#" class="btn btn-sm btn-clean btn-icon btn-delete mr-2" title="Delete">';
                             echo '<i class="fas fa-trash"></i>';
+                            echo '</a>';
+                            // add detail button here for add question and answer for each kuesioner
+                            echo '<a href="' . route_to('admin_kuesioner_prodi_detail', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
+                            echo '<i class="fas fa-eye"></i>';
                             echo '</a>';
                             echo '</td>';
                             echo '</tr>';

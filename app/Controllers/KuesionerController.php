@@ -483,4 +483,10 @@ class KuesionerController extends BaseController
             return redirect()->to(base_url('admin/kuesioner/prodi'));
         }
     }
+
+    public function admin_kuesioner_prodi_detail($id)
+    {
+        $data = $this->ModelKuesioner->get_kuesioner_prodi_detail($id);
+        return view('admin/kuesioner/prodi_detail', compact('data'));
+    }
 }

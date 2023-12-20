@@ -110,4 +110,18 @@ class ModelKuesioner extends Model
             return 0;
         }
     }
+
+    public function get_kuesioner_prodi_detail($id)
+    {
+        try {
+            $data = $this->dbext_tracer->table('kuesioner')
+                ->where('kuesioner_id', $id)
+                ->get()->getRow();
+            return $data;
+        } catch (\Exception $th) {
+            var_dump($th);
+            die();
+            return 0;
+        }
+    }
 }

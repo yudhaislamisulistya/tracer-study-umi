@@ -249,6 +249,7 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
             $routes->post('/', 'KuesionerController::admin_kuesioner_prodi_post', ['as' => 'admin_kuesioner_prodi_post']);
             $routes->post('delete', 'KuesionerController::delete', ['as' => 'admin_kuesioner_prodi_delete']);
             $routes->post('update', 'KuesionerController::update', ['as' => 'admin_kuesioner_prodi_update']);
+            $routes->get('detail/(:any)', 'KuesionerController::admin_kuesioner_prodi_detail/$1', ['as' => 'admin_kuesioner_prodi_detail']);
         });
 
         $routes->group('universitas-umum', function ($routes) {
