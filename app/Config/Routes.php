@@ -203,10 +203,9 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
         // Biodata
         $routes->group('biodata', function ($routes) {
             $routes->get('/', 'BiodataController::admin_biodata', ['as' => 'admin_biodata']);
-            // $routes->get('detail/(:any)', 'BiodataController::detail/$1', ['as' => 'admin_biodata_detail']);
-            // $routes->get('edit/(:any)', 'BiodataController::edit/$1', ['as' => 'admin_biodata_edit']);
-            // $routes->post('update', 'BiodataController::update', ['as' => 'admin_biodata_update']);
-            // $routes->get('delete/(:any)', 'BiodataController::delete/$1', ['as' => 'admin_biodata_delete']);
+            $routes->post('/', 'BiodataController::import_biodata', ['as' => 'admin_import_biodata']);
+            $routes->post('update', 'BiodataController::update', ['as' => 'admin_biodata_update']);
+            $routes->POST('delete', 'BiodataController::delete', ['as' => 'admin_biodata_delete']);
         });
     });
     // Karir dan Pekerjaan

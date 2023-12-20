@@ -405,12 +405,12 @@ if (session()->get('STATUS') != 'admin') {
                                                                     <span class="menu-text">Legalisir Dokumen</span>
                                                                 </a>
                                                             </li>
-                                                            <li class="menu-item " aria-haspopup="true">
+                                                            <!-- <li class="menu-item " aria-haspopup="true">
                                                                 <a href="<?= route_to('admin_registrasi') ?>" class="menu-link ">
                                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
                                                                     <span class="menu-text">Registrasi Alumni</span>
                                                                 </a>
-                                                            </li>
+                                                            </li> -->
                                                         </ul>
                                                     </div>
                                                 </li>
