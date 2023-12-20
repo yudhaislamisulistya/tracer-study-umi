@@ -213,10 +213,9 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
         // Lowongan Kerja
         $routes->group('lowongan-kerja', function ($routes) {
             $routes->get('/', 'LowonganKerjaController::admin_lowongan_kerja', ['as' => 'admin_lowongan_kerja']);
-            // $routes->get('detail/(:any)', 'LowonganKerjaController::detail/$1', ['as' => 'admin_lowongan_kerja_detail']);
-            // $routes->get('edit/(:any)', 'LowonganKerjaController::edit/$1', ['as' => 'admin_lowongan_kerja_edit']);
-            // $routes->post('update', 'LowonganKerjaController::update', ['as' => 'admin_lowongan_kerja_update']);
-            // $routes->get('delete/(:any)', 'LowonganKerjaController::delete/$1', ['as' => 'admin_lowongan_kerja_delete']);
+            $routes->post('/', 'LowonganKerjaController::admin_lowongan_kerja_post', ['as' => 'admin_lowongan_kerja_post']);
+            $routes->post('delete', 'LowonganKerjaController::delete', ['as' => 'admin_lowongan_kerja_delete']);
+            $routes->post('update', 'LowonganKerjaController::update', ['as' => 'admin_lowongan_kerja_update']);
         });
         // Pekerjaan Alumni
         $routes->group('pekerjaan-alumni', function ($routes) {

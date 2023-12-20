@@ -116,4 +116,33 @@ class ModelLowonganPekerjaan extends Model
             return 0;
         }
     }
+
+    public function insert_data($data){
+        try {
+            $this->dbext_tracer->table('lowongan_kerja')->insert($data);
+            return 1;
+        } catch (\Exception $th) {
+            var_dump($th->getMessage());
+            return 0;
+        }
+    }
+
+    public function delete_data($id){
+        try {
+            $this->dbext_tracer->table('lowongan_kerja')->delete(['lowongan_id' => $id]);
+            return 1;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function update_data($data, $id){
+        try {
+            $this->dbext_tracer->table('lowongan_kerja')->update($data, ['lowongan_id' => $id]);
+            return 1;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
 }
