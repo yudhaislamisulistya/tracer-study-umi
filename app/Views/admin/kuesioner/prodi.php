@@ -50,6 +50,27 @@ view('layouts/header');
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class=" container ">
+        <?php
+        if (Session()->getFlashData('success')) {
+            echo '<div class="alert alert-custom alert-success fade show" role="alert">
+                            <div class="alert-text">' . Session()->getFlashData('success') . '</div>
+                            <div class="alert-close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                </button>
+                            </div>
+                        </div>';
+        } elseif (Session()->getFlashData('error')) {
+            echo '<div class="alert alert-custom alert-danger fade show" role="alert">
+                            <div class="alert-text">' . Session()->getFlashData('error') . '</div>
+                            <div class="alert-close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                </button>
+                            </div>
+                        </div>';
+        }
+        ?>
         <!--begin::Card-->
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">

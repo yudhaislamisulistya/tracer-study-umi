@@ -128,6 +128,30 @@ class ModelKuesioner extends Model
         }
     }
 
+    public function get_pertanyaan_by_kuesioner($id)
+    {
+        try {
+            $data = $this->dbext_tracer->table('kuesioner_pertanyaan')
+                ->where('kuesioner_id', $id)
+                ->get()->getResult();
+            return $data;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_pilihan_jawaban_by_pertanyaan($id)
+    {
+        try {
+            $data = $this->dbext_tracer->table('kuesioner_pilihan_jawaban')
+                ->where('pertanyaan_id', $id)
+                ->get()->getResult();
+            return $data;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
     public function insert_question($data)
     {
         try {
@@ -165,4 +189,6 @@ class ModelKuesioner extends Model
             return 0;
         }
     }
+
+    
 }

@@ -486,9 +486,16 @@ class KuesionerController extends BaseController
 
     public function admin_kuesioner_prodi_detail($id)
     {
-        $data = $this->ModelKuesioner->get_kuesioner_prodi_detail($id);
+        $data['kuesioner'] = $this->ModelKuesioner->get_kuesioner_prodi_detail($id);
+        $data['pertanyaan'] = $this->ModelKuesioner->get_pertanyaan_by_kuesioner($id);
+
+        foreach ($data['pertanyaan'] as $key => $pertanyaan) {
+            $data['pertanyaan'][$key]->pilihan_jawaban = $this->ModelKuesioner->get_pilihan_jawaban_by_pertanyaan($pertanyaan->pertanyaan_id);
+        }
+
         return view('admin/kuesioner/prodi_detail', compact('data'));
     }
+
 
     // FOR API
     public function add_question()

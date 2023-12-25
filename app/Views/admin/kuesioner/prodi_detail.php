@@ -15,6 +15,18 @@ view('layouts/header');
         top: 100%;
         /* Posisi dropdown tepat di bawah tombol */
     }
+
+
+    .pertanyaan-item>div {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+    .checkbox-group,
+    .radio-group,
+    .form-control {
+        margin-top: 5px;
+    }
 </style>
 
 
@@ -68,7 +80,7 @@ view('layouts/header');
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <div class="card-title">
-                    <h3 class="card-label">Daftar Kuesioner - <?= $data->nama_kuesioner ?></h3>
+                    <h3 class="card-label">Daftar Kuesioner - <?= $data["kuesioner"]->nama_kuesioner ?></h3>
                 </div>
                 <div class="ml-auto">
                     <button id="btnTambah" class="btn btn-primary mb-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tambah</button>
@@ -81,15 +93,59 @@ view('layouts/header');
                 </div>
             </div>
             <div class="card-body">
-                <span id="kuesionerId" style="display: none;"><?= $data->kuesioner_id ?></span>
+                <span id="kuesionerId" style="display: none;"><?= $data["kuesioner"]->kuesioner_id ?></span>
+                <?php if (!empty($data['pertanyaan'])) : ?>
+                    <div id="daftarPertanyaan">
+                        <?php foreach ($data['pertanyaan'] as $pertanyaan) : ?>
+                            <div class="pertanyaan-item mb-3">
+                                <div class="row">
+                                    <div class="col-md-6" style="align-self: center;">
+                                        <h5><?= esc($pertanyaan->teks_pertanyaan) ?></h5>
+                                    </div>
+                                    <div class="col-md-6" style="align-self: center;">
+                                        <?php if ($pertanyaan->tipe_pertanyaan != 'text' && !empty($pertanyaan->pilihan_jawaban)) : ?>
+                                            <?php if ($pertanyaan->tipe_pertanyaan == 'checkbox') : ?>
+                                                <div class="checkbox-group">
+                                                    <?php foreach ($pertanyaan->pilihan_jawaban as $pilihan) : ?>
+                                                        <label class="checkbox-label">
+                                                            <input type="checkbox" disabled> <?= esc($pilihan->teks_pilihan) ?>
+                                                        </label>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            <?php elseif ($pertanyaan->tipe_pertanyaan == 'radio') : ?>
+                                                <div class="radio-group">
+                                                    <?php foreach ($pertanyaan->pilihan_jawaban as $pilihan) : ?>
+                                                        <label class="radio-label">
+                                                            <input type="radio" name="radio_<?= $pertanyaan->pertanyaan_id ?>" disabled> <?= esc($pilihan->teks_pilihan) ?>
+                                                        </label>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            <?php elseif ($pertanyaan->tipe_pertanyaan == 'option') : ?>
+                                                <select class="form-control">
+                                                    <?php foreach ($pertanyaan->pilihan_jawaban as $pilihan) : ?>
+                                                        <option><?= esc($pilihan->teks_pilihan) ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            <?php endif; ?>
+                                        <?php elseif ($pertanyaan->tipe_pertanyaan == 'text') : ?>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" value="<?= esc($pertanyaan->teks_pertanyaan) ?>" disabled>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else : ?>
+                    <div id="pesanKosong" class="text-center">
+                        <img src="<?= base_url('assets/svg/data-not-found.svg') ?>" alt="List Kosong" height="300px">
+                        <p>List pertanyaan perlu ditambahkan</p>
+                    </div>
+                <?php endif; ?>
                 <div id="daftarPertanyaan"></div>
-                <div id="pesanKosong" class="text-center" style="display: none;">
-                    <img src="<?= base_url('assets/svg/data-not-found.svg') ?>" alt="List Kosong" height="300px">
-                    <p>List pertanyaan perlu ditambahkan</p>
-                </div>
                 <button id="btnSimpanSemua" class="btn btn-success mt-3" style="display: none;">Simpan Semua</button>
-                <!-- link show pertanyaan -->
-                <a href="<?= route_to('admin_kuesioner_prodi_detail', $data->kuesioner_id) ?>" class="btn btn-primary mt-3" style="display: none;" id="btnShowPertanyaan">Show Pertanyaan</a>
+                <a href="<?= route_to('admin_kuesioner_prodi_detail', $data["kuesioner"]->kuesioner_id) ?>" class="btn btn-primary mt-3" style="display: none;" id="btnShowPertanyaan">Show Pertanyaan</a>
             </div>
         </div>
         <!--end::Card-->
@@ -155,7 +211,7 @@ view('layouts/footer');
             var teksNomor = 'Pertanyaan ' + nomorPertanyaan;
 
             var idPertanyaan = 'pertanyaan-' + Date.now();
-            var html = '<div class="pertanyaan-item mb-3" id="' + idPertanyaan + '">';
+            var html = '<div class="pertanyaan-item mb-3" id="' + idPertanyaan + '" data-tipe="' + jenis + '">';
 
 
             html += '<label>' + teksNomor + '</label>';
@@ -206,8 +262,7 @@ view('layouts/footer');
             var semuaPertanyaan = [];
 
             $('#daftarPertanyaan .pertanyaan-item').each(function() {
-                var label = $(this).find('label').text();
-                var tipePertanyaan = label.includes('(') ? label.split('(')[1].split(')')[0].toLowerCase() : 'text';
+                var tipePertanyaan = $(this).data('tipe');
 
                 var pertanyaan = {
                     kuesioner_id: $('#kuesionerId').text(),

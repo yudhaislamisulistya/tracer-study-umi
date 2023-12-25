@@ -61,10 +61,10 @@
             </div>
             <div class="d-flex flex-column">
                 <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-                    <?= session()->get("C_NAMA") ?? 'Admin' ?>
+                    <?= session()->get("C_NAMA") ?? 'Super Admin' ?>
                 </a>
                 <div class="text-muted mt-1">
-                    <?= session()->get("C_EMAIL") ?? 'admin-ts@umi.ac.id' ?>
+                    <?= session()->get("C_EMAIL") ?? 'superadmin-ts@umi.ac.id' ?>
                 </div>
                 <div class="navi mt-2">
                     <a href="<?= base_url('/logout') ?>" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
