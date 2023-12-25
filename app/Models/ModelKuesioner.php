@@ -77,7 +77,8 @@ class ModelKuesioner extends Model
         }
     }
 
-    public function insert_data($data){
+    public function insert_data($data)
+    {
         try {
             $this->dbext_tracer->table('kuesioner')
                 ->insert($data);
@@ -87,7 +88,8 @@ class ModelKuesioner extends Model
         }
     }
 
-    public function update_data($data){
+    public function update_data($data)
+    {
         try {
             $this->dbext_tracer->table('kuesioner')
                 ->where('kuesioner_id', $data['kuesioner_id'])
@@ -100,7 +102,8 @@ class ModelKuesioner extends Model
         }
     }
 
-    public function delete_data($id){
+    public function delete_data($id)
+    {
         try {
             $this->dbext_tracer->table('kuesioner')
                 ->where('kuesioner_id', $id)
@@ -121,6 +124,44 @@ class ModelKuesioner extends Model
         } catch (\Exception $th) {
             var_dump($th);
             die();
+            return 0;
+        }
+    }
+
+    public function insert_question($data)
+    {
+        try {
+            $query = $this->dbext_tracer->table('kuesioner_pertanyaan')
+                ->where('teks_pertanyaan', $data['teks_pertanyaan'])
+                ->where('kuesioner_id', $data['kuesioner_id'])
+                ->get();
+
+            if ($query->getRow()) {
+                // Jika pertanyaan sudah ada, kembalikan ID-nya
+                return $query->getRow()->id;
+            } else {
+                // Jika belum ada, masukkan pertanyaan baru
+                $this->dbext_tracer->table('kuesioner_pertanyaan')->insert($data);
+                return $this->dbext_tracer->insertID(); // Mengembalikan ID yang baru disimpan
+            }
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function insert_option($data)
+    {
+        try {
+            $query = $this->dbext_tracer->table('kuesioner_pilihan_jawaban')
+                ->where('teks_pilihan', $data['teks_pilihan'])
+                ->where('pertanyaan_id', $data['pertanyaan_id'])
+                ->get();
+
+            if (!$query->getRow()) {
+                $this->dbext_tracer->table('kuesioner_pilihan_jawaban')->insert($data);
+            }
+            return 1;
+        } catch (\Exception $th) {
             return 0;
         }
     }

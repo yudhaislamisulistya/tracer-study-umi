@@ -8,6 +8,7 @@ ini_set('memory_limit', '256M');
 use App\Controllers\BaseController;
 use App\Models\ModelKuesioner;
 use CodeIgniter\Session\Session;
+use Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -424,22 +425,22 @@ class KuesionerController extends BaseController
                 'periode_selesai' => $this->request->getPost('periode_selesai'),
             ];
             $query = $this->ModelKuesioner->insert_data($data);
-            
-            if($query){
+
+            if ($query) {
                 session()->setFlashdata('success', 'Berhasil menambahkan data kuesioner');
                 return redirect()->to(base_url('admin/kuesioner/prodi'));
-            }else{
+            } else {
                 session()->setFlashdata('error', 'Gagal menambahkan data kuesioner');
                 return redirect()->to(base_url('admin/kuesioner/prodi'));
             }
-
         } catch (\Exception $th) {
             session()->setFlashdata('error', 'Gagal menghapus data kuesioner');
             return redirect()->to(base_url('admin/kuesioner/prodi'));
         }
     }
 
-    public function update(){
+    public function update()
+    {
         try {
             $data = [
                 'kuesioner_id' => $this->request->getPost('editId'),
@@ -450,34 +451,33 @@ class KuesionerController extends BaseController
             ];
 
             $query = $this->ModelKuesioner->update_data($data);
-            
-            if($query){
+
+            if ($query) {
                 session()->setFlashdata('success', 'Berhasil mengubah data kuesioner');
                 return redirect()->to(base_url('admin/kuesioner/prodi'));
-            }else{
+            } else {
                 session()->setFlashdata('error', 'Gagal mengubah data kuesioner');
                 return redirect()->to(base_url('admin/kuesioner/prodi'));
             }
-
         } catch (\Exception $th) {
             session()->setFlashdata('error', 'Gagal mengubah data kuesioner');
             return redirect()->to(base_url('admin/kuesioner/prodi'));
         }
     }
 
-    public function delete(){
+    public function delete()
+    {
         try {
             $hapusId = $this->request->getPost('hapusId');
             $query = $this->ModelKuesioner->delete_data($hapusId);
-            
-            if($query){
+
+            if ($query) {
                 session()->setFlashdata('success', 'Berhasil menghapus data kuesioner');
                 return redirect()->to(base_url('admin/kuesioner/prodi'));
-            }else{
+            } else {
                 session()->setFlashdata('error', 'Gagal menghapus data kuesioner');
                 return redirect()->to(base_url('admin/kuesioner/prodi'));
             }
-
         } catch (\Exception $th) {
             session()->setFlashdata('error', 'Gagal menghapus data kuesioner');
             return redirect()->to(base_url('admin/kuesioner/prodi'));
@@ -488,5 +488,91 @@ class KuesionerController extends BaseController
     {
         $data = $this->ModelKuesioner->get_kuesioner_prodi_detail($id);
         return view('admin/kuesioner/prodi_detail', compact('data'));
+    }
+
+    // FOR API
+    public function add_question()
+    {
+        $data = [
+            'kuesioner_id' => $this->request->getPost('kuesioner_id'),
+            'teks_pertanyaan' => $this->request->getPost('teks_pertanyaan'),
+            'tipe_pertanyaan' => $this->request->getPost('tipe_pertanyaan'),
+        ];
+
+        $query = $this->ModelKuesioner->insert_question($data);
+        if ($query) {
+            $response = [
+                'status' => 200,
+                'error' => false,
+                'message' => 'success',
+                'data' => $data
+            ];
+            return $this->response->setJSON($response);
+        } else {
+            $response = [
+                'status' => 500,
+                'error' => true,
+                'message' => 'error',
+                'data' => $data
+            ];
+            return $this->response->setJSON($response);
+        }
+    }
+    public function save_all_questions()
+    {
+        try {
+            $data = json_decode($this->request->getBody(), true);
+
+            if (is_null($data)) {
+                throw new Exception("Data tidak valid");
+            }
+
+            foreach ($data as $item) {
+                if (!isset($item['teks_pertanyaan'], $item['tipe_pertanyaan'])) {
+                    continue;
+                }
+
+                $dataPertanyaan = [
+                    'kuesioner_id' => $item['kuesioner_id'],
+                    'teks_pertanyaan' => $item['teks_pertanyaan'],
+                    'tipe_pertanyaan' => $item['tipe_pertanyaan']
+                ];
+
+                $pertanyaanId = $this->ModelKuesioner->insert_question($dataPertanyaan);
+
+                if (!$pertanyaanId) {
+                    throw new Exception("Gagal menyimpan pertanyaan");
+                }
+
+                if (isset($item['pilihan_jawaban']) && is_array($item['pilihan_jawaban'])) {
+                    foreach ($item['pilihan_jawaban'] as $pilihan) {
+                        $dataPilihan = [
+                            'pertanyaan_id' => $pertanyaanId,
+                            'teks_pilihan' => $pilihan
+                        ];
+
+                        if ($this->ModelKuesioner->insert_option($dataPilihan) !== 1) {
+                            throw new Exception("Gagal menyimpan pilihan jawaban");
+                        }
+                    }
+                }
+            }
+
+            $response = [
+                'status' => 200,
+                'error' => false,
+                'message' => 'Pertanyaan dan pilihan jawaban berhasil disimpan',
+            ];
+
+            return $this->response->setJSON($response);
+        } catch (\Exception $th) {
+            $response = [
+                'status' => 500,
+                'error' => true,
+                'message' => 'Terjadi kesalahan: ' . $th->getMessage(),
+            ];
+
+            return $this->response->setJSON($response);
+        }
     }
 }

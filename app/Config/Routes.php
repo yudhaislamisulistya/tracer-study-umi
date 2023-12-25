@@ -278,6 +278,10 @@ $routes->group('api-v2', function ($routes) {
         $routes->get('/', 'RegistrasiController::get_registrasi_json');
         $routes->post('/', 'RegistrasiController::get_registrasi_json');
     });
+    // Group Kuesioner PRODI
+    $routes->group('kuesioner-prodi', function ($routes) {
+        $routes->post('save_all_questions', 'KuesionerController::save_all_questions');
+    });
 });
 
 

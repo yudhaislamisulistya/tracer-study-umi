@@ -55,7 +55,7 @@
         <!--begin::Header-->
         <div class="d-flex align-items-center mt-5">
             <div class="symbol symbol-100 mr-5">
-                <div class="symbol-label" style="background-image:url('assets/media/users/default.jpg')">
+                <div class="symbol-label" style="background-image:url('<?= base_url() ?>/assets/media/users/<?= get_data_registrasi(Session()->get('C_NPM'))->foto ?? 'default.jpg' ?>')">
                 </div>
                 <i class="symbol-badge bg-success"></i>
             </div>

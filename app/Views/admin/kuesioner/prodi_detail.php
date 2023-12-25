@@ -81,11 +81,15 @@ view('layouts/header');
                 </div>
             </div>
             <div class="card-body">
+                <span id="kuesionerId" style="display: none;"><?= $data->kuesioner_id ?></span>
                 <div id="daftarPertanyaan"></div>
                 <div id="pesanKosong" class="text-center" style="display: none;">
                     <img src="<?= base_url('assets/svg/data-not-found.svg') ?>" alt="List Kosong" height="300px">
                     <p>List pertanyaan perlu ditambahkan</p>
                 </div>
+                <button id="btnSimpanSemua" class="btn btn-success mt-3" style="display: none;">Simpan Semua</button>
+                <!-- link show pertanyaan -->
+                <a href="<?= route_to('admin_kuesioner_prodi_detail', $data->kuesioner_id) ?>" class="btn btn-primary mt-3" style="display: none;" id="btnShowPertanyaan">Show Pertanyaan</a>
             </div>
         </div>
         <!--end::Card-->
@@ -141,6 +145,7 @@ view('layouts/footer');
             var jenisPertanyaan = $(this).data('jenis');
             tambahPertanyaan(jenisPertanyaan);
             $('#jenisPertanyaanDropdown').hide();
+            $('#btnSimpanSemua').show();
             perbaruiDaftarPertanyaan();
         });
 
@@ -154,7 +159,7 @@ view('layouts/footer');
 
 
             html += '<label>' + teksNomor + '</label>';
-            html += '<input type="text" class="form-control mb-2" placeholder="Pertanyaan (' + jenis.toUpperCase() + ')">';
+            html += '<input type="text" class="form-control mb-2 inputTeksPertanyaan" placeholder="Pertanyaan (' + jenis.toUpperCase() + ')">';
 
 
             if (jenis !== 'text') {
@@ -173,7 +178,7 @@ view('layouts/footer');
             var idOpsi = 'opsi-' + Date.now();
             var opsiHtml = '<div class="opsi-item row mb-2" id="' + idOpsi + '">';
             opsiHtml += '<div class="col-10">';
-            opsiHtml += '<input type="text" class="form-control" placeholder="Opsi">';
+            opsiHtml += '<input type="text" class="form-control inputOpsi" placeholder="Opsi">';
             opsiHtml += '</div>'; // Tutup col-10
             opsiHtml += '<div class="col-2">';
             opsiHtml += '<button type="button" class="btn btn-info btnHapusOpsi"><i class="fas fa-trash-alt"></i></button>';
@@ -195,6 +200,44 @@ view('layouts/footer');
         $('#btnTambahPilihan').on('click', function() {
             var pilihan = $('<input type="text" class="form-control mt-2" placeholder="Pilihan Jawaban">');
             $('#pilihanJawaban').append(pilihan);
+        });
+
+        $('#btnSimpanSemua').on('click', function() {
+            var semuaPertanyaan = [];
+
+            $('#daftarPertanyaan .pertanyaan-item').each(function() {
+                var label = $(this).find('label').text();
+                var tipePertanyaan = label.includes('(') ? label.split('(')[1].split(')')[0].toLowerCase() : 'text';
+
+                var pertanyaan = {
+                    kuesioner_id: $('#kuesionerId').text(),
+                    teks_pertanyaan: $(this).find('.inputTeksPertanyaan').val(),
+                    tipe_pertanyaan: tipePertanyaan,
+                    pilihan_jawaban: $(this).find('.opsi-container .inputOpsi').map(function() {
+                        return $(this).val();
+                    }).get()
+                };
+
+                semuaPertanyaan.push(pertanyaan);
+            });
+
+            console.log(semuaPertanyaan);
+
+            $.ajax({
+                url: '/api-v2/kuesioner-prodi/save_all_questions',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(semuaPertanyaan),
+                success: function(response) {
+                    console.log('Data berhasil disimpan', response);
+                    toastr.success('Data berhasil disimpan');
+                    $('#btnShowPertanyaan').show();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error Response:', xhr.responseText);
+                    toastr.error('Gagal menyimpan data');
+                }
+            });
         });
 
         $(document).on('click', function(event) {
