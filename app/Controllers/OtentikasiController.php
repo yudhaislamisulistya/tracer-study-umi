@@ -71,15 +71,21 @@ class OtentikasiController extends BaseController
                 session()->set($data);
                 return redirect()->to(base_url('admin/dashboard'));
             } else if ($data->response->username == "admin-ts") {
+                $dataResponse = json_decode($response);
                 $data = [
-                    "ID_PROFIL" => $data->response->id_profil,
+                    "ID_PROFIL" => $dataResponse->response->id_profil,
                     'C_NPM'       => $nim,
                     'PASSWORD'     => $password,
                     'U_DATE'     => DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')),
                     'STATUS'     => 'admin-prodi',
-                    "TOKEN" => $data->response->access_token,
+                    "TOKEN" => $dataResponse->response->access_token,
                     'logged_in'     => TRUE
                 ];
+                $biodataController = new BiodataController();
+                $dataUserCurrent = $biodataController->get_current_user_admin_or_prodi($dataResponse->response->access_token);
+                $data['ID_PRODI'] = $dataUserCurrent["response"]["id_unit_univ"];
+                $data['C_EMAIL'] = $dataUserCurrent["response"]["personal"]["email"];
+                $data["C_NAMA"] = $dataUserCurrent["response"]["personal"]["nama"];
                 session()->set($data);
                 return redirect()->to(base_url('admin-prodi/dashboard'));
             } else {

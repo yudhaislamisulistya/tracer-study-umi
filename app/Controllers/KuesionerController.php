@@ -412,7 +412,12 @@ class KuesionerController extends BaseController
     // Kuesioner Prodi
     public function admin_kuesioner_prodi()
     {
-        return view('admin/kuesioner/prodi');
+        $userSession = session()->get('STATUS');
+        if ($userSession == 'admin') {
+            return view('admin/kuesioner/prodi');
+        } else if ($userSession == "admin-prodi") {
+            return view('admin-prodi/kuesioner/prodi');
+        }
     }
 
     public function admin_kuesioner_prodi_post()
@@ -428,14 +433,14 @@ class KuesionerController extends BaseController
 
             if ($query) {
                 session()->setFlashdata('success', 'Berhasil menambahkan data kuesioner');
-                return redirect()->to(base_url('admin/kuesioner/prodi'));
+                return redirect()->back();
             } else {
                 session()->setFlashdata('error', 'Gagal menambahkan data kuesioner');
-                return redirect()->to(base_url('admin/kuesioner/prodi'));
+                return redirect()->back();
             }
         } catch (\Exception $th) {
             session()->setFlashdata('error', 'Gagal menghapus data kuesioner');
-            return redirect()->to(base_url('admin/kuesioner/prodi'));
+            return redirect()->back();
         }
     }
 
@@ -454,14 +459,14 @@ class KuesionerController extends BaseController
 
             if ($query) {
                 session()->setFlashdata('success', 'Berhasil mengubah data kuesioner');
-                return redirect()->to(base_url('admin/kuesioner/prodi'));
+                return redirect()->back();
             } else {
                 session()->setFlashdata('error', 'Gagal mengubah data kuesioner');
-                return redirect()->to(base_url('admin/kuesioner/prodi'));
+                return redirect()->back();
             }
         } catch (\Exception $th) {
             session()->setFlashdata('error', 'Gagal mengubah data kuesioner');
-            return redirect()->to(base_url('admin/kuesioner/prodi'));
+            return redirect()->back();
         }
     }
 
@@ -473,14 +478,14 @@ class KuesionerController extends BaseController
 
             if ($query) {
                 session()->setFlashdata('success', 'Berhasil menghapus data kuesioner');
-                return redirect()->to(base_url('admin/kuesioner/prodi'));
+                return redirect()->back();
             } else {
                 session()->setFlashdata('error', 'Gagal menghapus data kuesioner');
-                return redirect()->to(base_url('admin/kuesioner/prodi'));
+                return redirect()->back();
             }
         } catch (\Exception $th) {
             session()->setFlashdata('error', 'Gagal menghapus data kuesioner');
-            return redirect()->to(base_url('admin/kuesioner/prodi'));
+            return redirect()->back();
         }
     }
 

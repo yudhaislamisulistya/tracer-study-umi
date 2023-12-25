@@ -1,5 +1,14 @@
 <?php
 
+function get_data_kuesioner_by_nama_prodi($nama_prodi)
+{
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('kuesioner')
+            ->where('nama_prodi',$nama_prodi)
+            ->get();
+    $results = $query->getResult();
+    return $results;
+}
 
 function get_data_berita_by_kategori($kategori)
 {

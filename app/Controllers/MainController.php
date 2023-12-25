@@ -24,7 +24,8 @@ class MainController extends BaseController
     public $ModelLowonganPekerjaan;
     public $ModelLegalisir;
     public $ModelPekerjaan;
-    public function __construct() {
+    public function __construct()
+    {
         $this->ModelOtentikasi = new ModelOtentikasi();
         $this->ModelPengguna = new ModelPengguna();
         $this->ModelAlumni = new ModelAlumni();
@@ -75,7 +76,7 @@ class MainController extends BaseController
     {
         return view('pengguna-kesehatan');
     }
-    
+
     public function post_pengguna_non_kesehatan()
     {
         $data = array(
@@ -120,7 +121,7 @@ class MainController extends BaseController
         if ($this->ModelPengguna->insert_survei_pengguna($data)) {
             session()->setFlashdata('status', 'berhasil');
             return redirect()->to(base_url('pengguna-non-kesehatan'));
-        }else{
+        } else {
             session()->setFlashdata('status', 'gagal');
             return redirect()->to(base_url('pengguna-non-kesehatan'));
         }
@@ -165,14 +166,15 @@ class MainController extends BaseController
         if ($this->ModelPengguna->insert_survei_pengguna($data)) {
             session()->setFlashdata('status', 'berhasil');
             return redirect()->to(base_url('pengguna-kesehatan'));
-        }else{
+        } else {
             session()->setFlashdata('status', 'gagal');
             return redirect()->to(base_url('pengguna-kesehatan'));
         }
     }
 
     // Admin
-    function admin_dashboard(){
+    function admin_dashboard()
+    {
         $data['total_alumni'] = $this->ModelAlumni->get_total_alumni()->total_alumni;
         $data['total_program_studi'] = $this->ModelProgramStudi->get_total_program_studi()->total_program_studi;
         $data['total_biodata'] = $this->ModelBiodata->get_total_biodata()->total_biodata;
@@ -183,7 +185,8 @@ class MainController extends BaseController
         return view('admin/dashboard', $data);
     }
 
-    function admin_statistik(){
+    function admin_statistik()
+    {
         $data['total_alumni_by_program_studi'] = $this->ModelAlumni->get_total_alumni_by_program_studi();
         $data['total_alumni_based_jumlah_lulusan'] = $this->ModelAlumni->get_total_alumni_based_jumlah_lulusan();
         $data['total_status_ip_kumulatif'] = $this->ModelAlumni->get_total_status_ip_kumulatif();
@@ -191,5 +194,18 @@ class MainController extends BaseController
         $data['total_legalisir_based_status'] = $this->ModelLegalisir->get_total_legalisir_based_status();
         $data['total_legalisir_by_ttd_berkas_path'] = $this->ModelLegalisir->get_total_legalisir_by_ttd_berkas_path();
         return view('admin/statistik', $data);
+    }
+
+    // Admin Prodi
+    function admin_prodi_dashboard()
+    {
+        $data['total_alumni'] = $this->ModelAlumni->get_total_alumni()->total_alumni;
+        $data['total_program_studi'] = $this->ModelProgramStudi->get_total_program_studi()->total_program_studi;
+        $data['total_biodata'] = $this->ModelBiodata->get_total_biodata()->total_biodata;
+        $data['total_berita'] = $this->ModelBerita->get_total_berita()->total_berita;
+        $data['total_lowongan_pekerjaan'] = $this->ModelLowonganPekerjaan->get_total_lowongan_pekerjaan()->total_lowongan_pekerjaan;
+        $data['total_legalisir'] = $this->ModelLegalisir->get_total_legalisir()->total_legalisir;
+        $data['total_pekerjaan'] = $this->ModelPekerjaan->get_total_pekerjaan()->total_pekerjaan;
+        return view('admin-prodi/dashboard', $data);
     }
 }

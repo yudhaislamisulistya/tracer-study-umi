@@ -51,7 +51,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--begin::Body-->
 
 <?php
-if (session()->get('STATUS') != 'admin') {
+if (session()->get('STATUS') == 'alumni') {
 ?>
 
     <body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed header-mobile-fixed aside-enabled aside-static page-loading">
@@ -247,7 +247,7 @@ if (session()->get('STATUS') != 'admin') {
                     </div>
                     <!--end::Header-->
                 <?php
-            } else { ?>
+            } else if (session()->get('STATUS') == 'admin') { ?>
 
                     <body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed header-mobile-fixed aside-enabled aside-static page-loading">
 
@@ -521,7 +521,7 @@ if (session()->get('STATUS') != 'admin') {
                                                                     <rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1" />
                                                                     <rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1" />
                                                                 </g>
-                                                                </svg>
+                                                            </svg>
                                                         </span>
                                                         <span class="menu-text">Kuesioner</span><i class="menu-arrow"></i></a>
                                                     <div class="menu-submenu "><i class="menu-arrow"></i>
@@ -651,5 +651,204 @@ if (session()->get('STATUS') != 'admin') {
                                         <!--end::Container-->
                                     </div>
                                     <!--end::Header-->
-                                <?php }
-                                ?>
+                                <?php } else { ?>
+
+                                    <body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed header-mobile-fixed aside-enabled aside-static page-loading">
+
+                                        <!--begin::Main-->
+                                        <!--begin::Header Mobile-->
+                                        <div id="kt_header_mobile" class="header-mobile  header-mobile-fixed ">
+                                            <!--begin::Logo-->
+                                            <a href="<?php base_url('/dashboard') ?>">
+                                                <img alt="Logo" src="<?= base_url('assets/media/logos/umi.png') ?>" class="logo-default max-h-30px" />
+                                            </a>
+                                            <!--end::Logo-->
+
+                                            <!--begin::Toolbar-->
+                                            <div class="d-flex align-items-center">
+                                                <button class="btn p-0 burger-icon rounded-0 burger-icon-left" id="kt_aside_tablet_and_mobile_toggle">
+                                                    <span></span>
+                                                </button>
+
+                                                <button class="btn btn-hover-text-primary p-0 ml-3" id="kt_header_mobile_topbar_toggle">
+                                                    <span class="svg-icon svg-icon-xl">
+                                                        <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <polygon points="0 0 24 0 24 24 0 24" />
+                                                                <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                                <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                                                            </g>
+                                                        </svg>
+                                                        <!--end::Svg Icon--></span> </button>
+                                            </div>
+                                            <!--end::Toolbar-->
+                                        </div>
+                                        <!--end::Header Mobile-->
+                                        <div class="d-flex flex-column flex-root">
+                                            <!--begin::Page-->
+                                            <div class="d-flex flex-row flex-column-fluid page">
+                                                <!--begin::Aside-->
+                                                <div class="aside aside-left  d-flex flex-column flex-row-auto" id="kt_aside">
+                                                    <!--begin::Aside Menu-->
+                                                    <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+                                                        <!--begin::Menu Container-->
+                                                        <div id="kt_aside_menu" class="aside-menu  min-h-lg-800px" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
+                                                            <!--begin::Menu Nav-->
+                                                            <ul class="menu-nav ">
+                                                                <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
+                                                                        <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Files/Upload.svg-->
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                                    <path d="M10.5,5 L20.5,5 C21.3284271,5 22,5.67157288 22,6.5 L22,9.5 C22,10.3284271 21.3284271,11 20.5,11 L10.5,11 C9.67157288,11 9,10.3284271 9,9.5 L9,6.5 C9,5.67157288 9.67157288,5 10.5,5 Z M10.5,13 L20.5,13 C21.3284271,13 22,13.6715729 22,14.5 L22,17.5 C22,18.3284271 21.3284271,19 20.5,19 L10.5,19 C9.67157288,19 9,18.3284271 9,17.5 L9,14.5 C9,13.6715729 9.67157288,13 10.5,13 Z" fill="#000000" />
+                                                                                    <rect fill="#000000" opacity="0.3" x="2" y="5" width="5" height="14" rx="1" />
+                                                                                </g>
+                                                                            </svg>
+                                                                            <!--end::Svg Icon--></span>
+                                                                        <span class="menu-text">Dashboard</span><i class="menu-arrow"></i></a>
+                                                                    <div class="menu-submenu "><i class="menu-arrow"></i>
+                                                                        <ul class="menu-subnav">
+                                                                            <li class="menu-item " aria-haspopup="true">
+                                                                                <a href="<?= route_to('admin_prodi_dashboard') ?>" class="menu-link ">
+                                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                                    <span class="menu-text">Beranda</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
+                                                                        <span class="svg-icon menu-icon">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                                    <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3" />
+                                                                                    <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000" />
+                                                                                    <rect fill="#000000" opacity="0.3" x="10" y="9" width="7" height="2" rx="1" />
+                                                                                    <rect fill="#000000" opacity="0.3" x="7" y="9" width="2" height="2" rx="1" />
+                                                                                    <rect fill="#000000" opacity="0.3" x="7" y="13" width="2" height="2" rx="1" />
+                                                                                    <rect fill="#000000" opacity="0.3" x="10" y="13" width="7" height="2" rx="1" />
+                                                                                    <rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1" />
+                                                                                    <rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1" />
+                                                                                </g>
+                                                                            </svg>
+                                                                        </span>
+                                                                        <span class="menu-text">Kuesioner</span><i class="menu-arrow"></i></a>
+                                                                    <div class="menu-submenu "><i class="menu-arrow"></i>
+                                                                        <ul class="menu-subnav">
+                                                                            <li class="menu-item " aria-haspopup="true">
+                                                                                <a href="<?= route_to('admin_prodi_kuesioner_prodi') ?>" class="menu-link ">
+                                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                                    <span class="menu-text">Kuesioner Prodi</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </li>
+                                                                <!-- <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
+                                                        <span class="svg-icon menu-icon">
+                                                            < <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                    <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3" />
+                                                                    <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000" />
+                                                                    <rect fill="#000000" opacity="0.3" x="10" y="9" width="7" height="2" rx="1" />
+                                                                    <rect fill="#000000" opacity="0.3" x="7" y="9" width="2" height="2" rx="1" />
+                                                                    <rect fill="#000000" opacity="0.3" x="7" y="13" width="2" height="2" rx="1" />
+                                                                    <rect fill="#000000" opacity="0.3" x="10" y="13" width="7" height="2" rx="1" />
+                                                                    <rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1" />
+                                                                    <rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1" />
+                                                                </g>
+                                                                </svg>
+                                                        </span>
+                                                        <span class="menu-text">Laporan</span><i class="menu-arrow"></i></a>
+                                                    <div class="menu-submenu "><i class="menu-arrow"></i>
+                                                        <ul class="menu-subnav">
+                                                            <li class="menu-item " aria-haspopup="true">
+                                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                    <span class="menu-text">Laporan Alumni</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="menu-item " aria-haspopup="true">
+                                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                    <span class="menu-text">Laporan Pekerjaan</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="menu-item " aria-haspopup="true">
+                                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
+                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                    <span class="menu-text">Laporan Statistik Lainnya</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li> -->
+                                                            </ul>
+                                                            <!--end::Menu Nav-->
+                                                        </div>
+                                                        <!--end::Menu Container-->
+                                                    </div>
+                                                    <!--end::Aside Menu-->
+                                                </div>
+                                                <!--end::Aside-->
+
+                                                <!--begin::Wrapper-->
+                                                <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                                                    <!--begin::Header-->
+                                                    <div id="kt_header" class="header  header-fixed ">
+                                                        <!--begin::Container-->
+                                                        <div class=" container  d-flex align-items-stretch justify-content-between">
+                                                            <!--begin::Left-->
+                                                            <div class="d-none d-lg-flex align-items-center mr-3">
+                                                                <!--begin::Aside Toggle-->
+                                                                <button class="btn btn-icon aside-toggle ml-n3 mr-10" id="kt_aside_desktop_toggle">
+                                                                    <span class="svg-icon svg-icon-xxl svg-icon-dark-75">
+                                                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Text/Align-left.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                                <rect fill="#000000" opacity="0.3" x="4" y="5" width="16" height="2" rx="1" />
+                                                                                <rect fill="#000000" opacity="0.3" x="4" y="13" width="16" height="2" rx="1" />
+                                                                                <path d="M5,9 L13,9 C13.5522847,9 14,9.44771525 14,10 C14,10.5522847 13.5522847,11 13,11 L5,11 C4.44771525,11 4,10.5522847 4,10 C4,9.44771525 4.44771525,9 5,9 Z M5,17 L13,17 C13.5522847,17 14,17.4477153 14,18 C14,18.5522847 13.5522847,19 13,19 L5,19 C4.44771525,19 4,18.5522847 4,18 C4,17.4477153 4.44771525,17 5,17 Z" fill="#000000" />
+                                                                            </g>
+                                                                        </svg>
+                                                                        <!--end::Svg Icon--></span> </button>
+                                                                <!--end::Aside Toggle-->
+
+                                                                <!--begin::Logo-->
+                                                                <a href="<?php base_url('/dashboard') ?>">
+                                                                    <img alt="Logo" src="<?= base_url('assets/media/logos/umi.png') ?>" class="logo-sticky max-h-35px" />
+                                                                </a>
+                                                                <!--end::Logo-->
+
+
+                                                            </div>
+                                                            <!--end::Left-->
+
+                                                            <!--begin::Topbar-->
+                                                            <div class="topbar">
+
+                                                                <!--begin::User-->
+                                                                <div class="topbar-item mr-4">
+                                                                    <div class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_quick_user_toggle">
+                                                                        <span class="svg-icon svg-icon-lg">
+                                                                            <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                    <polygon points="0 0 24 0 24 24 0 24" />
+                                                                                    <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                                                    <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                                                                                </g>
+                                                                            </svg>
+                                                                            <!--end::Svg Icon--></span>
+                                                                    </div>
+                                                                </div>
+                                                                <!--end::User-->
+
+                                                            </div>
+                                                            <!--end::Topbar-->
+                                                        </div>
+                                                        <!--end::Container-->
+                                                    </div>
+                                                    <!--end::Header-->
+                                                <?php } ?>

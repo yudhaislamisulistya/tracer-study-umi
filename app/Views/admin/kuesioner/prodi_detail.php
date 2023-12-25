@@ -156,6 +156,21 @@ view('layouts/header');
 
 </div>
 
+<!-- Loading Indicator -->
+<div id="loadingIndicator" class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p>Mohon tunggu, data sedang diproses...</p>
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <?=
 
 view('layouts/footer');
@@ -261,6 +276,8 @@ view('layouts/footer');
         $('#btnSimpanSemua').on('click', function() {
             var semuaPertanyaan = [];
 
+            $('#loadingIndicator').modal('show');
+
             $('#daftarPertanyaan .pertanyaan-item').each(function() {
                 var tipePertanyaan = $(this).data('tipe');
 
@@ -291,6 +308,10 @@ view('layouts/footer');
                 error: function(xhr, status, error) {
                     console.error('Error Response:', xhr.responseText);
                     toastr.error('Gagal menyimpan data');
+                },
+                complete: function() {
+                    // Sembunyikan loading indicator
+                    $('#loadingIndicator').modal('hide');
                 }
             });
         });

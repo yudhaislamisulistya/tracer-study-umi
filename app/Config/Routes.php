@@ -94,6 +94,24 @@ $routes->get('/get_token', function () {
     var_dump($token);
 });
 
+// Group Admin Prodi
+$routes->group('admin-prodi', ['filter' => 'auth'], function ($routes) {
+    // add name
+    $routes->get('dashboard', 'MainController::admin_prodi_dashboard', ['as' => 'admin_prodi_dashboard']);
+
+    // Kuesioner Prodi
+    // Kuesioner
+    $routes->group('kuesioner', function ($routes) {
+        // kuesioner prodi
+        $routes->group('prodi', function ($routes) {
+            $routes->get('/', 'KuesionerController::admin_kuesioner_prodi', ['as' => 'admin_prodi_kuesioner_prodi']);
+            $routes->post('/', 'KuesionerController::admin_kuesioner_prodi_post', ['as' => 'admin_kuesioner_prodi_post']);
+            $routes->post('delete', 'KuesionerController::delete', ['as' => 'admin_kuesioner_prodi_delete']);
+            $routes->post('update', 'KuesionerController::update', ['as' => 'admin_kuesioner_prodi_update']);
+            $routes->get('detail/(:any)', 'KuesionerController::admin_kuesioner_prodi_detail/$1', ['as' => 'admin_kuesioner_prodi_detail']);
+        });
+    });
+});
 
 // Group Admin
 $routes->group('admin', ['filter' => 'auth'], function ($routes) {
