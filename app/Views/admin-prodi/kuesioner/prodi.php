@@ -262,15 +262,7 @@ view('layouts/header');
                     </div>
                     <div class="form-group">
                         <label for="editNamaProdi">Prodi</label>
-                        <select class="form-control" id="editNamaProdi" name="editNamaProdi" required>
-                            <option id="pilihanNamaProdi">Pilih Prodi</option>
-                            <option value="" disabled>===================</option>
-                            <?php
-                            foreach (get_data_program_studi() as $key => $value) {
-                                echo '<option value="' . $value->NAMA_PRODI . '">' . $value->NAMA_PRODI . '</option>';
-                            }
-                            ?>
-                        </select>
+                        <input type="text" class="form-control" id="nama_prodi" name="nama_prodi" value="<?= get_data_nama_prodi_with_kode($prodiIdSession)->NAMA_PRODI ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="editPeriodeMulai">Periode Mulai</label>
