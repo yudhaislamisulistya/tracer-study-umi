@@ -56,49 +56,64 @@ class OtentikasiController extends BaseController
         $response = curl_exec($curl);
         $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-        // check before username admin and password getenv('app.passwordAdmin')
-        if ($nim == "admin" && $password == getenv('app.passwordAdmin')) {
-            $data = [
-                'C_NPM'       => $nim,
-                'PASSWORD'     => $password,
-                'U_DATE'     => DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')),
-                'STATUS'     => 'admin',
-                'logged_in'     => TRUE
-            ];
-            session()->set($data);
-            return redirect()->to(base_url('admin/dashboard'));
-        } else if ($httpcode == 200){
+        if ($httpcode == 200) {
             $data = json_decode($response);
-            $data = [
-                "ID_PROFIL" => $data->response->id_profil,
-                'C_NPM'       => $nim,
-                'PASSWORD'     => $password,
-                'U_DATE'     => DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')),
-                'STATUS'     => 'alumni',
-                "TOKEN" => $data->response->access_token,
-                'logged_in'     => TRUE
-            ];
-            session()->set($data);
-            //  check model biodata
-            $check = $this->ModelBiodata->check_data($nim);
-            $biodata = new BiodataController();
-            $dataUserCurrent = $biodata->get_current_user();
-            $nama_lengkap = $dataUserCurrent["response"]["nama"];
-            $jenis_kelamin = $dataUserCurrent["response"]["personal"]["jns_kelamin"];
-            if ($jenis_kelamin == "Laki-laki") {
-                $jenis_kelamin = "L";
+            if ($data->response->username == "superadmin-ts") {
+                $data = [
+                    "ID_PROFIL" => $data->response->id_profil,
+                    'C_NPM'       => $nim,
+                    'PASSWORD'     => $password,
+                    'U_DATE'     => DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')),
+                    'STATUS'     => 'admin',
+                    "TOKEN" => $data->response->access_token,
+                    'logged_in'     => TRUE
+                ];
+                session()->set($data);
+                return redirect()->to(base_url('admin/dashboard'));
+            } else if ($data->response->username == "admin-ts") {
+                $data = [
+                    "ID_PROFIL" => $data->response->id_profil,
+                    'C_NPM'       => $nim,
+                    'PASSWORD'     => $password,
+                    'U_DATE'     => DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')),
+                    'STATUS'     => 'admin-prodi',
+                    "TOKEN" => $data->response->access_token,
+                    'logged_in'     => TRUE
+                ];
+                session()->set($data);
+                return redirect()->to(base_url('admin-prodi/dashboard'));
             } else {
-                $jenis_kelamin = "P";
-            }
-            $tempat_lahir = $dataUserCurrent["response"]["personal"]["tempat_lahir"];
-            $tanggal_lahir = $dataUserCurrent["response"]["personal"]["tgl_lahir"];
-            $program_studi = $dataUserCurrent["response"]["nm_prodi"];
+                $data = [
+                    "ID_PROFIL" => $data->response->id_profil,
+                    'C_NPM'       => $nim,
+                    'PASSWORD'     => $password,
+                    'U_DATE'     => DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')),
+                    'STATUS'     => 'alumni',
+                    "TOKEN" => $data->response->access_token,
+                    'logged_in'     => TRUE
+                ];
+                session()->set($data);
+                $check = $this->ModelBiodata->check_data($nim);
+                $biodata = new BiodataController();
+                $dataUserCurrent = $biodata->get_current_user();
+                $nama_lengkap = $dataUserCurrent["response"]["nama"];
+                $jenis_kelamin = $dataUserCurrent["response"]["personal"]["jns_kelamin"];
+                if ($jenis_kelamin == "Laki-laki") {
+                    $jenis_kelamin = "L";
+                } else {
+                    $jenis_kelamin = "P";
+                }
+                $tempat_lahir = $dataUserCurrent["response"]["personal"]["tempat_lahir"];
+                $tanggal_lahir = $dataUserCurrent["response"]["personal"]["tgl_lahir"];
+                $program_studi = $dataUserCurrent["response"]["nm_prodi"];
 
-            if (!$check) {
-                $this->ModelBiodata->insert_data_default($nim, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $program_studi);
+                if (!$check) {
+                    $this->ModelBiodata->insert_data_default($nim, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $program_studi);
+                }
+                return redirect()->to(base_url('dashboard'));
             }
-            return redirect()->to(base_url('dashboard'));
         } else {
+            session()->setFlashdata('status', 'NIM atau Password Salah');
             return redirect()->to(base_url('/'));
         }
 

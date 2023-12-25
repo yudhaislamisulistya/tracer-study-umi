@@ -61,18 +61,12 @@
             </div>
             <div class="d-flex flex-column">
                 <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-                    <?= get_data_registrasi(Session()->get('C_NPM'))->nama ?? 'Nama Lengkap' ?>
+                    <?= session()->get("C_NAMA") ?? 'Admin' ?>
                 </a>
                 <div class="text-muted mt-1">
-                    <?= get_data_registrasi(Session()->get('C_NPM'))->email ?? 'Email' ?>
+                    <?= session()->get("C_EMAIL") ?? 'admin-ts@umi.ac.id' ?>
                 </div>
                 <div class="navi mt-2">
-                    <a href="#" class="navi-item">
-                        <span class="navi-link p-0 pb-2">
-                            <span class="navi-text text-muted text-hover-primary"><?= get_data_registrasi(Session()->get('C_NPM'))->nomor_handphone ?? 'Nomor Handphone' ?></span>
-                        </span>
-                    </a>
-
                     <a href="<?= base_url('/logout') ?>" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
                 </div>
             </div>
@@ -84,6 +78,13 @@
         <!--end::Separator-->
 
         <!--begin::Nav-->
+        <?php
+        
+        if (session()->get('STATUS') == 'admin' || session()->get('STATUS') == 'admin-prodi'){
+
+        }else{
+        
+        ?>
         <div class="navi navi-spacer-x-0 p-0">
             <!--begin::Item-->
             <a href="<?= base_url('/biodata') ?>" class="navi-item">
@@ -114,6 +115,8 @@
             </a>
             <!--end:Item-->
         </div>
+
+        <?php } ?>
         <!--end::Nav-->
     </div>
     <!--end::Content-->

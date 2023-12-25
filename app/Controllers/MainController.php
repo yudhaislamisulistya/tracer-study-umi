@@ -41,6 +41,11 @@ class MainController extends BaseController
         $data = $biodataController->get_current_user();
         $data = $data["response"];
 
+        session()->set('C_STAMBUK', $data["personal"]["stambuk"]);
+        session()->set('C_NAMA', $data["personal"]["nama"]);
+        session()->set('C_EMAIL', $data["personal"]["email"]);
+        session()->set('C_JENIS_KELAMIN', $data["personal"]["jns_kelamin"]);
+
         return view('dashboard', compact('data'));
     }
 

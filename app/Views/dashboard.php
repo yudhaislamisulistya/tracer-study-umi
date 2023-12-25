@@ -116,7 +116,7 @@
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Negara</span>
                             <span
-                                class="font-weight-bolder font-size-h5"><?=  '<span class="text-danger">Belum Ada Data</span>' ?></span>
+                                class="font-weight-bolder font-size-h5"><?= get_data_country_by_id(get_data_biodata(Session()->get('C_NPM'))->negara)->name ?? '<span class="text-danger">Belum Ada Data</span>' ?></span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -129,7 +129,7 @@
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Provinsi</span>
                             <span
-                                class="font-weight-bolder font-size-h5"><?=  '<span class="text-danger">Belum Ada Data</span>' ?></span>
+                                class="font-weight-bolder font-size-h5"><?=  get_data_provinsi_with_id(get_data_biodata(Session()->get('C_NPM'))->provinsi)->name ?? '<span class="text-danger">Belum Ada Data</span>' ?></span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -142,7 +142,7 @@
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Kab/Kota</span>
                             <span
-                                class="font-weight-bolder font-size-h5"><?= '<span class="text-danger">Belum Ada Data</span>' ?></span>
+                                class="font-weight-bolder font-size-h5"><?= get_data_regencies_with_id(get_data_biodata(Session()->get('C_NPM'))->kabupaten)->name ?? '<span class="text-danger">Belum Ada Data</span>' ?></span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -154,7 +154,7 @@
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Pekerjaan</span>
                             <span
-                                class="font-weight-bolder font-size-h5"><?= '<span class="text-danger">Belum Ada Data</span>' ?></span>
+                                class="font-weight-bolder font-size-h5"><?= get_data_pekerjaan_by_id(get_data_biodata(Session()->get('C_NPM'))->jenis_pekerjaan)->nm_pekerjaan ?? '<span class="text-danger">Belum Ada Data</span>' ?></span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -167,7 +167,7 @@
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Nama Kantor/Perusahaan</span>
                             <span
-                                class="font-weight-bolder font-size-h5"><?='<span class="text-danger">Belum Ada Data</span>' ?></span>
+                                class="font-weight-bolder font-size-h5"><?= get_data_biodata(Session()->get('C_NPM'))->nama_perusahaan ?? '<span class="text-danger">Belum Ada Data</span>' ?></span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -180,7 +180,7 @@
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">Tanggal Masuk Kerja</span>
                             <span
-                                class="font-weight-bolder font-size-h5"><?= '<span class="text-danger">Belum Ada Data</span>' ?></span>
+                                class="font-weight-bolder font-size-h5"><?= get_data_biodata(Session()->get('C_NPM'))->tanggal_masuk_kerja ?? '<span class="text-danger">Belum Ada Data</span>' ?></span>
                         </div>
                     </div>
                     <!--end::Item-->
