@@ -46,6 +46,8 @@ class MainController extends BaseController
         session()->set('C_NAMA', $data["personal"]["nama"]);
         session()->set('C_EMAIL', $data["personal"]["email"]);
         session()->set('C_JENIS_KELAMIN', $data["personal"]["jns_kelamin"]);
+        session()->set('ID_PRODI', $data["id_prodi"]);
+        session()->set('NAMA_PRODI', $data["nm_prodi"]);
 
         return view('dashboard', compact('data'));
     }

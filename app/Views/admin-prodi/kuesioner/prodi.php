@@ -262,7 +262,7 @@ view('layouts/header');
                     </div>
                     <div class="form-group">
                         <label for="editNamaProdi">Prodi</label>
-                        <input type="text" class="form-control" id="nama_prodi" name="nama_prodi" value="<?= get_data_nama_prodi_with_kode($prodiIdSession)->NAMA_PRODI ?>" readonly>
+                        <input type="text" class="form-control" id="editNamaProdi" name="editNamaProdi" value="<?= get_data_nama_prodi_with_kode($prodiIdSession)->NAMA_PRODI ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="editPeriodeMulai">Periode Mulai</label>

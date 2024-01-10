@@ -2011,13 +2011,63 @@
                                     </div>
                                 </div>
                             </div>
+                            <?php
+
+                            $prodi = session()->get('NAMA_PRODI');
+                            $kuesioner_id = check_exist_data_kuesioner_optional_by_prodi($prodi);
+
+                            ?>
+
+                            <div class="card-body">
+                                <span id="kuesionerId" style="display: none;"><?= $kuesioner_id ?></span>
+                                <legend class="text-uppercase font-size-sm font-weight-bold">Kuesioner Optional (Program Studi)</legend>
+                                <?php if (!empty(get_data_pertanyaan_by_kuesioner_id($kuesioner_id)["pertanyaan"])) : ?>
+                                    <?php foreach (get_data_pertanyaan_by_kuesioner_id($kuesioner_id)["pertanyaan"] as $pertanyaan) : ?>
+                                        <div class="pertanyaan-item mb-3">
+                                            <div class="row">
+                                                <div class="col-md-6" style="align-self: center;">
+                                                    <h5><?= esc($pertanyaan->teks_pertanyaan) ?></h5>
+                                                </div>
+                                                <div class="col-md-6" style="align-self: center;">
+                                                    <?php if ($pertanyaan->tipe_pertanyaan != 'text' && !empty($pertanyaan->pilihan_jawaban)) : ?>
+                                                        <?php if ($pertanyaan->tipe_pertanyaan == 'checkbox') : ?>
+                                                            <div class="checkbox-group">
+                                                                <?php foreach ($pertanyaan->pilihan_jawaban as $pilihan) : ?>
+                                                                    <label class="checkbox-label">
+                                                                        <input type="checkbox" name="checkbox_<?= $pertanyaan->pertanyaan_id ?>[]" value="<?= esc($pilihan->teks_pilihan) ?>"> <?= esc($pilihan->teks_pilihan) ?>
+                                                                    </label>
+                                                                <?php endforeach; ?>
+                                                            </div>
+                                                        <?php elseif ($pertanyaan->tipe_pertanyaan == 'radio') : ?>
+                                                            <div class="radio-group">
+                                                                <?php foreach ($pertanyaan->pilihan_jawaban as $pilihan) : ?>
+                                                                    <label class="radio-label">
+                                                                        <input type="radio" name="radio_<?= $pertanyaan->pertanyaan_id ?>" value="<?= esc($pilihan->teks_pilihan) ?>"> <?= esc($pilihan->teks_pilihan) ?>
+                                                                    </label>
+                                                                <?php endforeach; ?>
+                                                            </div>
+                                                        <?php elseif ($pertanyaan->tipe_pertanyaan == 'option') : ?>
+                                                            <select class="form-control" name="select_<?= $pertanyaan->pertanyaan_id ?>">
+                                                                <?php foreach ($pertanyaan->pilihan_jawaban as $pilihan) : ?>
+                                                                    <option value="<?= esc($pilihan->teks_pilihan) ?>"><?= esc($pilihan->teks_pilihan) ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        <?php endif; ?>
+                                                    <?php elseif ($pertanyaan->tipe_pertanyaan == 'text') : ?>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" name="text_<?= $pertanyaan->pertanyaan_id ?>" value="<?= esc($pertanyaan->teks_pertanyaan) ?>">
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
                             <div class="text-center">
                                 <button type="submit" name="button" value="simpan" class="btn btn-primary" id="checkBtn">Simpan Data</button>
                                 <button type="button" id="btn-reset" class="btn btn-info" onClick='window.history.back()'>Batal</button>
                             </div>
-                            <!-- <center>
-                                                <button class="btn blue darken-2" type="submit" name="update" value="update">Simpan data</button>
-                                            </center> -->
                         </div>
                     </form>
                 </div>
