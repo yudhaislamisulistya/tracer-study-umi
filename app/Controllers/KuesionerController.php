@@ -429,6 +429,7 @@ class KuesionerController extends BaseController
                 'periode_mulai' => $this->request->getPost('periode_mulai'),
                 'periode_selesai' => $this->request->getPost('periode_selesai'),
             ];
+
             $query = $this->ModelKuesioner->insert_data($data);
 
             if ($query) {

@@ -880,7 +880,7 @@ view('layouts/footer');
     });
 </script>
 <script>
-    var HOST_URL = "http://localhost:8080"
+    var HOST_URL = "https://alumni.umi.ac.id/"
 </script>
 <script>
     $('#editProvinsi').on('change', function() {

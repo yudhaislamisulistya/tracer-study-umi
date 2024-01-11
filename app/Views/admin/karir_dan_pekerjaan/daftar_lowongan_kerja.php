@@ -316,7 +316,16 @@ view('layouts/header');
                         <label for="urlRegistration">URL Registration</label>
                         <input type="text" class="form-control" id="urlRegistration" name="url_registration" placeholder="https://example.com">
                     </div>
-
+                    <!-- Checkbox: Lewat Periode Perndaftaarn Tidak Tampil -->
+                    <div class="form-group">
+                        <div class="checkbox-inline">
+                            <label class="checkbox">
+                                <input type="checkbox" name="periode_tidak_tampil" id="periode_tidak_tampil"/>
+                                <span></span>
+                                Lewat Periode Pendaftaran Tidak Tampil
+                            </label>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -401,6 +410,8 @@ view('layouts/header');
                             <label for="editPeriodeSelesai">Periode Selesai</label>
                             <input type="date" class="form-control" id="editPeriodeSelesai" name="editPeriodeSelesai" placeholder="2021-01-01">
                         </div>
+
+
                     </div>
 
                     <!-- Deskripsi Pekerjaan, Keterampilan, Syarat Kerja, Manfaat, URL Registration -->
@@ -428,6 +439,16 @@ view('layouts/header');
                     <div class="form-group">
                         <label for="editUrlRegistration">URL Registration</label>
                         <input type="text" class="form-control" id="editUrlRegistration" name="editUrlRegistration" placeholder="https://example.com">
+                    </div>
+                    <!-- Checkbox: Lewat Periode Perndaftaarn Tidak Tampil -->
+                    <div class="form-group">
+                        <div class="checkbox-inline">
+                            <label class="checkbox">
+                                <input type="checkbox" name="editPeriodeTidakTampil" id="editPeriodeTidakTampil"/>
+                                <span></span>
+                                Lewat Periode Pendaftaran Tidak Tampil
+                            </label>
+                        </div>
                     </div>
 
                 </form>

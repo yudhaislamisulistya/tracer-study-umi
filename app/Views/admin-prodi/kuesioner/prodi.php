@@ -159,6 +159,7 @@ view('layouts/header');
                             <th>Nama Prodi</th>
                             <th>Periode Mulai</th>
                             <th>Periode Berakhir</th>
+                            <th>Status</th>
                             <th>Actions</th>
 
                         </tr>
@@ -174,6 +175,7 @@ view('layouts/header');
                             echo '<td>' . $value->nama_prodi . '</td>';
                             echo '<td>' . $value->periode_mulai . '</td>';
                             echo '<td>' . $value->periode_selesai . '</td>';
+                            echo '<td>' . $value->status . '</td>';
                             echo '<td nowrap="nowrap">';
                             echo '<a href="#" class="btn btn-sm btn-clean btn-icon mr-2 btn-edit" title="Edit details">';
                             echo '<i class="fas fa-edit"></i>';

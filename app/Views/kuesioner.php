@@ -41,4 +41,4 @@
 
 <?= view('layouts/footer.php') ?>
 <script>
-    var HOST_URL = "http://localhost:8080"
+    var HOST_URL = "https://alumni.umi.ac.id/"

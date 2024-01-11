@@ -204,21 +204,29 @@
                                     <label class="control-label col-sm-1 red-text">( f8 )</label>
                                     <label class="control-label col-sm-4">Jelaskan Status Anda Saat Ini? </label>
                                     <div class="col-sm-7">
-                                        <input value="1" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '1') {
-                                                                        echo "checked";
-                                                                    } ?> valuetable="" table-striped="" table-responsive="1" onclick="hideF8()" type="radio"> [1] Ya <br>
-                                        <input value="3" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '3') {
-                                                                        echo "checked";
-                                                                    } ?> valuetable="" table-striped="" table-responsive="1" onclick="showF5C()" type="radio"> [3] Wiraswasta <br>
-                                        <input value="4" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '4') {
-                                                                        echo "checked";
-                                                                    } ?> valuetable="" table-striped="" table-responsive="1" onclick="showF18()" type="radio"> [4] Melanjutkan Pendidikan <br>
-                                        <input value="5" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '5') {
-                                                                        echo "checked";
-                                                                    } ?> valuetable="" table-striped="" table-responsive="1" onclick="hideF8()" type="radio"> [5] Tidak Kerja Tetapi Sedang Mencari Kerja <br>
-                                        <input name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '2') {
-                                                                echo "checked";
-                                                            } ?> value="2" onclick="hideF8()" type="radio"> [2] Belum Memungkinan Bekerja
+                                        <div class="col-sm-7">
+
+                                            <input value="1" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '1') {
+                                                                            echo "checked";
+                                                                        } ?> valuetable="" table-striped="" table-responsive="1" onclick="hideF8()" type="radio"> [1] Ya <br>
+
+                                            <input value="2" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '2') {
+                                                                            echo "checked";
+                                                                        } ?> valuetable="" table-striped="" table-responsive="1" onclick="hideF8()" type="radio"> [2] Belum Memungkinan Bekerja<br>
+
+                                            <input value="3" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '3') {
+                                                                            echo "checked";
+                                                                        } ?> valuetable="" table-striped="" table-responsive="1" onclick="showF5C()" type="radio"> [3] Wiraswasta <br>
+
+                                            <input value="4" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '4') {
+                                                                            echo "checked";
+                                                                        } ?> valuetable="" table-striped="" table-responsive="1" onclick="showF18()" type="radio"> [4] Melanjutkan Pendidikan <br>
+
+                                            <input value="5" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '5') {
+                                                                            echo "checked";
+                                                                        } ?> valuetable="" table-striped="" table-responsive="1" onclick="hideF8()" type="radio"> [5] Tidak Kerja Tetapi Sedang Mencari Kerja <br>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -229,10 +237,10 @@
                                     <div class="col-sm-7">
                                         <input name="f504" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f504)) == '1') {
                                                                 echo "checked";
-                                                            } ?> value="1" required type="radio">[1] Dalam Berapa Bulan Anda Mendapatkan Pekerjaan <input name="f502" size="5" value="<?= get_data_lulusan(Session()->get('C_NPM'))->f502; ?>" class="width40" type="text"><small>(f5-02)</small><br /><br />
+                                                            } ?> value="1" required type="radio">&nbsp; Ya, [1] Dalam Berapa Bulan Anda Mendapatkan Pekerjaan <input name="f502" size="5" value="<?= get_data_lulusan(Session()->get('C_NPM'))->f502; ?>" class="width40" type="text"><small>(f5-02)</small><br /><br />
                                         <input name="f504" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f504)) == '2') {
                                                                 echo "checked";
-                                                            } ?> value="2" required type="radio">&nbsp;[2] Dalam Berapa Bulan Anda Mendapatkan Pekerjaan <input class="width40" name="f506" size="5" value="<?= get_data_lulusan(Session()->get('C_NPM'))->f506; ?>" type="text"><small>(f5-06)</small><br>
+                                                            } ?> value="2" required type="radio">&nbsp; Tidak, [2] Dalam Berapa Bulan Anda Mendapatkan Pekerjaan <input class="width40" name="f506" size="5" value="<?= get_data_lulusan(Session()->get('C_NPM'))->f506; ?>" type="text"><small>(f5-06)</small><br>
 
                                         <br><br>&nbsp;Berapa Rata-Rata Pendapatan Anda Perbulan? (take home pay) <input class="width40" name="f505" size="5" value="<?= get_data_lulusan(Session()->get('C_NPM'))->f505; ?>" type="text"><small>(f5-05)</small><br>
                                     </div>
@@ -281,10 +289,10 @@
                                                 <input name="f1101" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f1101)) == '1') {
                                                                         echo "checked";
                                                                     } ?> value="1" type="radio"> [1] Instansi pemerintah<br>
-                                                <input name="f1101" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f1101)) == '1') {
+                                                <input name="f1101" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f1101)) == '6') {
                                                                         echo "checked";
                                                                     } ?> value="6" type="radio"> [6] BUMN/BUMD<br>
-                                                <input name="f1101" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f1101)) == '1') {
+                                                <input name="f1101" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f1101)) == '7') {
                                                                         echo "checked";
                                                                     } ?> value="7" type="radio"> [7] Institusi/Organisasi Multilateral<br>
                                                 <input name="f1101" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f1101)) == '2') {
@@ -2080,7 +2088,7 @@
 
 <?= view('layouts/footer.php') ?>
 <script>
-    var HOST_URL = "http://localhost:8080"
+    var HOST_URL = "https://alumni.umi.ac.id/"
 </script>
 <script>
     $('#f5a1').on('click', function() {

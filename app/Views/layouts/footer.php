@@ -12,14 +12,14 @@
                 <?= date('Y') ?>
                 &copy;
             </span>
-            <a href="http://keenthemes.com/metronic" target="_blank" class="text-dark-75 text-hover-primary">Crafted with love by IT Team Development</a>
+            <a href="#" target="_blank" class="text-dark-75 text-hover-primary">Crafted with love by IT Team Development</a>
         </div>
         <!--end::Copyright-->
 
         <!--begin::Nav-->
-        <div class="nav nav-dark order-1 order-md-2">
+        <!-- <div class="nav nav-dark order-1 order-md-2">
             <a href="http://keenthemes.com/metronic" target="_blank" class="nav-link pl-3 pr-0">Manual Book</a>
-        </div>
+        </div> -->
         <!--end::Nav-->
     </div>
     <!--end::Container-->

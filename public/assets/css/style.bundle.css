@@ -61444,3 +61444,12 @@ body {
 @media (max-width: 425px) {
   .offcanvas-mobile {
     width: 90% !important; } }
+
+.aside {
+    display: block;
+}
+
+.content-wrapper {
+    margin-left: 250px; /* Asumsi lebar menu aside adalah 250px */
+}
+

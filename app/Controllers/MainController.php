@@ -198,6 +198,22 @@ class MainController extends BaseController
         return view('admin/statistik', $data);
     }
 
+    function admin_laporan()
+    {
+        $data['total_responden_by_program_studi'] = $this->ModelAlumni->get_total_responden_by_program_studi();
+        $data['total_responden'] = $this->ModelAlumni->get_total_responden()->total_responden;
+        $data['total_alumni_by_tahun_lulus'] = $this->ModelAlumni->get_total_alumni_by_tahun_lulus(2020)->total_alumni;
+        $data['total_responden_by_aktivitas_lulusan'] = $this->ModelAlumni->get_total_responden_by_aktivitas_lulusan();
+        $data['total_responden_by_sebaran_masa_tunggu'] = $this->ModelAlumni->get_total_responden_by_sebaran_masa_tunggu();
+        $data['total_responden_by_jenis_institusi'] = $this->ModelAlumni->get_total_responden_by_jenis_institusi();
+        $data['total_responden_by_tingkat_kerja'] = $this->ModelAlumni->get_total_responden_by_tingkat_kerja();
+        $data['total_responden_cek_penghasilan'] = $this->ModelAlumni->get_total_responden_cek_penghasilan();
+        $data['total_responden_tingkat_pendidikan'] = $this->ModelAlumni->get_total_responden_tingkat_pendidikan();
+        $data['total_responden_hubungan_studi'] = $this->ModelAlumni->get_total_responden_hubungan_studi();
+
+        return view('admin/report', $data);
+    }
+
     // Admin Prodi
     function admin_prodi_dashboard()
     {
@@ -210,4 +226,5 @@ class MainController extends BaseController
         $data['total_pekerjaan'] = $this->ModelPekerjaan->get_total_pekerjaan()->total_pekerjaan;
         return view('admin-prodi/dashboard', $data);
     }
+
 }

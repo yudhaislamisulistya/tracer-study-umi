@@ -726,7 +726,7 @@ License: You must have a valid license purchased only from themeforest(the above
     </div>
 
     <script>
-        var HOST_URL = "http://localhost:8080";
+        var HOST_URL = "https://alumni.umi.ac.id/";
     </script>
     <!--begin::Footer-->
     <!--doc: add "bg-white" class to have footer with solod background color-->
@@ -829,5 +829,5 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="http://localhost:8080/assets/js/sweetalert2.init.js"></script>
     <script src="http://localhost:8080/assets/js/pages/crud/forms/validation/form-widgets.js"></script>
     <script>
-        var HOST_URL = "http://localhost:8080"
+        var HOST_URL = "https://alumni.umi.ac.id/"
     </script>

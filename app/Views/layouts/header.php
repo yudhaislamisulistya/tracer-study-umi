@@ -316,6 +316,12 @@ if (session()->get('STATUS') == 'alumni') {
                                                                     <span class="menu-text">Statistik</span>
                                                                 </a>
                                                             </li>
+                                                            <li class="menu-item " aria-haspopup="true">
+                                                                <a href="<?= route_to('admin_laporan') ?>" class="menu-link ">
+                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
+                                                                    <span class="menu-text">Laporan</span>
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </li>
@@ -374,7 +380,7 @@ if (session()->get('STATUS') == 'alumni') {
                                                             <li class="menu-item " aria-haspopup="true">
                                                                 <a href="<?= route_to('admin_perusahaan_alumni') ?>" class="menu-link ">
                                                                     <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                    <span class="menu-text">Daftar Perusahaan Alumni</span>
+                                                                    <span class="menu-text">Daftar Perusahaan Pengguna Alumni</span>
                                                                 </a>
                                                             </li>
                                                         </ul>

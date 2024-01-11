@@ -159,6 +159,7 @@ view('layouts/header');
                             <th>Nama Prodi</th>
                             <th>Periode Mulai</th>
                             <th>Periode Berakhir</th>
+                            <th>Status</th>
                             <th>Actions</th>
 
                         </tr>
@@ -167,12 +168,19 @@ view('layouts/header');
                         <!-- Get Data Kuesioner -->
                         <?php
                         foreach (get_data_kuesioner() as $key => $value) {
+                            if ($value->status == "aktif") {
+                                $value->status = '<span class="label label-inline label-light-success font-weight-bold">Aktif</span>';
+                            } else {
+                                $value->status = '<span class="label label-inline label-light-danger font-weight-bold">Tidak Aktif</span>';
+                            }
+
                             echo '<tr>';
                             echo '<td>' . $value->kuesioner_id . '</td>';
                             echo '<td>' . $value->nama_kuesioner . '</td>';
                             echo '<td>' . $value->nama_prodi . '</td>';
                             echo '<td>' . $value->periode_mulai . '</td>';
                             echo '<td>' . $value->periode_selesai . '</td>';
+                            echo '<td>' . $value->status . '</td>';
                             echo '<td nowrap="nowrap">';
                             echo '<a href="#" class="btn btn-sm btn-clean btn-icon mr-2 btn-edit" title="Edit details">';
                             echo '<i class="fas fa-edit"></i>';

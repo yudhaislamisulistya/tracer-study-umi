@@ -96,6 +96,7 @@ class LowonganKerjaController extends BaseController
                 'periode_mulai' => $this->request->getPost('periode_mulai'),
                 'periode_selesai' => $this->request->getPost('periode_selesai'),
                 'url_registration' => $this->request->getPost('url_registration'),
+                'tampilkan_berdasarkan_periode' => $this->request->getPost('periode_tidak_tampil') == 'on' ? 0 : 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ];
@@ -158,6 +159,7 @@ class LowonganKerjaController extends BaseController
                 'periode_mulai' => $this->request->getPost('editPeriodeMulai'),
                 'periode_selesai' => $this->request->getPost('editPeriodeSelesai'),
                 'url_registration' => $this->request->getPost('editUrlRegistration'),
+                'tampilkan_berdasarkan_periode' => $this->request->getPost('editPeriodeTidakTampil') == 'on' ? 0 : 1,
                 'updated_at' => date('Y-m-d H:i:s'),
             ];
 
