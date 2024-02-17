@@ -4,6 +4,14 @@ view('layouts/header');
 
 ?>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Load jQuery UI -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
 <style>
     .ml-auto {
         position: relative;
@@ -26,6 +34,21 @@ view('layouts/header');
     .radio-group,
     .form-control {
         margin-top: 5px;
+    }
+
+    .handle {
+        cursor: move;
+        margin-right: 10px;
+        display: inline-block;
+    }
+
+    .ui-state-highlight {
+        height: 50px;
+        background-color: #fafafa;
+        border: 1px dashed #ccc;
+        margin-bottom: 5px;
+        width: 100%;
+        padding: 30px !important;
     }
 </style>
 
@@ -95,11 +118,11 @@ view('layouts/header');
             <div class="card-body">
                 <span id="kuesionerId" style="display: none;"><?= $data["kuesioner"]->kuesioner_id ?></span>
                 <?php if (!empty($data['pertanyaan'])) : ?>
-                    <div id="daftarPertanyaan">
+                    <div id="daftarPertanyaan" class="sortableList">
                         <?php foreach ($data['pertanyaan'] as $pertanyaan) : ?>
                             <div class="pertanyaan-item mb-3">
                                 <div class="row">
-                                    <div class="col-md-6" style="align-self: center;">
+                                    <div class="col-md-5" style="align-self: center;">
                                         <h5><?= esc($pertanyaan->teks_pertanyaan) ?></h5>
                                     </div>
                                     <div class="col-md-6" style="align-self: center;">
@@ -132,6 +155,12 @@ view('layouts/header');
                                                 <input type="text" class="form-control" value="<?= esc($pertanyaan->teks_pertanyaan) ?>" disabled>
                                             </div>
                                         <?php endif; ?>
+                                    </div>
+                                    <div class="col-md-1" style="align-self: center;">
+                                        <!-- Tombol Delete -->
+                                        <button class="btn btn-danger btn-sm btnHapusPertanyaan" data-pertanyaan-id="<?= $pertanyaan->pertanyaan_id ?>">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -179,6 +208,18 @@ view('layouts/footer');
 
 <script>
     $(document).ready(function() {
+        // Fungsi untuk menginisialisasi sortable
+        function initializeSortable() {
+            $("#daftarPertanyaan").sortable({
+                placeholder: "ui-state-highlight",
+                handle: ".handle",
+                cursor: "move",
+            }).disableSelection();
+        }
+
+        // Inisialisasi sortable untuk pertama kali
+        initializeSortable();
+
         toastr.options = {
             "closeButton": true,
             "debug": false,
@@ -226,7 +267,9 @@ view('layouts/footer');
             var teksNomor = 'Pertanyaan ' + nomorPertanyaan;
 
             var idPertanyaan = 'pertanyaan-' + Date.now();
-            var html = '<div class="pertanyaan-item mb-3" id="' + idPertanyaan + '" data-tipe="' + jenis + '">';
+            var html = '<div style="padding: 10px;" class="pertanyaan-item mb-3 ui-state-default" id="' + idPertanyaan + '" data-tipe="' + jenis + '">';
+            html += '<div class="handle">☰</div>'; // Tambahkan handle untuk drag dan drop
+
 
 
             html += '<label>' + teksNomor + '</label>';
@@ -242,6 +285,7 @@ view('layouts/footer');
             html += '</div>';
 
             $('#daftarPertanyaan').append(html);
+            initializeSortable();
         }
 
         $('#daftarPertanyaan').on('click', '.btnTambahOpsi', function() {
@@ -314,6 +358,34 @@ view('layouts/footer');
                     $('#loadingIndicator').modal('hide');
                 }
             });
+        });
+
+        // Handler untuk tombol hapus pertanyaan
+        $('.btnHapusPertanyaan').on('click', function() {
+            var pertanyaanId = $(this).data('pertanyaan-id');
+            if (confirm('Apakah Anda yakin ingin menghapus pertanyaan ini?')) {
+                // Menghapus pertanyaan menggunakan AJAX
+                $.ajax({
+                    url: '/api-v2/kuesioner-prodi/delete_question', // Ganti dengan URL endpoint penghapusan pertanyaan Anda
+                    type: 'POST',
+                    data: {
+                        id: pertanyaanId
+                    },
+                    success: function(response) {
+                        // Menampilkan toast dengan pesan bahwa halaman akan di-reload dalam 2 detik
+                        toastr.success(`Pertanyaan berhasil dihapus. Reloading dalam 2 detik...`);
+
+                        // Mengatur timeout untuk reload halaman setelah 2 detik
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 2000); // 2000 milidetik = 2 detik
+                    },
+                    error: function(xhr, status, error) {
+                        // Logika untuk menghandle error
+                        toastr.error('Gagal menghapus pertanyaan.');
+                    }
+                });
+            }
         });
 
         $(document).on('click', function(event) {

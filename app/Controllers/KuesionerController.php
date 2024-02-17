@@ -588,4 +588,27 @@ class KuesionerController extends BaseController
             return $this->response->setJSON($response);
         }
     }
+
+    function delete_question()
+    {
+        $id = $this->request->getPost('id');
+        $query = $this->ModelKuesioner->delete_question($id);
+        if ($query) {
+            $response = [
+                'status' => 200,
+                'error' => false,
+                'message' => 'success',
+                'data' => $id
+            ];
+            return $this->response->setJSON($response);
+        } else {
+            $response = [
+                'status' => 500,
+                'error' => true,
+                'message' => 'error',
+                'data' => $id
+            ];
+            return $this->response->setJSON($response);
+        }
+    }
 }

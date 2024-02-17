@@ -197,6 +197,7 @@
         "font-family": "Poppins"
     };
 </script>
+
 <script src="<?= base_url() ?>/assets/plugins/global/plugins.bundle.js"></script>
 <script src="<?= base_url() ?>/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="<?= base_url() ?>/assets/js/scripts.bundle.js"></script>
@@ -208,3 +209,4 @@
 <script src="<?= base_url() ?>/assets/js/pages/crud/ktdatatable/api/methods.js"></script>
 <script src="<?= base_url() ?>/assets/js/sweetalert2.init.js"></script>
 <script src="<?= base_url() ?>/assets/js/pages/crud/forms/validation/form-widgets.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

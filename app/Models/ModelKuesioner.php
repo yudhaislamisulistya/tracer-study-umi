@@ -190,5 +190,33 @@ class ModelKuesioner extends Model
         }
     }
 
-    
+    function delete_question($id)
+    {
+        $this->dbext_tracer->transStart(); // Mulai transaksi
+
+        try {
+            // Pertama, hapus semua pilihan jawaban yang terkait dengan pertanyaan ini
+            $this->dbext_tracer->table('kuesioner_pilihan_jawaban')
+                ->where('pertanyaan_id', $id)
+                ->delete();
+
+            // Kemudian, hapus pertanyaan itu sendiri
+            $this->dbext_tracer->table('kuesioner_pertanyaan')
+                ->where('pertanyaan_id', $id)
+                ->delete();
+
+            $this->dbext_tracer->transComplete(); // Selesaikan transaksi
+
+            if ($this->dbext_tracer->transStatus() === FALSE) {
+                // Transaksi gagal
+                return 0;
+            } else {
+                // Transaksi berhasil
+                return 1;
+            }
+        } catch (\Exception $th) {
+            $this->dbext_tracer->transRollback(); // Rollback transaksi jika terjadi kesalahan
+            return 0;
+        }
+    }
 }

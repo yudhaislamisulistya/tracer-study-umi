@@ -198,6 +198,7 @@
                         </div>
                         <!-- panel tracer start-->
                         <legend class="text-uppercase font-size-sm font-weight-bold">Kuesioner Wajib</legend>
+                        <hr />
                         <div class="card-body">
                             <div id="f8" class="form-group">
                                 <div class="row">
@@ -2027,14 +2028,15 @@
                             ?>
 
                             <div class="card-body">
-                                <span id="kuesionerId" style="display: none;"><?= $kuesioner_id ?></span>
-                                <legend class="text-uppercase font-size-sm font-weight-bold">Kuesioner Optional (Program Studi)</legend>
                                 <?php if (!empty(get_data_pertanyaan_by_kuesioner_id($kuesioner_id)["pertanyaan"])) : ?>
+                                    <legend class="text-uppercase font-size-sm font-weight-bold">Kuesioner Optional (Program Studi)</legend>
+                                    <hr />
+                                    <span id="kuesionerId" style="display: none;"><?= $kuesioner_id ?></span>
                                     <?php foreach (get_data_pertanyaan_by_kuesioner_id($kuesioner_id)["pertanyaan"] as $pertanyaan) : ?>
                                         <div class="pertanyaan-item mb-3">
                                             <div class="row">
                                                 <div class="col-md-6" style="align-self: center;">
-                                                    <h5><?= esc($pertanyaan->teks_pertanyaan) ?></h5>
+                                                    <h6><?= esc($pertanyaan->teks_pertanyaan) ?></h6>
                                                 </div>
                                                 <div class="col-md-6" style="align-self: center;">
                                                     <?php if ($pertanyaan->tipe_pertanyaan != 'text' && !empty($pertanyaan->pilihan_jawaban)) : ?>

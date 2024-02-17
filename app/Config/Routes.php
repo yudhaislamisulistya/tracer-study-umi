@@ -254,6 +254,7 @@ $routes->group('api-v2', function ($routes) {
     });
     $routes->group('kuesioner-prodi', function ($routes) {
         $routes->post('save_all_questions', 'KuesionerController::save_all_questions');
+        $routes->post('delete_question', 'KuesionerController::delete_question');
     });
 });
 
