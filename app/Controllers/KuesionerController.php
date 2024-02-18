@@ -342,13 +342,50 @@ class KuesionerController extends BaseController
             'waktu_pengisian' => date('Y-m-d H:i:s')
         );
 
-        if ($this->ModelKuesioner->update_biodata($data)) {
-            session()->setFlashdata('status', 'berhasil');
-            return redirect()->to(base_url('kuesioner'));
-        } else {
-            session()->setFlashdata('status', 'gagal');
-            return redirect()->to(base_url('kuesioner'));
+        // Mendapatkan nilai kuesionerId
+        $kuesionerId = $this->request->getPost('kuesionerId');
+
+        // Inisialisasi array untuk menyimpan data yang akan disimpan
+        $dataToSave = [
+            'kuesionerId' => $kuesionerId,
+        ];
+
+        // Loop melalui pertanyaan-pertanyaan
+        foreach (get_data_pertanyaan_by_kuesioner_id($kuesionerId)["pertanyaan"] as $pertanyaan) {
+            // Mendapatkan nilai berdasarkan pertanyaan_id
+            $pertanyaanId = $pertanyaan->pertanyaan_id;
+
+            // Mengambil nilai dari input sesuai dengan tipe pertanyaan
+            if ($pertanyaan->tipe_pertanyaan != 'text' && !empty($pertanyaan->pilihan_jawaban)) {
+                if ($pertanyaan->tipe_pertanyaan == 'checkbox') {
+                    // Checkbox
+                    $checkboxValues = $this->request->getPost('checkbox_' . $pertanyaanId);
+                    $dataToSave['checkbox_' . $pertanyaanId] = $checkboxValues;
+                } elseif ($pertanyaan->tipe_pertanyaan == 'radio') {
+                    // Radio
+                    $radioValue = $this->request->getPost('radio_' . $pertanyaanId);
+                    $dataToSave['radio_' . $pertanyaanId] = $radioValue;
+                } elseif ($pertanyaan->tipe_pertanyaan == 'option') {
+                    // Dropdown
+                    $selectValue = $this->request->getPost('select_' . $pertanyaanId);
+                    $dataToSave['select_' . $pertanyaanId] = $selectValue;
+                }
+            } elseif ($pertanyaan->tipe_pertanyaan == 'text') {
+                // Text
+                $textValue = $this->request->getPost('text_' . $pertanyaanId);
+                $dataToSave['text_' . $pertanyaanId] = $textValue;
+            }
         }
+
+        var_dump($dataToSave);
+
+        // if ($this->ModelKuesioner->update_biodata($data)) {
+        //     session()->setFlashdata('status', 'berhasil');
+        //     return redirect()->to(base_url('kuesioner'));
+        // } else {
+        //     session()->setFlashdata('status', 'gagal');
+        //     return redirect()->to(base_url('kuesioner'));
+        // }
     }
 
     // Admin Kuisioner Umum
