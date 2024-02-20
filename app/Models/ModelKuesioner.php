@@ -152,6 +152,18 @@ class ModelKuesioner extends Model
         }
     }
 
+    public function get_jawaban_by_kuesioner($id)
+    {
+        try {
+            $data = $this->dbext_tracer->table('kuesioner_jawaban')
+                ->where('kuesioner_id', $id)
+                ->get()->getResult();
+            return $data;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
     public function insert_question($data)
     {
         try {
