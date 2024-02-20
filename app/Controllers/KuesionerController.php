@@ -546,6 +546,23 @@ class KuesionerController extends BaseController
         return view('admin/kuesioner/prodi_detail', compact('data'));
     }
 
+    // Kuesioner Prodi Chart
+    function admin_kuesioner_prodi_detail_chart($id){
+        $data['kuesioner'] = $this->ModelKuesioner->get_kuesioner_prodi_detail($id);
+        $data['pertanyaan'] = $this->ModelKuesioner->get_pertanyaan_by_kuesioner($id);
+        $data['jawaban'] = $this->ModelKuesioner->get_jawaban_by_kuesioner($id);
+
+        foreach ($data['pertanyaan'] as $key => $pertanyaan) {
+            $data['pertanyaan'][$key]->pilihan_jawaban = $this->ModelKuesioner->get_pilihan_jawaban_by_pertanyaan($pertanyaan->pertanyaan_id);
+        }
+
+        // return json
+        // return $this->response->setJSON($data);
+
+        return view('admin/kuesioner/prodi_detail_chart', compact('data'));
+    }
+    // End Kuesioner Prodi Chart
+
 
     // FOR API
     public function add_question()
