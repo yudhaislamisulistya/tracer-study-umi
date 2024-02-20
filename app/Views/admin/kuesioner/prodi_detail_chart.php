@@ -65,18 +65,18 @@ view('layouts/header');
                                 <div class="card-body">
                                     <div class="row">
                                         <?php
-                                        
-                                        if ($pertanyaan->tipe_pertanyaan != 'text'){
-                                        
+
+                                        if ($pertanyaan->tipe_pertanyaan != 'text') {
+
                                         ?>
-                                        <div class="col-md-12">
-                                            <label for="chartTypeField_<?= $pertanyaan->pertanyaan_id ?>">Pilih Tipe Chart</label>
-                                            <select class="form-control" id="chartTypeField_<?= $pertanyaan->pertanyaan_id ?>" data-id="<?= $pertanyaan->pertanyaan_id ?>" onchange="updateChartType(this)">
-                                                <option value="table">Table Chart</option>
-                                                <option value="pie">Pie Chart</option>
-                                                <option value="bar">Bar Chart</option>
-                                            </select>
-                                        </div>
+                                            <div class="col-md-12">
+                                                <label for="chartTypeField_<?= $pertanyaan->pertanyaan_id ?>">Pilih Tipe Chart</label>
+                                                <select class="form-control" id="chartTypeField_<?= $pertanyaan->pertanyaan_id ?>" data-id="<?= $pertanyaan->pertanyaan_id ?>" onchange="updateChartType(this)">
+                                                    <option value="table">Table Chart</option>
+                                                    <option value="pie">Pie Chart</option>
+                                                    <option value="bar">Bar Chart</option>
+                                                </select>
+                                            </div>
 
                                         <?php } ?>
                                         <div class="col-md-12 chart-container">
@@ -175,21 +175,21 @@ view('layouts/header');
                                                         <?php endforeach; ?>
                                                     </tbody>
                                                 </table>
-                                    </div>
-                                <?php endif; ?>
-                            <?php else : ?>
-                                <div class="mt-3">
-                                    <ul class="list-group">
-                                        <?php foreach ($data['jawaban'] as $jawaban) : ?>
-                                            <?php if ($jawaban->pertanyaan_id == $pertanyaan->pertanyaan_id) : ?>
-                                                <li class="list-group-item">
-                                                    <?= $jawaban->jawaban_text ?>
-                                                </li>
                                             <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            <?php endif; ?>
+                                        <?php else : ?>
+                                            <div class="mt-3">
+                                                <ul class="list-group">
+                                                    <?php foreach ($data['jawaban'] as $jawaban) : ?>
+                                                        <?php if ($jawaban->pertanyaan_id == $pertanyaan->pertanyaan_id) : ?>
+                                                            <li class="list-group-item">
+                                                                <?= $jawaban->jawaban_text ?>
+                                                            </li>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
