@@ -106,6 +106,7 @@ $routes->group('admin-prodi', ['filter' => 'auth'], function ($routes) {
             $routes->post('delete', 'KuesionerController::delete', ['as' => 'admin_prodi_kuesioner_prodi_delete']);
             $routes->post('update', 'KuesionerController::update', ['as' => 'admin_prodi_kuesioner_prodi_update']);
             $routes->get('detail/(:any)', 'KuesionerController::admin_kuesioner_prodi_detail/$1', ['as' => 'admin_prodi_kuesioner_prodi_detail']);
+            $routes->get('detail-chart/(:any)', 'KuesionerController::admin_kuesioner_prodi_detail_chart/$1', ['as' => 'admin_prodi_kuesioner_prodi_detail_chart']);
         });
     });
 });
@@ -227,6 +228,7 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
             $routes->post('update', 'KuesionerController::update', ['as' => 'admin_kuesioner_prodi_update']);
             $routes->get('detail/(:any)', 'KuesionerController::admin_kuesioner_prodi_detail/$1', ['as' => 'admin_kuesioner_prodi_detail']);
             $routes->get('detail-chart/(:any)', 'KuesionerController::admin_kuesioner_prodi_detail_chart/$1', ['as' => 'admin_kuesioner_prodi_detail_chart']);
+            $routes->get('download/(:any)', 'KuesionerController::admin_kuesioner_prodi_download/$1', ['as' => 'admin_kuesioner_prodi_download']);
         });
 
         $routes->group('universitas-umum', function ($routes) {

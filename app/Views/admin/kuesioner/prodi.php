@@ -192,9 +192,14 @@ view('layouts/header');
                             // add detail button here for add question and answer for each kuesioner
                             echo '<a href="' . route_to('admin_kuesioner_prodi_detail', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
                             echo '<i class="fas fa-eye"></i>';
+                            echo '</a>';
                             // add detail button chart
                             echo '<a href="' . route_to('admin_kuesioner_prodi_detail_chart', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
                             echo '<i class="fas fa-chart-bar"></i>';
+                            echo '</a>';
+                            // add download icon
+                            echo '<a href="' . route_to('admin_kuesioner_prodi_download', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
+                            echo '<i class="fas fa-download"></i>';
                             echo '</a>';
                             echo '</td>';
                             echo '</tr>';

@@ -547,7 +547,8 @@ class KuesionerController extends BaseController
     }
 
     // Kuesioner Prodi Chart
-    function admin_kuesioner_prodi_detail_chart($id){
+    function admin_kuesioner_prodi_detail_chart($id)
+    {
         $data['kuesioner'] = $this->ModelKuesioner->get_kuesioner_prodi_detail($id);
         $data['pertanyaan'] = $this->ModelKuesioner->get_pertanyaan_by_kuesioner($id);
         $data['jawaban'] = $this->ModelKuesioner->get_jawaban_by_kuesioner($id);
@@ -556,13 +557,125 @@ class KuesionerController extends BaseController
             $data['pertanyaan'][$key]->pilihan_jawaban = $this->ModelKuesioner->get_pilihan_jawaban_by_pertanyaan($pertanyaan->pertanyaan_id);
         }
 
-        // return json
+        // json response
         // return $this->response->setJSON($data);
 
         return view('admin/kuesioner/prodi_detail_chart', compact('data'));
     }
     // End Kuesioner Prodi Chart
 
+    // Download Kuesioner Prodi with Excel
+    function admin_kuesioner_prodi_download($id)
+    {
+        try {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $data['kuesioner'] = $this->ModelKuesioner->get_kuesioner_prodi_detail($id);
+            $data['pertanyaan'] = $this->ModelKuesioner->get_pertanyaan_by_kuesioner($id);
+            $data['jawaban'] = $this->ModelKuesioner->get_jawaban_by_kuesioner($id);
+
+            foreach ($data['pertanyaan'] as $key => $pertanyaan) {
+                $data['pertanyaan'][$key]->pilihan_jawaban = $this->ModelKuesioner->get_pilihan_jawaban_by_pertanyaan($pertanyaan->pertanyaan_id);
+            }
+
+            // Headers
+            $headers = ['no', 'nim'];
+            foreach ($data['pertanyaan'] as $pertanyaan) {
+                $headers[] = $pertanyaan->teks_pertanyaan;
+            }
+            $headers[] = 'tanggal pengisian';
+
+            $columnLetter = 'A';
+            foreach ($headers as $header) {
+                $sheet->setCellValue($columnLetter . '1', $header);
+                $columnLetter++;
+            }
+
+            $rowCount = 2;
+            $uniqueNIMs = [];
+
+            foreach ($data['jawaban'] as $jawaban) {
+                // Check if the NIM has already been processed
+                if (in_array($jawaban->nimhsmsmh, $uniqueNIMs)) {
+                    continue;
+                }
+
+                $sheet->setCellValue('A' . $rowCount, $rowCount - 1); // No
+                $sheet->setCellValue('B' . $rowCount, $jawaban->nimhsmsmh); // NIM
+                $uniqueNIMs[] = $jawaban->nimhsmsmh; // Add NIM to the set
+
+                $columnLetter = 'C';
+
+                foreach ($data['pertanyaan'] as $pertanyaan) {
+                    $jawabanText = ''; // Default value if the answer doesn't exist
+
+                    // Check if the question is of type 'text'
+                    if ($pertanyaan->tipe_pertanyaan == 'text') {
+                        // For 'text' type questions, directly get the answer
+                        foreach ($data['jawaban'] as $answer) {
+                            if ($answer->pertanyaan_id == $pertanyaan->pertanyaan_id) {
+                                $jawabanText = $answer->jawaban_text;
+                                break;
+                            }
+                        }
+                    } else {
+                        // For other question types (checkbox, option, radio), check if the answer exists in pilihan_jawaban
+                        foreach ($data['jawaban'] as $answer) {
+                            if ($answer->pertanyaan_id == $pertanyaan->pertanyaan_id) {
+                                if ($pertanyaan->tipe_pertanyaan == 'radio' || $pertanyaan->tipe_pertanyaan == 'option') {
+                                    foreach ($pertanyaan->pilihan_jawaban as $pilihan) {
+                                        if ($answer->jawaban_text == $pilihan->teks_pilihan) {
+                                            $jawabanText = $pilihan->teks_pilihan;
+                                            break;
+                                        }
+                                    }
+                                } elseif ($pertanyaan->tipe_pertanyaan == 'checkbox') {
+                                    $selectedValues = explode(',', $answer->jawaban_text);
+                                    $checkboxJawabanText = [];
+
+                                    foreach ($pertanyaan->pilihan_jawaban as $pilihan) {
+                                        if (in_array($pilihan->teks_pilihan, $selectedValues)) {
+                                            $checkboxJawabanText[] = $pilihan->teks_pilihan;
+                                        }
+                                    }
+
+                                    $jawabanText = implode(', ', $checkboxJawabanText);
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+
+                    $sheet->setCellValue($columnLetter . $rowCount, $jawabanText);
+                    $columnLetter++;
+                }
+
+
+                $sheet->setCellValue($columnLetter . $rowCount, $jawaban->created_at);
+                $rowCount++;
+            }
+
+
+
+
+            $filename = 'Kuesioner Prodi ' . $data['kuesioner']->nama_prodi . ' ' . date('Y-m-d h:i:s') . '.xlsx';
+
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+
+            ob_start();
+            $writer = new Xlsx($spreadsheet);
+            $writer->save('php://output');
+            ob_end_flush();
+            exit;
+        } catch (\Exception $th) {
+            return redirect()->back();
+        }
+    }
+    // End Download Kuesioner Prodi with Excel
 
     // FOR API
     public function add_question()

@@ -169,6 +169,11 @@ view('layouts/header');
                         <?php
                         $prodiIdSession = session()->get('ID_PRODI');
                         foreach (get_data_kuesioner_by_nama_prodi(get_data_nama_prodi_with_kode($prodiIdSession)->NAMA_PRODI) as $key => $value) {
+                            if ($value->status == "aktif") {
+                                $value->status = '<span class="label label-inline label-light-success font-weight-bold">Aktif</span>';
+                            } else {
+                                $value->status = '<span class="label label-inline label-light-danger font-weight-bold">Tidak Aktif</span>';
+                            }
                             echo '<tr>';
                             echo '<td>' . $value->kuesioner_id . '</td>';
                             echo '<td>' . $value->nama_kuesioner . '</td>';
@@ -185,8 +190,11 @@ view('layouts/header');
                             echo '<i class="fas fa-trash"></i>';
                             echo '</a>';
                             // add detail button here for add question and answer for each kuesioner
-                            echo '<a href="' . route_to('admin_kuesioner_prodi_detail', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
+                            echo '<a href="' . route_to('admin_prodi_kuesioner_prodi_detail', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
                             echo '<i class="fas fa-eye"></i>';
+                            // add detail button chart
+                            echo '<a href="' . route_to('admin_prodi_kuesioner_prodi_detail_chart', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
+                            echo '<i class="fas fa-chart-bar"></i>';
                             echo '</a>';
                             echo '</td>';
                             echo '</tr>';
