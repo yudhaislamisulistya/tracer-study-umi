@@ -64,20 +64,26 @@ view('layouts/header');
                             <div class="collapse" id="pertanyaan-<?= $pertanyaan->pertanyaan_id ?>">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <?php
+                                        
+                                        if ($pertanyaan->tipe_pertanyaan != 'text'){
+                                        
+                                        ?>
+                                        <div class="col-md-12">
                                             <label for="chartTypeField_<?= $pertanyaan->pertanyaan_id ?>">Pilih Tipe Chart</label>
-                                            <select class="form-control" id="chartTypeField_<?= $pertanyaan->pertanyaan_id ?>">
+                                            <select class="form-control" id="chartTypeField_<?= $pertanyaan->pertanyaan_id ?>" data-id="<?= $pertanyaan->pertanyaan_id ?>" onchange="updateChartType(this)">
                                                 <option value="table">Table Chart</option>
                                                 <option value="pie">Pie Chart</option>
                                                 <option value="bar">Bar Chart</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-8 chart-container">
+
+                                        <?php } ?>
+                                        <div class="col-md-12 chart-container">
                                             <div id="chart-pertanyaan-<?= $pertanyaan->pertanyaan_id ?>"></div>
                                         </div>
                                     </div>
-
-                                    <div class="mt-3">
+                                    <div id='choicePertanyaan-<?= $pertanyaan->pertanyaan_id ?>' class="mt-3" style="text-align: -webkit-center;">
                                         <?php if ($pertanyaan->tipe_pertanyaan != 'text') : ?>
                                             <?php if ($pertanyaan->tipe_pertanyaan == 'checkbox') : ?>
                                                 <table class="table table-bordered">
@@ -205,39 +211,152 @@ view('layouts/footer');
 
 <script>
     var jawabanData = <?= json_encode($data['jawaban']) ?>;
-    var KTApexCharts = function() {
-        var _demo1 = function() {
-            var options = {
-                series: [],
-                chart: {
-                    height: 350,
-                    type: 'bar',
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: true,
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                xaxis: {
-                    categories: [],
-                }
-            };
+    var pertanyaanData = <?= json_encode($data['pertanyaan']) ?>;
 
-            var chart = new ApexCharts(document.querySelector("#chart-pertanyaan-<?= $pertanyaan->pertanyaan_id ?>"), options);
-            chart.render();
+    function updateChartType(e) {
+        var id = $(e).data('id');
+        var chartType = $(e).val();
+        var tipePertanyaan = pertanyaanData.find(pertanyaan => pertanyaan.pertanyaan_id == id).tipe_pertanyaan;
+
+        // Remove existing chart container
+        $('#chart-pertanyaan-' + id).remove();
+
+        if (chartType !== 'table') {
+            // Create a new container for the chart
+            var newChartContainer = '<div id="chart-pertanyaan-' + id + '"></div>';
+
+            // Append the new container to the right place
+            $('#choicePertanyaan-' + id).html(newChartContainer);
         }
 
-        return {
-            init: function() {
-                _demo1();
-            }
-        };
-    }();
+        if (tipePertanyaan == 'checkbox' || tipePertanyaan == 'radio' || tipePertanyaan == 'option') {
+            if (chartType == 'table') {
+                // Handle table chart
+                var table = '<table class="table table-bordered">';
+                table += '<thead>';
+                table += '<tr>';
+                table += '<th>Pilihan Jawaban</th>';
+                table += '<th>Jumlah Jawaban</th>';
+                table += '</tr>';
+                table += '</thead>';
+                table += '<tbody>';
+                var jawabanPilihan = {};
+                pertanyaanData.find(pertanyaan => pertanyaan.pertanyaan_id == id).pilihan_jawaban.forEach(pilihan => {
+                    jawabanPilihan[pilihan.teks_pilihan] = 0;
+                });
+                jawabanData.forEach(jawaban => {
+                    if (jawaban.pertanyaan_id == id) {
+                        var pilihanJawaban = jawaban.jawaban_text.split(',');
+                        pilihanJawaban.forEach(pilihan => {
+                            jawabanPilihan[pilihan]++;
+                        });
+                    }
+                });
+                pertanyaanData.find(pertanyaan => pertanyaan.pertanyaan_id == id).pilihan_jawaban.forEach(pilihan => {
+                    table += '<tr>';
+                    table += '<td>' + pilihan.teks_pilihan + '</td>';
+                    table += '<td>' + jawabanPilihan[pilihan.teks_pilihan] + '</td>';
+                    table += '</tr>';
+                });
+                table += '</tbody>';
+                table += '</table>';
+                $('#choicePertanyaan-' + id).html(table);
+            } else {
+                // Handle pie chart or bar chart
+                var chartData = [];
+                var jawabanPilihan = {};
+                pertanyaanData.find(pertanyaan => pertanyaan.pertanyaan_id == id).pilihan_jawaban.forEach(pilihan => {
+                    jawabanPilihan[pilihan.teks_pilihan] = 0;
+                });
+                jawabanData.forEach(jawaban => {
+                    if (jawaban.pertanyaan_id == id) {
+                        var pilihanJawaban = jawaban.jawaban_text.split(',');
+                        pilihanJawaban.forEach(pilihan => {
+                            jawabanPilihan[pilihan]++;
+                        });
+                    }
+                });
+                pertanyaanData.find(pertanyaan => pertanyaan.pertanyaan_id == id).pilihan_jawaban.forEach(pilihan => {
+                    chartData.push({
+                        category: pilihan.teks_pilihan,
+                        value: jawabanPilihan[pilihan.teks_pilihan]
+                    });
+                });
 
-    jQuery(document).ready(function() {
-        KTApexCharts.init();
-    });
+                var categories = [];
+                var series = [];
+
+                for (var key in jawabanPilihan) {
+                    categories.push(key);
+                    series.push(jawabanPilihan[key]);
+                }
+
+
+                // Initialize chart
+                if (chartType == 'pie') {
+                    var options = {
+                        series: series,
+                        chart: {
+                            width: 600,
+                            type: 'pie',
+                        },
+                        labels: categories,
+                        responsive: [{
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    width: 200
+                                },
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }]
+                    };
+                } else if (chartType == 'bar') {
+                    var options = {
+                        series: [{
+                            data: series
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 600
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '55%',
+                                endingShape: 'rounded',
+                                floating: false // Add this line to remove the float property
+                            },
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            show: true,
+                            width: 2,
+                            colors: ['transparent']
+                        },
+                        xaxis: {
+                            categories: categories,
+                        },
+                        fill: {
+                            opacity: 1
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function(val) {
+                                    return val
+                                }
+                            }
+                        }
+                    };
+                }
+
+                var chart = new ApexCharts(document.querySelector("#chart-pertanyaan-" + id), options);
+                chart.render();
+            }
+        }
+    }
 </script>
