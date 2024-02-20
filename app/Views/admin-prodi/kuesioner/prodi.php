@@ -196,6 +196,10 @@ view('layouts/header');
                             echo '<a href="' . route_to('admin_prodi_kuesioner_prodi_detail_chart', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
                             echo '<i class="fas fa-chart-bar"></i>';
                             echo '</a>';
+                            // add download icon
+                            echo '<a href="' . route_to('admin_prodi_kuesioner_prodi_download', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
+                            echo '<i class="fas fa-download"></i>';
+                            echo '</a>';
                             echo '</td>';
                             echo '</tr>';
                         }
