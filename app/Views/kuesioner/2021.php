@@ -273,11 +273,16 @@
                                             <div class="col-sm-7">
                                                 <select name="f5a1" id="f5a1" class="form-control">
                                                     <?php
+                                                    $provinsi = get_data_provinsi_with_id(trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1));
+
                                                     if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1)) == '') {
                                                         echo '<option value="">--Pilih Provinsi--</option>';
-                                                    } else {
-                                                        echo '<option value="' . (trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1)) . '">' . get_data_provinsi_with_id((trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1)))->name . '</option>';
+                                                    } else if ($provinsi !== null) { // Cek jika $provinsi adalah objek 
+                                                        echo '<option value="' . trim(get_data_lulusan(Session()->get('C_NPM'))->f5a1) . '">' . $provinsi->name . '</option>';
                                                         echo '<option value="">--Pilih Provinsi--</option>';
+                                                    } else {
+                                                        // Provinsi tidak ditemukan. Tampilkan pesan atau opsi standar
+                                                        echo '<option value="">Provinsi tidak ditemukan</option>';
                                                     }
                                                     ?>
                                                     <?php
@@ -527,8 +532,8 @@
                                                 <input name="f21" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f21)) == '1') {
                                                                         echo "checked";
                                                                     } ?> <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f21)) == '1') {
-                                                                        echo "checked";
-                                                                    } ?> value="1" type="radio"> [1] Sangat Besar<br>
+                                                                                echo "checked";
+                                                                            } ?> value="1" type="radio"> [1] Sangat Besar<br>
                                                 <input name="f21" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f21)) == '2') {
                                                                         echo "checked";
                                                                     } ?> value="2" type="radio"> [2] Besar<br>
@@ -2064,35 +2069,38 @@
                                                         <p><?= esc($pertanyaan->teks_pertanyaan) ?></p>
                                                     </div>
                                                     <div class="col-md-6" style="align-self: center;">
-                                                        <?php if ($pertanyaan->tipe_pertanyaan != 'text' && !empty($pertanyaan->pilihan_jawaban)) : ?>
+                                                        <?php
+                                                        $jawaban = get_data_kuesioner_jawaban($pertanyaan->pertanyaan_id);
+
+                                                        if ($pertanyaan->tipe_pertanyaan != 'text' && !empty($pertanyaan->pilihan_jawaban)) : ?>
                                                             <?php if ($pertanyaan->tipe_pertanyaan == 'checkbox') : ?>
                                                                 <div class="checkbox-group">
                                                                     <?php foreach ($pertanyaan->pilihan_jawaban as $pilihan) : ?>
                                                                         <label class="checkbox-label">
-                                                                            <input type="checkbox" name="checkbox_<?= $pertanyaan->pertanyaan_id ?>[]" value="<?= esc($pilihan->teks_pilihan) ?>"> <?= esc($pilihan->teks_pilihan) ?>
+                                                                            <input type="checkbox" name="checkbox_<?= $pertanyaan->pertanyaan_id ?>[]" value="<?= esc($pilihan->teks_pilihan) ?>" <?php if (isset($jawaban) && in_array($pilihan->teks_pilihan, explode(",", $jawaban->jawaban_text))) echo "checked"; ?>> <?= esc($pilihan->teks_pilihan) ?>
                                                                         </label>
-                                                                        <br/>
+                                                                        <br />
                                                                     <?php endforeach; ?>
                                                                 </div>
                                                             <?php elseif ($pertanyaan->tipe_pertanyaan == 'radio') : ?>
                                                                 <div class="radio-group">
                                                                     <?php foreach ($pertanyaan->pilihan_jawaban as $pilihan) : ?>
                                                                         <label class="radio-label">
-                                                                            <input type="radio" name="radio_<?= $pertanyaan->pertanyaan_id ?>" value="<?= esc($pilihan->teks_pilihan) ?>"> <?= esc($pilihan->teks_pilihan) ?>
+                                                                            <input type="radio" name="radio_<?= $pertanyaan->pertanyaan_id ?>" value="<?= esc($pilihan->teks_pilihan) ?>" <?php if (isset($jawaban) && $jawaban->jawaban_text == $pilihan->teks_pilihan) echo "checked"; ?>> <?= esc($pilihan->teks_pilihan) ?>
                                                                         </label>
-                                                                        <br/>
+                                                                        <br />
                                                                     <?php endforeach; ?>
                                                                 </div>
                                                             <?php elseif ($pertanyaan->tipe_pertanyaan == 'option') : ?>
                                                                 <select class="form-control" name="select_<?= $pertanyaan->pertanyaan_id ?>">
                                                                     <?php foreach ($pertanyaan->pilihan_jawaban as $pilihan) : ?>
-                                                                        <option value="<?= esc($pilihan->teks_pilihan) ?>"><?= esc($pilihan->teks_pilihan) ?></option>
+                                                                        <option value="<?= esc($pilihan->teks_pilihan) ?>" <?php if (isset($jawaban) && $jawaban->jawaban_text == $pilihan->teks_pilihan) echo "selected"; ?>><?= esc($pilihan->teks_pilihan) ?></option>
                                                                     <?php endforeach; ?>
                                                                 </select>
                                                             <?php endif; ?>
                                                         <?php elseif ($pertanyaan->tipe_pertanyaan == 'text') : ?>
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" name="text_<?= $pertanyaan->pertanyaan_id ?>" value="<?= esc($pertanyaan->teks_pertanyaan) ?>">
+                                                                <input type="text" class="form-control" name="text_<?= $pertanyaan->pertanyaan_id ?>" value="<?php if (isset($jawaban)) echo $jawaban->jawaban_text; ?>">
                                                             </div>
                                                         <?php endif; ?>
                                                     </div>

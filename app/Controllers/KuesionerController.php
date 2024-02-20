@@ -346,8 +346,11 @@ class KuesionerController extends BaseController
         $kuesionerId = $this->request->getPost('kuesionerId');
 
         // Inisialisasi array untuk menyimpan data yang akan disimpan
+
         $dataToSave = [
-            'kuesionerId' => $kuesionerId,
+            'nimhsmsmh' => session()->get('C_NPM'),
+            'kuesioner_id' => $kuesionerId,
+            'jenis_kuesioner' => 'kue_2021'
         ];
 
         // Loop melalui pertanyaan-pertanyaan
@@ -360,32 +363,36 @@ class KuesionerController extends BaseController
                 if ($pertanyaan->tipe_pertanyaan == 'checkbox') {
                     // Checkbox
                     $checkboxValues = $this->request->getPost('checkbox_' . $pertanyaanId);
-                    $dataToSave['checkbox_' . $pertanyaanId] = $checkboxValues;
+                    $dataToSave['jawaban_text'] = implode(',', $checkboxValues);
                 } elseif ($pertanyaan->tipe_pertanyaan == 'radio') {
                     // Radio
                     $radioValue = $this->request->getPost('radio_' . $pertanyaanId);
-                    $dataToSave['radio_' . $pertanyaanId] = $radioValue;
+                    $dataToSave['jawaban_text'] = $radioValue;
                 } elseif ($pertanyaan->tipe_pertanyaan == 'option') {
                     // Dropdown
                     $selectValue = $this->request->getPost('select_' . $pertanyaanId);
-                    $dataToSave['select_' . $pertanyaanId] = $selectValue;
+                    $dataToSave['jawaban_text'] = $selectValue;
                 }
             } elseif ($pertanyaan->tipe_pertanyaan == 'text') {
                 // Text
                 $textValue = $this->request->getPost('text_' . $pertanyaanId);
-                $dataToSave['text_' . $pertanyaanId] = $textValue;
+                $dataToSave['jawaban_text'] = $textValue;
             }
+
+            // Menambahkan data pertanyaan ke array
+            $dataToSave['pertanyaan_id'] = $pertanyaanId;
+
+            // Menyimpan data ke database
+            $this->ModelKuesioner->insert_or_update_jawaban($dataToSave);
         }
 
-        var_dump($dataToSave);
-
-        // if ($this->ModelKuesioner->update_biodata($data)) {
-        //     session()->setFlashdata('status', 'berhasil');
-        //     return redirect()->to(base_url('kuesioner'));
-        // } else {
-        //     session()->setFlashdata('status', 'gagal');
-        //     return redirect()->to(base_url('kuesioner'));
-        // }
+        if ($this->ModelKuesioner->update_biodata($data)) {
+            session()->setFlashdata('status', 'berhasil');
+            return redirect()->to(base_url('kuesioner'));
+        } else {
+            session()->setFlashdata('status', 'gagal');
+            return redirect()->to(base_url('kuesioner'));
+        }
     }
 
     // Admin Kuisioner Umum

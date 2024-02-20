@@ -1,5 +1,16 @@
 <?php
 
+
+function get_data_kuesioner_jawaban($pertanyaan_id){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('kuesioner_jawaban')
+        ->where('nimhsmsmh', session()->get('C_NPM'))
+        ->where('pertanyaan_id', $pertanyaan_id)
+        ->get();
+    $results = $query->getUnbufferedRow();
+    return $results;
+}
+
 function get_data_kuesioner_by_nama_prodi($nama_prodi)
 {
     $db = \Config\Database::connect('accext_tracer');

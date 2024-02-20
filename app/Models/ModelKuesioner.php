@@ -219,4 +219,30 @@ class ModelKuesioner extends Model
             return 0;
         }
     }
+
+    public function insert_or_update_jawaban($data)
+    {
+        try {
+            $nim = session()->get('C_NPM');
+            $existingRecord = $this->dbext_tracer->table('kuesioner_jawaban')
+                ->where('nimhsmsmh', $nim)
+                ->where('kuesioner_id', $data['kuesioner_id'])
+                ->where('pertanyaan_id', $data['pertanyaan_id'])
+                ->countAllResults();
+
+            if ($existingRecord > 0) {
+                $this->dbext_tracer->table('kuesioner_jawaban')
+                    ->where('nimhsmsmh', $nim)
+                    ->where('kuesioner_id', $data['kuesioner_id'])
+                    ->where('pertanyaan_id', $data['pertanyaan_id'])
+                    ->update($data);
+            } else {
+                $this->dbext_tracer->table('kuesioner_jawaban')
+                    ->insert($data);
+            }
+            return 1;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
 }
