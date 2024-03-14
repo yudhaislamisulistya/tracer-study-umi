@@ -14,6 +14,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <html lang="en">
 <!--begin::Head-->
 
+
 <head>
     <base href="">
     <meta charset="utf-8" />
@@ -46,6 +47,87 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <link rel="shortcut icon" href="<?= base_url('assets/media/logos/favicon.ico') ?>" />
 
+    <style>
+        /* Aside sidebar styles */
+        .aside {
+            width: 250px;
+            /* Width of the sidebar */
+            position: fixed;
+            /* Fixed position to stay visible */
+            top: 0;
+            left: 0;
+            height: 100vh;
+            /* Full height */
+            /* Background color */
+            overflow-y: auto;
+            /* Scrollable content */
+            z-index: 1000;
+            /* High z-index to stay on top */
+            transition: transform 0.3s ease;
+            /* Smooth transition for toggling */
+        }
+
+        /* Hide sidebar by default on small screens */
+        @media screen and (max-width: 768px) {
+            .aside {
+                transform: translateX(-100%);
+            }
+        }
+
+        .toggle-sidebar-btn {
+            display: none;
+            /* Hide toggle button by default */
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            /* Above the sidebar */
+        }
+
+        @media screen and (max-width: 768px) {
+            .toggle-sidebar-btn {
+                display: block;
+                /* Show toggle button on small screens */
+            }
+        }
+
+        .aside-menu-wrapper {
+            padding: 20px;
+        }
+
+        .menu-nav {
+            list-style-type: none;
+            /* Remove list bullets */
+            padding: 0;
+            /* Remove default padding */
+        }
+
+        .menu-item {
+            margin-bottom: 10px;
+            /* Space between menu items */
+        }
+
+        .menu-link {
+            display: block;
+            color: #fff;
+            /* Text color */
+            text-decoration: none;
+            /* Remove underline */
+            padding: 10px;
+            /* Padding for clickable area */
+        }
+
+        .menu-item-submenu .menu-subnav {
+            padding-left: 20px;
+            /* Indent submenu */
+        }
+
+        .menu-text {
+            margin-left: 10px;
+            /* Space between icon and text */
+        }
+    </style>
+
 </head>
 
 <!--begin::Body-->
@@ -54,7 +136,7 @@ License: You must have a valid license purchased only from themeforest(the above
 if (session()->get('STATUS') == 'alumni') {
 ?>
 
-    <body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed header-mobile-fixed aside-enabled aside-static page-loading">
+    <body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed header-mobile-fixed  page-loading">
 
         <!--begin::Main-->
         <!--begin::Header Mobile-->
@@ -67,7 +149,7 @@ if (session()->get('STATUS') == 'alumni') {
 
             <!--begin::Toolbar-->
             <div class="d-flex align-items-center">
-                <button class="btn p-0 burger-icon rounded-0 burger-icon-left" id="kt_aside_tablet_and_mobile_toggle">
+                <button class="btn p-0 burger-icon rounded-0 burger-icon-left toggle-sidebar-btn" onclick="toggleSidebar()">
                     <span></span>
                 </button>
 
@@ -262,7 +344,7 @@ if (session()->get('STATUS') == 'alumni') {
 
                             <!--begin::Toolbar-->
                             <div class="d-flex align-items-center">
-                                <button class="btn p-0 burger-icon rounded-0 burger-icon-left" id="kt_aside_tablet_and_mobile_toggle">
+                                <button class="btn p-0 burger-icon rounded-0 burger-icon-left" onclick="toggleSidebar()">
                                     <span></span>
                                 </button>
 
@@ -283,12 +365,13 @@ if (session()->get('STATUS') == 'alumni') {
                         <div class="d-flex flex-column flex-root">
                             <!--begin::Page-->
                             <div class="d-flex flex-row flex-column-fluid page">
+                                <!-- begin::Aside-->
                                 <!--begin::Aside-->
-                                <div class="aside aside-left  d-flex flex-column flex-row-auto" id="kt_aside">
+                                <div class="aside aside-left d-flex flex-column flex-row-auto" id="kt_aside">
                                     <!--begin::Aside Menu-->
                                     <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
                                         <!--begin::Menu Container-->
-                                        <div id="kt_aside_menu" class="aside-menu  min-h-lg-800px" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
+                                        <div id="kt_aside_menu" class="aside-menu min-h-lg-800px" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
                                             <!--begin::Menu Nav-->
                                             <ul class="menu-nav ">
                                                 <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
@@ -551,46 +634,6 @@ if (session()->get('STATUS') == 'alumni') {
                                                         </ul>
                                                     </div>
                                                 </li>
-                                                <!-- <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
-                                                        <span class="svg-icon menu-icon">
-                                                            < <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                    <rect x="0" y="0" width="24" height="24" />
-                                                                    <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3" />
-                                                                    <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000" />
-                                                                    <rect fill="#000000" opacity="0.3" x="10" y="9" width="7" height="2" rx="1" />
-                                                                    <rect fill="#000000" opacity="0.3" x="7" y="9" width="2" height="2" rx="1" />
-                                                                    <rect fill="#000000" opacity="0.3" x="7" y="13" width="2" height="2" rx="1" />
-                                                                    <rect fill="#000000" opacity="0.3" x="10" y="13" width="7" height="2" rx="1" />
-                                                                    <rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1" />
-                                                                    <rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1" />
-                                                                </g>
-                                                                </svg>
-                                                        </span>
-                                                        <span class="menu-text">Laporan</span><i class="menu-arrow"></i></a>
-                                                    <div class="menu-submenu "><i class="menu-arrow"></i>
-                                                        <ul class="menu-subnav">
-                                                            <li class="menu-item " aria-haspopup="true">
-                                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
-                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                    <span class="menu-text">Laporan Alumni</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="menu-item " aria-haspopup="true">
-                                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
-                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                    <span class="menu-text">Laporan Pekerjaan</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="menu-item " aria-haspopup="true">
-                                                                <a href="/metronic/demo5/crud/file-upload/image-input.html" class="menu-link ">
-                                                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                                                    <span class="menu-text">Laporan Statistik Lainnya</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li> -->
                                             </ul>
                                             <!--end::Menu Nav-->
                                         </div>
@@ -599,6 +642,8 @@ if (session()->get('STATUS') == 'alumni') {
                                     <!--end::Aside Menu-->
                                 </div>
                                 <!--end::Aside-->
+
+                                <!--end::Aside -->
 
                                 <!--begin::Wrapper-->
                                 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
@@ -672,7 +717,7 @@ if (session()->get('STATUS') == 'alumni') {
 
                                             <!--begin::Toolbar-->
                                             <div class="d-flex align-items-center">
-                                                <button class="btn p-0 burger-icon rounded-0 burger-icon-left" id="kt_aside_tablet_and_mobile_toggle">
+                                                <button class="btn p-0 burger-icon rounded-0 burger-icon-left" onclick="toggleSidebar()">
                                                     <span></span>
                                                 </button>
 
@@ -858,3 +903,10 @@ if (session()->get('STATUS') == 'alumni') {
                                                     </div>
                                                     <!--end::Header-->
                                                 <?php } ?>
+
+<script>
+function toggleSidebar() {
+    const sidebar = document.getElementById('kt_aside');
+    sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' ? 'translateX(-100%)' : 'translateX(0px)';
+}
+</script>

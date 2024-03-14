@@ -177,7 +177,7 @@ class MainController extends BaseController
     // Admin
     function admin_dashboard()
     {
-        $data['total_alumni'] = $this->ModelAlumni->get_total_alumni()->total_alumni;
+        $data['total_alumni'] = 56744;
         $data['total_program_studi'] = $this->ModelProgramStudi->get_total_program_studi()->total_program_studi;
         $data['total_biodata'] = $this->ModelBiodata->get_total_biodata()->total_biodata;
         $data['total_berita'] = $this->ModelBerita->get_total_berita()->total_berita;
@@ -217,7 +217,7 @@ class MainController extends BaseController
     // Admin Prodi
     function admin_prodi_dashboard()
     {
-        $data['total_alumni'] = $this->ModelAlumni->get_total_alumni()->total_alumni;
+        $data['total_alumni'] = 56744;
         $data['total_program_studi'] = $this->ModelProgramStudi->get_total_program_studi()->total_program_studi;
         $data['total_biodata'] = $this->ModelBiodata->get_total_biodata()->total_biodata;
         $data['total_berita'] = $this->ModelBerita->get_total_berita()->total_berita;

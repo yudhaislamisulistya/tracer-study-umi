@@ -81,31 +81,31 @@ view('layouts/header');
                                     Choose an option:
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="printButton">
                                         <span class="navi-icon"><i class="la la-print"></i></span>
                                         <span class="navi-text">Print</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="copyButton">
                                         <span class="navi-icon"><i class="la la-copy"></i></span>
                                         <span class="navi-text">Copy</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="excelButton">
                                         <span class="navi-icon"><i class="la la-file-excel-o"></i></span>
                                         <span class="navi-text">Excel</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="csvButton">
                                         <span class="navi-icon"><i class="la la-file-text-o"></i></span>
                                         <span class="navi-text">CSV</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" class="navi-link" id="pdfButton">
                                         <span class="navi-icon"><i class="la la-file-pdf-o"></i></span>
                                         <span class="navi-text">PDF</span>
                                     </a>
@@ -116,24 +116,6 @@ view('layouts/header');
                         <!--end::Dropdown Menu-->
                     </div>
                     <!--end::Dropdown-->
-
-                    <!--begin::Button-->
-                    <a href="#" class="btn btn-primary font-weight-bolder">
-                        <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:/metronic/theme/html/demo5/dist/assets/media/svg/icons/Design/Flatten.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect x="0" y="0" width="24" height="24" />
-                                    <circle fill="#000000" cx="9" cy="15" r="6" />
-                                    <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
-                                </g>
-                            </svg><!--end::Svg Icon-->
-                        </span> New Records (Import Excel)
-                    </a>
-                    <!--end::Button-->
-                    <!-- Download Format -->
-                    <a href="<?= base_url('assets/format/format_alumni.xlsx') ?>" class="btn btn-success font-weight-bolder ml-2">
-                        <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:/metronic/theme/html/demo5/dist/assets/media/svg/icons/Design/Flatten.svg--><i class="fas fa-download"></i><!--end::Svg Icon-->
-                        </span> Download Format
-                    </a>
                 </div>
             </div>
             <div class="card-body">
@@ -259,7 +241,54 @@ view('layouts/footer');
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         };
+        var title = document.getElementsByClassName('card-label')[0].innerText
         var table = $('#alumniTable').DataTable({
+            "buttons": [{
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    },
+                    filename: function() {
+                        return title + ' ' + moment().format("DD MMMM YYYY HH:mm:ss");
+                    }
+                }
+            ],
             "processing": true,
             "serverSide": true,
             "responsive": true,
@@ -277,20 +306,20 @@ view('layouts/footer');
             },
             "searching": false,
             "columns": [
-                            //                 <th>Record ID</th>
-                            // <th>NIM</th>
-                            // <th>Nama</th>
-                            // <th>Jenjang Pendidikan</th>
-                            // <th>Nama Prodi</th>
-                            // <th>Nama Fakultas</th>
-                            // <th>Tahun Masuk</th>
-                            // <th>Keterangan Status</th>
-                            // <th>Jenis Kelamin</th>
-                            // <th>Tempat Lahir</th>
-                            // <th>Tanggal Lahir</th>
-                            // <th>Telepon</th>
-                            // <th>Alamat</th>
-                            // <th>Email</th>
+                //                 <th>Record ID</th>
+                // <th>NIM</th>
+                // <th>Nama</th>
+                // <th>Jenjang Pendidikan</th>
+                // <th>Nama Prodi</th>
+                // <th>Nama Fakultas</th>
+                // <th>Tahun Masuk</th>
+                // <th>Keterangan Status</th>
+                // <th>Jenis Kelamin</th>
+                // <th>Tempat Lahir</th>
+                // <th>Tanggal Lahir</th>
+                // <th>Telepon</th>
+                // <th>Alamat</th>
+                // <th>Email</th>
                 {
                     "data": "id_profil"
                 },
@@ -366,9 +395,8 @@ view('layouts/footer');
                     }
                 }
             ],
-            "columnDefs": [
-            {
-                "targets": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+            "columnDefs": [{
+                "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
                 // render if data is null or empty or undefined or false or 0 and then replace with Data Belum Diisi
                 "render": function(data, type, row, meta) {
                     if (data == null || data == "" || data == undefined || data == false || data == 0) {
@@ -377,8 +405,7 @@ view('layouts/footer');
                         return data;
                     }
                 }
-            }
-            ],
+            }],
         });
 
         $('#kt_search').on('click', function(e) {
@@ -394,6 +421,27 @@ view('layouts/footer');
             });
             table.table().draw();
         });
+
+        $('#printButton').on('click', function() {
+            $('#alumniTable').DataTable().button('4').trigger();
+        });
+
+        $('#copyButton').on('click', function() {
+            $('#alumniTable').DataTable().button('0').trigger();
+        });
+
+        $('#csvButton').on('click', function() {
+            $('#alumniTable').DataTable().button('1').trigger();
+        });
+
+        $('#excelButton').on('click', function() {
+            $('#alumniTable').DataTable().button('2').trigger();
+        });
+
+        $('#pdfButton').on('click', function() {
+            $('#alumniTable').DataTable().button('3').trigger();
+        });
+
 
         // Event handler untuk tombol edit
         $('#alumniTable').on('click', '.btn-edit', function(e) {
