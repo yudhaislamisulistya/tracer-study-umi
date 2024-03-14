@@ -8,11 +8,13 @@ class ModelAlumni extends Model
 {
     private $db_tracer;
     private $dbext_tracer;
+    private $db_alumni;
 
     public function __construct()
     {
         $this->db_tracer = db_connect("acc_tracer");
         $this->dbext_tracer = db_connect("accext_tracer");
+        $this->db_alumni = db_connect("db_alumni");
     }
 
     public function get_alumni_pagination($limit, $offset, $nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tanggalKeluarSearch, $tahunMasukSearch, $tahunKeluar, $semesterKeluar)
@@ -228,6 +230,90 @@ class ModelAlumni extends Model
         try {
             $sql = "SELECT CASE WHEN f14 = 1 THEN 'Sangat Erat' WHEN f14 = 2 THEN 'Erat' WHEN f14 = 3 THEN 'Cukup Erat' WHEN f14 = 4 THEN 'Kurang Erat' WHEN f14 = 5 THEN 'Tidak Sama Sekali' ELSE 'Tidak Terdata' END AS HubunganKerja, COUNT(DISTINCT lulusan_id) AS Jumlah FROM lulusan_satu GROUP BY HubunganKerja ORDER BY CASE WHEN f14 = 1 THEN 1 WHEN f14 = 2 THEN 2 WHEN f14 = 3 THEN 3 WHEN f14 = 4 THEN 4 WHEN f14 = 5 THEN 5 ELSE 6 END;";
             $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    // Get Alumni v2
+    // SELECT * FROM db_simpeg.vwDetailMahasiswa WHERE kode_level = 'Alumni' LIMIT 50;
+        public function get_alumni_v2($nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch)
+    {
+        try {
+            $conditions = []; // Array untuk menyimpan kondisi pencarian
+
+            if (!empty($nameSearch)) {
+                $conditions[] = "nama LIKE '%" . $this->db_alumni->escapeLikeString($nameSearch) . "%'";
+            }
+
+            if (!empty($nimSearch)) {
+                $conditions[] = "stambuk LIKE '%" . $this->db_alumni->escapeLikeString($nimSearch) . "%'";
+            }
+
+            if (!empty($programStudiSearch)) {
+                $conditions[] = "id_prodi LIKE '%" . $this->db_alumni->escapeLikeString($programStudiSearch) . "%'";
+            }
+
+            if (!empty($jenisKeluarSearch)) {
+                $conditions[] = "ket_sts LIKE '%" . $this->db_alumni->escapeLikeString($jenisKeluarSearch) . "%'";
+            }
+
+            if (!empty($tahunMasukSearch)) {
+                $conditions[] = "thn_masuk LIKE '%" . $this->db_alumni->escapeLikeString($tahunMasukSearch) . "%'";
+            }
+
+            $conditions[] = "kode_level = 'ALUMNI'";
+
+            $sql = "SELECT * FROM vwDetailMahasiswa";
+
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+            }
+            $sql .= " AND kode_level = 'ALUMNI'";
+            $query = $this->db_alumni->query($sql);
+
+            $count = $query->getNumRows();
+
+            return $count;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+    // End Alumni v2
+    public function get_alumni_v2_pagination($limit, $offset, $nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch)
+    {
+        try {
+            $conditions = []; // Array untuk menyimpan kondisi pencarian
+
+            if (!empty($nameSearch)) {
+                $conditions[] = "nama LIKE '%" . $this->db_alumni->escapeLikeString($nameSearch) . "%'";
+            }
+            if (!empty($nimSearch)) {
+                $conditions[] = "stambuk LIKE '%" . $this->db_alumni->escapeLikeString($nimSearch) . "%'";
+            }
+            if (!empty($programStudiSearch)) {
+                $conditions[] = "id_prodi LIKE '%" . $this->db_alumni->escapeLikeString($programStudiSearch) . "%'";
+            }
+            if (!empty($jenisKeluarSearch)) {
+                $conditions[] = "ket_sts LIKE '%" . $this->db_alumni->escapeLikeString($jenisKeluarSearch) . "%'";
+            }
+            if (!empty($tahunMasukSearch)) {
+                $conditions[] = "thn_masuk LIKE '%" . $this->db_alumni->escapeLikeString($tahunMasukSearch) . "%'";
+            }
+
+            $conditions[] = "kode_level = 'ALUMNI'";
+
+            $sql = "SELECT * FROM vwDetailMahasiswa";
+
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(' AND ', $conditions);
+            }
+
+            $sql .= " LIMIT " . $limit . " OFFSET " . $offset;
+
+            $query = $this->db_alumni->query($sql);
+
             return $query->getResult();
         } catch (\Exception $th) {
             return 0;

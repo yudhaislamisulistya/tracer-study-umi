@@ -244,6 +244,10 @@ $routes->group('api-v2', function ($routes) {
         $routes->get('/', 'AlumniController::get_alumni_json');
         $routes->post('/', 'AlumniController::get_alumni_json');
     });
+    $routes->group('alumniv2', function ($routes) {
+        $routes->get('/', 'AlumniController::get_alumniv2_json');
+        $routes->post('/', 'AlumniController::get_alumniv2_json');
+    });
     $routes->group('program-studi', function ($routes) {
         $routes->get('/', 'ProgramStudiController::get_program_studi_json');
         $routes->post('/', 'ProgramStudiController::get_program_studi_json');

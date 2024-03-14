@@ -55,6 +55,37 @@ class AlumniController extends BaseController
         }
     }
 
+    public function get_alumniv2_json()
+    {
+        try {
+            $page = $this->request->getVar('page') ?? 1;
+            $perPage = $this->request->getVar('perpage') ?? 10;
+            $offset = ($page - 1) * $perPage;
+            $limit = $perPage;
+            $nameSearch = $this->request->getVar('nameSearch') ?? '';
+            $nimSearch = $this->request->getVar('nimSearch') ?? '';
+            $programStudiSearch = $this->request->getVar('programStudiSearch') ?? '';
+            $jenisKeluarSearch = $this->request->getVar('jenisKeluarSearch') ?? '';
+            $tahunMasukSearch = $this->request->getVar('tahunMasukSearch') ?? '';
+
+            $data['data'] = $this->ModelAlumni->get_alumni_v2_pagination($limit, $offset, $nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch);
+            $totalRecord = $this->ModelAlumni->get_alumni_v2($nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch);
+            $pages = ceil(count($data['data']) / $perPage);
+            $data['draw'] = $this->request->getVar('draw') ?? 1;
+            $data['recordsTotal'] = $totalRecord;
+            $data['recordsFiltered'] = $totalRecord;
+            $data['meta'] = [
+                'page' => $page,
+                'pages' => $pages,
+                'perpage' => $perPage,
+                'total' => $totalRecord,
+            ];
+            return $this->response->setJSON($data);
+        } catch (\Exception $th) {
+            return json_encode($th->getMessage());
+        }
+    }
+
     // Admin
     public function admin_perusahaan_alumni()
     {

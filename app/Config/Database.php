@@ -125,6 +125,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $db_alumni = [
+        'DSN'      => '',
+        'hostname' => '127.0.0.1:3306', // Use the tunneled port here
+        'username' => 'root',
+        'password' => '1007ad4b264efa873c0fa2f296e0e126',
+        'database' => 'db_simpeg',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     /**
      * This database connection is used when
      * running PHPUnit database tests.

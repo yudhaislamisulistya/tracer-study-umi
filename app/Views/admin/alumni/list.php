@@ -162,20 +162,13 @@ view('layouts/header');
                             <label>Jenis Keluar:</label>
                             <select class="form-control datatable-input" id="jenisKeluarSearch" data-col-index="3">
                                 <option value="">Pilih Jenis Keluar</option>
-                                <?php
-                                foreach (get_data_jenis_keluar() as $key => $value) {
-                                    echo '<option value="' . $value->id_jns_keluar . '">' . $value->ket_keluar . '</option>';
-                                }
-                                ?>
+                                <option value="Lulus">Lulus</option>
+                                <option value="Keluar">Keluar</option>
                             </select>
                         </div>
 
                     </div>
                     <div class="row mb-6">
-                        <div class="col-md-3 mb-lg-0 mb-6">
-                            <label>Tanggal Keluar:</label>
-                            <input type="date" class="form-control datatable-input" placeholder="Tanggal Keluar" id="tanggalKeluarSearch" data-col-index="4" />
-                        </div>
                         <!-- Tahun Masuk -->
                         <div class="col-md-3 mb-lg-0 mb-6">
                             <label>Tahun Masuk:</label>
@@ -184,34 +177,6 @@ view('layouts/header');
                                 <?php
                                 for ($i = 2010; $i <= date('Y'); $i++) {
                                     echo '<option value="' . $i . '">' . $i . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <!-- Tahun Keluar -->
-                        <div class="col-md-3 mb-lg-0 mb-6">
-                            <label>Tahun Keluar:</label>
-                            <select class="form-control datatable-input" id="tahunKeluar" data-col-index="3">
-                                <option value="">Pilih Tahun Keluar</option>
-                                <?php
-                                for ($i = 2010; $i <= date('Y'); $i++) {
-                                    echo '<option value="' . $i . '">' . $i . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <!-- Semester Keluar -->
-                        <div class="col-md-3 mb-lg-0 mb-6">
-                            <label>Semester Keluar:</label>
-                            <select class="form-control datatable-input" id="semesterKeluar" data-col-index="3">
-                                <option value="">Pilih Semester Keluar</option>
-                                <?php
-                                for ($tahun = 2023; $tahun >= 2010; $tahun--) {
-                                    $semesterGasal = $tahun . "1"; // Menyatakan semester Gasal
-                                    $semesterGenap = $tahun . "2"; // Menyatakan semester Genap
-
-                                    echo '<option value="' . $semesterGasal . '">' . $tahun . ' Gasal</option>';
-                                    echo '<option value="' . $semesterGenap . '">' . $tahun . ' Genap</option>';
                                 }
                                 ?>
                             </select>
@@ -242,27 +207,18 @@ view('layouts/header');
                         <tr>
                             <th>Record ID</th>
                             <th>NIM</th>
-                            <th>Nama Prodi</th>
                             <th>Nama</th>
-                            <th>Jenis Keluar</th>
-                            <th>Tanggal Keluar</th>
+                            <th>Jenjang Pendidikan</th>
+                            <th>Nama Prodi</th>
+                            <th>Nama Fakultas</th>
                             <th>Tahun Masuk</th>
-                            <th>Tahun Keluar</th>
-                            <th>Semester Keluar</th>
-                            <th>SK Yudisium</th>
-                            <th>Tanggal SK Yudisium</th>
-                            <th>IP Kumulatif</th>
-                            <th>Nomor Seri Ijazah</th>
-                            <th>Judul Tugas Akhir</th>
-                            <th>Pembimbing Satu</th>
-                            <th>Pembimbing Dua</th>
-                            <th>Pembimbing Tiga</th>
-                            <th>Penguji Satu</th>
-                            <th>Penguji Dua</th>
-                            <th>Penguji Tiga</th>
-                            <th>Nomor SK Tugas</th>
-                            <th>Tanggal SK Tugas</th>
-                            <th>Keterangan</th>
+                            <th>Keterangan Status</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Tempat Lahir</th>
+                            <th>Tanggal Lahir</th>
+                            <th>Telepon</th>
+                            <th>Alamat</th>
+                            <th>Email</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -308,7 +264,7 @@ view('layouts/footer');
             "serverSide": true,
             "responsive": true,
             "ajax": {
-                "url": "/api-v2/alumni",
+                "url": "/api-v2/alumniv2",
                 "data": function(d) {
                     d.page = (d.start / d.length) + 1;
                     d.perpage = d.length;
@@ -316,81 +272,82 @@ view('layouts/footer');
                     d.nimSearch = $('#nimSearch').val();
                     d.programStudiSearch = $('#programStudiSearch').val();
                     d.jenisKeluarSearch = $('#jenisKeluarSearch').val();
-                    d.tanggalKeluarSearch = $('#tanggalKeluarSearch').val();
                     d.tahunMasukSearch = $('#tahunMasukSearch').val();
-                    d.tahunKeluar = $('#tahunKeluar').val();
-                    d.semesterKeluar = $('#semesterKeluar').val();
                 },
             },
             "searching": false,
-            "columns": [{
-                    "data": "id"
+            "columns": [
+                            //                 <th>Record ID</th>
+                            // <th>NIM</th>
+                            // <th>Nama</th>
+                            // <th>Jenjang Pendidikan</th>
+                            // <th>Nama Prodi</th>
+                            // <th>Nama Fakultas</th>
+                            // <th>Tahun Masuk</th>
+                            // <th>Keterangan Status</th>
+                            // <th>Jenis Kelamin</th>
+                            // <th>Tempat Lahir</th>
+                            // <th>Tanggal Lahir</th>
+                            // <th>Telepon</th>
+                            // <th>Alamat</th>
+                            // <th>Email</th>
+                {
+                    "data": "id_profil"
                 },
                 {
-                    "data": "nim"
-                },
-                {
-                    "data": "NAMA_PRODI"
+                    "data": "stambuk"
                 },
                 {
                     "data": "nama"
                 },
                 {
-                    "data": "jenis_keluar"
+                    "data": "nm_jenjang_prodi"
                 },
                 {
-                    "data": "tanggal_keluar"
+                    "data": "nm_prodi"
                 },
                 {
-                    "data": "tahun_masuk"
+                    "data": "nm_fakultas"
                 },
                 {
-                    "data": "tahun_keluar"
+                    "data": "thn_masuk"
                 },
                 {
-                    "data": "semester_keluar"
+                    "data": "ket_sts",
+                    'render': function(data, type, row) {
+                        if (data == "Lulus") {
+                            return '<span class="badge badge-success">Lulus</span>';
+                        } else if (data == "Keluar") {
+                            return '<span class="badge badge-danger">Keluar</span>';
+                        } else {
+                            return '<span class="badge badge-warning">Belum Lulus</span>';
+                        }
+                    }
                 },
                 {
-                    "data": "sk_yudisium"
+                    "data": "jns_kelamin"
                 },
                 {
-                    "data": "tanggal_sk_yudisium"
+                    "data": "tempat_lahir"
                 },
                 {
-                    "data": "ip_kumulatif"
+                    "data": "tgl_lahir"
                 },
                 {
-                    "data": "nomor_seri_ijazah"
+                    "data": "telp",
+                    'render': function(data, type, row) {
+                        if (data == null || data == "" || data == undefined || data == false || data == 0) {
+                            return "<span class='badge badge-danger'>Data Belum Diisi</span>";
+                        } else {
+                            return '<a href="tel:' + data + '">' + data + '</a>';
+                        }
+                    }
                 },
                 {
-                    "data": "judul_tugas_akhir"
+                    "data": "alamat"
                 },
                 {
-                    "data": "pembimbing_satu"
-                },
-                {
-                    "data": "pembibing_dua"
-                },
-                {
-                    "data": "pembimbing_tiga"
-                },
-                {
-                    "data": "penguji_satu"
-                },
-                {
-                    "data": "penguji_dua"
-                },
-                {
-                    "data": "penguji_tiga"
-                },
-                {
-                    "data": "nomor_sk_tugas"
-                },
-                {
-                    "data": "tanggal_sk_tugas"
-                },
-                {
-                    "data": "keterangan"
+                    "data": "email"
                 },
                 {
                     "data": null,
@@ -409,60 +366,9 @@ view('layouts/footer');
                     }
                 }
             ],
-            "columnDefs": [{
-                "targets": 4,
-                "render": function(data, type, full, meta) {
-                    console.log(data);
-                    var status = {
-                        1: {
-                            'title': 'Lulus',
-                            'class': ' label-light-success'
-                        },
-                        2: {
-                            'title': 'Mutasi',
-                            'class': ' label-light-danger'
-                        },
-                        3: {
-                            'title': 'Dikeluarkan',
-                            'class': ' label-light-primary'
-                        },
-                        4: {
-                            'title': 'Mengundurkan diri',
-                            'class': ' label-light-warning'
-                        },
-                        5: {
-                            'title': 'Putus Sekolah',
-                            'class': ' label-light-info'
-                        },
-                        6: {
-                            'title': 'Wafat',
-                            'class': ' label-light-danger'
-                        },
-                        7: {
-                            'title': 'Hilang',
-                            'class': ' label-light-primary'
-                        },
-                        8: {
-                            'title': 'Alih Fungsi',
-                            'class': ' label-light-warning'
-                        },
-                        9: {
-                            'title': 'Pensiun',
-                            'class': ' label-light-info'
-                        },
-                        Z: {
-                            'title': 'Lainnya',
-                            'class': ' label-light-success'
-                        },
-                    };
-                    if (typeof status[data] === 'undefined') {
-                        return data;
-                    }
-                    return '<span class="label font-weight-bold label-lg ' + status[data].class + ' label-inline">' + status[data].title + '</span>';
-                }
-            },
+            "columnDefs": [
             {
-                "targets": [0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+                "targets": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
                 // render if data is null or empty or undefined or false or 0 and then replace with Data Belum Diisi
                 "render": function(data, type, row, meta) {
                     if (data == null || data == "" || data == undefined || data == false || data == 0) {
