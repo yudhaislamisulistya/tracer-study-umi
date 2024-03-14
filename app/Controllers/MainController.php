@@ -189,12 +189,12 @@ class MainController extends BaseController
 
     function admin_statistik()
     {
-        $data['total_alumni_by_program_studi'] = $this->ModelAlumni->get_total_alumni_by_program_studi();
-        $data['total_alumni_based_jumlah_lulusan'] = $this->ModelAlumni->get_total_alumni_based_jumlah_lulusan();
-        $data['total_status_ip_kumulatif'] = $this->ModelAlumni->get_total_status_ip_kumulatif();
-        $data['total_alumni'] = $this->ModelAlumni->get_total_alumni()->total_alumni;
-        $data['total_legalisir_based_status'] = $this->ModelLegalisir->get_total_legalisir_based_status();
-        $data['total_legalisir_by_ttd_berkas_path'] = $this->ModelLegalisir->get_total_legalisir_by_ttd_berkas_path();
+        $data['total_alumni_by_tahun_masuk'] = $this->ModelAlumni->get_total_alumni_by_tahun_masuk();
+        $data['total_alumni_by_program_studi'] = $this->ModelAlumni->get_total_alumni_by_program_studi_new();
+        $data['total_alumni_by_jenjang_pendidikan'] = $this->ModelAlumni->get_total_alumni_by_jenjang_pendidikan();
+        $data['total_alumni_by_jenis_kelamin'] = $this->ModelAlumni->get_total_alumni_by_jenis_kelamin();
+        $data['total_alumni_by_fakultas'] = $this->ModelAlumni->get_total_alumni_by_fakultas();
+        // return $this->response->setJSON($data['total_alumni_by_jenjang_pendidikan']);
         return view('admin/statistik', $data);
     }
 

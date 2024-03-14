@@ -238,7 +238,7 @@ class ModelAlumni extends Model
 
     // Get Alumni v2
     // SELECT * FROM db_simpeg.vwDetailMahasiswa WHERE kode_level = 'Alumni' LIMIT 50;
-        public function get_alumni_v2($nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch)
+        public function get_alumni_v2($nameSearch = null, $nimSearch = null, $programStudiSearch = null, $jenisKeluarSearch = null, $tahunMasukSearch = null)
     {
         try {
             $conditions = []; // Array untuk menyimpan kondisi pencarian
@@ -314,6 +314,56 @@ class ModelAlumni extends Model
 
             $query = $this->db_alumni->query($sql);
 
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_alumni_by_tahun_masuk(){
+        try {
+            $sql = "SELECT thn_masuk, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY thn_masuk ORDER BY thn_masuk";
+            $query = $this->db_alumni->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_alumni_by_program_studi_new(){
+        try {
+            $sql = "SELECT nm_prodi, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY nm_prodi ORDER BY jumlah_alumni DESC";
+            $query = $this->db_alumni->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_alumni_by_jenjang_pendidikan(){
+        try {
+            $sql = "SELECT nm_jenjang_prodi, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY nm_jenjang_prodi ORDER BY nm_jenjang_prodi";
+            $query = $this->db_alumni->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_alumni_by_fakultas(){
+        try {
+            $sql = "SELECT nm_fakultas, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY nm_fakultas ORDER BY jumlah_alumni DESC";
+            $query = $this->db_alumni->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_alumni_by_jenis_kelamin(){
+        try {
+            $sql = "SELECT jns_kelamin, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY jns_kelamin ORDER BY jns_kelamin";
+            $query = $this->db_alumni->query($sql);
             return $query->getResult();
         } catch (\Exception $th) {
             return 0;
