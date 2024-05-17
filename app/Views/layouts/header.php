@@ -174,12 +174,13 @@ if (session()->get('STATUS') == 'alumni') {
         <div class="d-flex flex-column flex-root">
             <!--begin::Page-->
             <div class="d-flex flex-row flex-column-fluid page">
+                <!-- begin::Aside-->
                 <!--begin::Aside-->
-                <div class="aside aside-left  d-flex flex-column flex-row-auto" id="kt_aside">
+                <div class="d-flex flex-column flex-row-auto" id="kt_aside">
                     <!--begin::Aside Menu-->
                     <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
                         <!--begin::Menu Container-->
-                        <div id="kt_aside_menu" class="aside-menu  min-h-lg-800px" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
+                        <div id="kt_aside_menu" class="aside-menu min-h-lg-800px" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
                             <!--begin::Menu Nav-->
                             <ul class="menu-nav ">
                                 <li class="menu-item  menu-item-active" aria-haspopup="true"><a href="<?= base_url('/') ?>" class="menu-link "><span class="svg-icon menu-icon">
@@ -278,9 +279,9 @@ if (session()->get('STATUS') == 'alumni') {
                 <!--begin::Wrapper-->
                 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
                     <div id="kt_header" class="header  header-fixed ">
-                        <div class=" container  d-flex align-items-stretch justify-content-between">
+                        <div class=" container-fluid  d-flex align-items-stretch justify-content-between">
                             <div class="d-none d-lg-flex align-items-center mr-3">
-                                <button class="btn btn-icon aside-toggle ml-n3 mr-10" id="kt_aside_desktop_toggle">
+                                <!-- <button class="btn btn-icon aside-toggle ml-n3 mr-10" id="kt_aside_desktop_toggle">
                                     <span class="svg-icon svg-icon-xxl svg-icon-dark-75">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -291,7 +292,7 @@ if (session()->get('STATUS') == 'alumni') {
                                             </g>
                                         </svg>
                                     </span>
-                                </button>
+                                </button> -->
                                 <a href="<?php base_url('/dashboard') ?>">
                                     <img alt="Logo" src="<?= base_url('assets/media/logos/umi.png') ?>" class="logo-sticky max-h-35px" />
                                 </a>
@@ -701,15 +702,17 @@ if (session()->get('STATUS') == 'alumni') {
                                             <!--end::Toolbar-->
                                         </div>
                                         <!--end::Header Mobile-->
+                                        <!--end::Header Mobile-->
                                         <div class="d-flex flex-column flex-root">
                                             <!--begin::Page-->
                                             <div class="d-flex flex-row flex-column-fluid page">
+                                                <!-- begin::Aside-->
                                                 <!--begin::Aside-->
-                                                <div class="aside aside-left  d-flex flex-column flex-row-auto" id="kt_aside">
+                                                <div class="d-flex flex-column flex-row-auto" id="kt_aside">
                                                     <!--begin::Aside Menu-->
                                                     <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
                                                         <!--begin::Menu Container-->
-                                                        <div id="kt_aside_menu" class="aside-menu  min-h-lg-800px" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
+                                                        <div id="kt_aside_menu" class="aside-menu min-h-lg-800px" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
                                                             <!--begin::Menu Nav-->
                                                             <ul class="menu-nav ">
                                                                 <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover"><a href="javascript:;" class="menu-link menu-toggle">
@@ -816,13 +819,13 @@ if (session()->get('STATUS') == 'alumni') {
                                                     <!--begin::Header-->
                                                     <div id="kt_header" class="header  header-fixed ">
                                                         <!--begin::Container-->
-                                                        <div class=" container  d-flex align-items-stretch justify-content-between">
+                                                        <div class=" container-fluid  d-flex align-items-stretch justify-content-between">
                                                             <!--begin::Left-->
                                                             <div class="d-none d-lg-flex align-items-center mr-3">
                                                                 <!--begin::Aside Toggle-->
-                                                                <button class="btn btn-icon aside-toggle ml-n3 mr-10" id="kt_aside_desktop_toggle">
+                                                                <!-- <button class="btn btn-icon aside-toggle ml-n3 mr-10" id="kt_aside_desktop_toggle">
                                                                     <span class="svg-icon svg-icon-xxl svg-icon-dark-75">
-                                                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Text/Align-left.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                                                 <rect x="0" y="0" width="24" height="24" />
                                                                                 <rect fill="#000000" opacity="0.3" x="4" y="5" width="16" height="2" rx="1" />
@@ -830,7 +833,8 @@ if (session()->get('STATUS') == 'alumni') {
                                                                                 <path d="M5,9 L13,9 C13.5522847,9 14,9.44771525 14,10 C14,10.5522847 13.5522847,11 13,11 L5,11 C4.44771525,11 4,10.5522847 4,10 C4,9.44771525 4.44771525,9 5,9 Z M5,17 L13,17 C13.5522847,17 14,17.4477153 14,18 C14,18.5522847 13.5522847,19 13,19 L5,19 C4.44771525,19 4,18.5522847 4,18 C4,17.4477153 4.44771525,17 5,17 Z" fill="#000000" />
                                                                             </g>
                                                                         </svg>
-                                                                        <!--end::Svg Icon--></span> </button>
+                                                                        </span>
+                                                                </button> -->
                                                                 <!--end::Aside Toggle-->
 
                                                                 <!--begin::Logo-->

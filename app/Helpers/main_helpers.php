@@ -16,6 +16,7 @@ function get_data_kuesioner_by_nama_prodi($nama_prodi)
     $db = \Config\Database::connect('accext_tracer');
     $query = $db->table('kuesioner')
         ->where('nama_prodi', $nama_prodi)
+        ->orderBy('kuesioner_id', 'DESC')
         ->get();
     $results = $query->getResult();
     return $results;
@@ -106,7 +107,7 @@ function get_data_jenis_keluar()
 function get_data_kuesioner()
 {
     $db = \Config\Database::connect('accext_tracer');
-    $query = $db->table('kuesioner')->get();
+    $query = $db->table('kuesioner')->orderBy('kuesioner_id', 'DESC')->get();
     $results = $query->getResult();
     return $results;
 }

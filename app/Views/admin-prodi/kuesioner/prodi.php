@@ -230,7 +230,7 @@ view('layouts/header');
             </div>
             <div class="modal-body">
                 <!-- Form Tambah Data -->
-                <form id="formTambahData" action="<?= route_to('admin_kuesioner_prodi_post') ?>" method="POST">
+                <form id="formTambahData" action="<?= route_to('admin_prodi_kuesioner_prodi_post') ?>" method="POST">
                     <div class="form-group">
                         <label for="nama_kuesioner">Kuesioner</label>
                         <input type="text" class="form-control" id="nama_kuesioner" name="nama_kuesioner" required>
@@ -268,7 +268,7 @@ view('layouts/header');
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formEditData" action="<?= route_to('admin_kuesioner_prodi_update') ?>" method="POST">
+                <form id="formEditData" action="<?= route_to('admin_prodi_kuesioner_prodi_update') ?>" method="POST">
                     <input type="hidden" id="editId" name="editId">
                     <div class="form-group">
                         <label for="editNamaKuesioner">Kuesioner</label>
@@ -310,7 +310,7 @@ view('layouts/header');
                 Apakah Anda yakin ingin menghapus data ini?
             </div>
             <div class="modal-footer">
-                <form action="<?= route_to('admin_kuesioner_prodi_delete') ?>" method="POST">
+                <form action="<?= route_to('admin_prodi_kuesioner_prodi_delete') ?>" method="POST">
                     <input type="hidden" id="hapusId" name="hapusId">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-danger">Hapus</button>
@@ -393,11 +393,19 @@ view('layouts/footer');
                 }
             ],
             "responsive": true,
+            "order": [
+                [0, 'desc']
+            ],
             "columnDefs": [{
-                "targets": -1,
-                "orderable": false,
-                "responsivePriority": 1,
-            }],
+                    "targets": -1,
+                    "orderable": false,
+                    "responsivePriority": 1,
+                },
+                {
+                    "targets": 0,
+                }
+            ]
+
         });
 
         $('#printButton').on('click', function() {

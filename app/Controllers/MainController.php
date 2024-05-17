@@ -42,6 +42,10 @@ class MainController extends BaseController
         $data = $biodataController->get_current_user();
         $data = $data["response"];
 
+        if($data == null){
+            return redirect()->to(base_url('/logout-v2'));
+        }
+
         session()->set('C_STAMBUK', $data["personal"]["stambuk"]);
         session()->set('C_NAMA', $data["personal"]["nama"]);
         session()->set('C_EMAIL', $data["personal"]["email"]);

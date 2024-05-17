@@ -102,6 +102,14 @@ class OtentikasiController extends BaseController
                 $check = $this->ModelBiodata->check_data($nim);
                 $biodata = new BiodataController();
                 $dataUserCurrent = $biodata->get_current_user();
+
+
+                if ($dataUserCurrent["response"] === null) {
+                    return redirect()->to(base_url('/logout-v2'));
+                }
+
+
+
                 $nama_lengkap = $dataUserCurrent["response"]["nama"];
                 $jenis_kelamin = $dataUserCurrent["response"]["personal"]["jns_kelamin"];
                 if ($jenis_kelamin == "Laki-laki") {
@@ -568,5 +576,11 @@ class OtentikasiController extends BaseController
     {
         session()->destroy();
         return redirect()->to(base_url('/'));
+    }
+
+    public function logout_v2()
+    {
+        session()->destroy();
+        return redirect()->to(base_url('/?status=Data%20Belum%20Tersedia'));
     }
 }

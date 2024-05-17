@@ -167,13 +167,13 @@ view('layouts/header');
                     <tbody>
                         <!-- Get Data Kuesioner -->
                         <?php
+                        $i = 1;
                         foreach (get_data_kuesioner() as $key => $value) {
                             if ($value->status == "aktif") {
                                 $value->status = '<span class="label label-inline label-light-success font-weight-bold">Aktif</span>';
                             } else {
                                 $value->status = '<span class="label label-inline label-light-danger font-weight-bold">Tidak Aktif</span>';
                             }
-
                             echo '<tr>';
                             echo '<td>' . $value->kuesioner_id . '</td>';
                             echo '<td>' . $value->nama_kuesioner . '</td>';

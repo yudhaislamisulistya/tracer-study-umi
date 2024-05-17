@@ -6,14 +6,12 @@
     <base href="<?= base_url() ?>/../../../../">
     <meta charset="utf-8" />
     <title>Tracer Study - Univeristas Muslim Indonsia</title>
-    <meta name="description"
-        content="Tracer Study merupakan salah satu metode yang digunakan oleh beberapa perguruan tinggi, khususnya di Indonesia untuk memperoleh umpan balik dari alumni" />
+    <meta name="description" content="Tracer Study merupakan salah satu metode yang digunakan oleh beberapa perguruan tinggi, khususnya di Indonesia untuk memperoleh umpan balik dari alumni" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="canonical" href="<?= base_url() ?>/https://keenthemes.com/metronic" />
 
     <!--begin::Fonts-->
-    <link rel="stylesheet"
-        href="<?= base_url() ?>/https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link rel="stylesheet" href="<?= base_url() ?>/https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
     <!--begin::Page Custom Styles(used by this page)-->
     <link href="<?= base_url() ?>/assets/css/pages/login/classic/login-4.css" rel="stylesheet" type="text/css" />
@@ -39,15 +37,13 @@
 
 <!--begin::Body-->
 
-<body id="kt_body"
-    class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
 
     <!--begin::Main-->
     <div class="d-flex flex-column flex-root">
         <!--begin::Login-->
         <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
-            <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat"
-                style="background-image: url('assets/media/bg/bg-3.jpg');">
+            <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url('assets/media/bg/bg-3.jpg');">
                 <div class="login-form text-center p-7 position-relative overflow-hidden">
                     <!--begin::Login Header-->
                     <div class="d-flex flex-center mb-15">
@@ -65,31 +61,36 @@
                             </div>
                         </div>
                         <?php
-                            if(session()->getFlashData('status')){
+                        if (session()->getFlashData('status')) {
                         ?>
-                                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                                    <?= session()->getFlashData('status') ?>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                <?= session()->getFlashData('status') ?>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
                         <?php
-                            }
+                        }
+
                         ?>
+
+                        <?php if (isset($_GET['status'])) : ?>
+                            <div class="alert alert-info">
+                                <?php echo esc($_GET['status']); ?>
+                            </div>
+                        <?php endif; ?>
+
                         <form class="form" method="POST" action="<?= base_url() ?>/login/store" id="kt_login_signin_form">
                             <?= csrf_field() ?>
                             <div class="form-group mb-5">
-                                <input class="form-control h-auto form-control-solid py-4 px-8" type="text"
-                                    placeholder="NIM" name="nim"/>
+                                <input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="NIM" name="nim" />
                             </div>
                             <div class="form-group mb-5">
-                                <input class="form-control h-auto form-control-solid py-4 px-8" type="password"
-                                    placeholder="Password" name="password" />
+                                <input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Password" name="password" />
                             </div>
                             <div class="form-group d-flex flex-wrap justify-content-between align-items-center">
                             </div>
-                            <button id="kt_login_signin_submit"
-                                class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">Sign In</button>
+                            <button id="kt_login_signin_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">Sign In</button>
                         </form>
                         <!-- <div class="mt-2">
                             <span class="opacity-70 mr-4">
@@ -120,32 +121,26 @@
 
                         <div class="mb-20">
                             <h3>Aktivasi Akun Anda</h3>
-                            <div class="text-muted font-weight-bold">Masukkan NIM, Nama,  Email dan Nomor Whatsapp Aktif</div>
+                            <div class="text-muted font-weight-bold">Masukkan NIM, Nama, Email dan Nomor Whatsapp Aktif</div>
                         </div>
                         <form class="form" id="kt_login_forgot_form" action="#">
                             <div class="form-group mb-10">
-                                <input class="form-control form-control-solid h-auto py-4 px-8" type="text"
-                                    placeholder="NIM" name="nim" id="nim"/>
+                                <input class="form-control form-control-solid h-auto py-4 px-8" type="text" placeholder="NIM" name="nim" id="nim" />
                             </div>
                             <div class="form-group mb-10">
-                                <input class="form-control form-control-solid h-auto py-4 px-8" type="text"
-                                    placeholder="Isikan Nama Lengkap Tanpa Gelar" name="nama" id="nama"/>
+                                <input class="form-control form-control-solid h-auto py-4 px-8" type="text" placeholder="Isikan Nama Lengkap Tanpa Gelar" name="nama" id="nama" />
                             </div>
                             <div class="form-group mb-10">
-                                <input class="form-control form-control-solid h-auto py-4 px-8" type="text"
-                                    placeholder="Email" name="email" id="email"/>
+                                <input class="form-control form-control-solid h-auto py-4 px-8" type="text" placeholder="Email" name="email" id="email" />
                             </div>
                             <div class="form-group mb-10">
-                                <input class="form-control form-control-solid h-auto py-4 px-8" type="text"
-                                    placeholder="Nomor Handphone" name="nohp" id="nohp"/>
+                                <input class="form-control form-control-solid h-auto py-4 px-8" type="text" placeholder="Nomor Handphone" name="nohp" id="nohp" />
                                 <small class="text-muted">* Format Nomor Handphone : 085340472927 atau
                                     85340472927</small>
                             </div>
                             <div class="form-group d-flex flex-wrap flex-center mt-10">
-                                <button id="kt_login_forgot_submit"
-                                    class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Request</button>
-                                <button id="kt_login_forgot_cancel"
-                                    class="btn btn-light-primary font-weight-bold px-9 py-4 my-3 mx-2">Cancel</button>
+                                <button id="kt_login_forgot_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Request</button>
+                                <button id="kt_login_forgot_cancel" class="btn btn-light-primary font-weight-bold px-9 py-4 my-3 mx-2">Cancel</button>
                             </div>
                         </form>
                         <span>Terkendala Dalam Aktivasi Akun Alumni, Silahkan Hubungi Admin Tracer <a href="#">Disini</a></span></br>

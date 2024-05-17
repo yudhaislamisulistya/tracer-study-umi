@@ -41,6 +41,7 @@ $routes->post('pengguna-kesehatan/store', 'MainController::post_pengguna_kesehat
 $routes->get('/', 'OtentikasiController::index');
 $routes->post('/login/store', 'OtentikasiController::login_store');
 $routes->post('/logout', 'OtentikasiController::logout', ['filter' => 'auth']);
+$routes->get('/logout-v2', 'OtentikasiController::logout_v2');
 
 $routes->get('/logout', 'OtentikasiController::logout_coba');
 $routes->add('/get_alumni/(:any)/(:any)', 'OtentikasiController::get_alumni/$1/$2');
