@@ -88,7 +88,7 @@
                                 <legend class="text-uppercase font-size-sm font-weight-bold mt-5">Identitas Alumni</legend>
                                 <hr />
                                 <div class="form-group row">
-                                    <label class="col-form-label col-lg-1">( f1 )</label>
+                                    <label class="col-form-label col-lg-1"></label>
                                     <label class="col-form-label col-lg-2">Nomor Induk Mahasiswa :</label>
                                     <div class="col-lg-9">
                                         <input readonly name="nim" value="<?= Session()->get('C_NPM') ?>" class="form-control" readonly>
@@ -221,14 +221,14 @@
                                 <div class="card-body">
                                     <div id="f8" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1 red-text">( f8 )</label>
+                                            <label class="control-label col-sm-1 red-text"></label>
                                             <label class="control-label col-sm-4">Jelaskan Status Anda Saat Ini? </label>
                                             <div class="col-sm-7">
                                                 <div class="col-sm-7">
 
                                                     <input value="1" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '1') {
                                                                                     echo "checked";
-                                                                                } ?> valuetable="" table-striped="" table-responsive="1" onclick="hideF8()" type="radio"> [1] Ya <br>
+                                                                                } ?> valuetable="" table-striped="" table-responsive="1" onclick="hideF8()" type="radio"> [1] Bekerja <br>
 
                                                     <input value="2" name="f8" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f8)) == '2') {
                                                                                     echo "checked";
@@ -252,7 +252,7 @@
                                     </div>
                                     <div id="f504" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1 red-text">( f504 )</label>
+                                            <label class="control-label col-sm-1 red-text"></label>
                                             <label class="control-label col-sm-4">Apakah anda telah mendapatkan pekerjaan <= 6 bulan / termasuk kerja sebelum lulus?</i></label>
                                             <div class="col-sm-7">
                                                 <input name="f504" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f504)) == '1') {
@@ -268,7 +268,7 @@
                                     </div>
                                     <div id="f504" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1 red-text">( f510 )</label>
+                                            <label class="control-label col-sm-1 red-text"></label>
                                             <label class="control-label col-sm-4">Dimana Lokasi Tempat Bekerja Anda?</i></label>
                                             <div class="col-sm-7">
                                                 <select name="f5a1" id="f5a1" class="form-control">
@@ -306,7 +306,7 @@
                                     </div>
                                     <div id="f11" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f11 )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Apa jenis perusahaan/instansi/institusi tempat anda bekerja sekarang?</label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -345,7 +345,7 @@
                                     </div>
                                     <div id="f5b" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f5b )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Apa Nama Perusahaan/Kantor Anda Bekerja?</label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -358,7 +358,7 @@
                                     </div>
                                     <div id="f5c" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f5c )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Bila Berwiraswasta, apa posisi atau jabatan Anda Saat Ini?</label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -371,7 +371,7 @@
                                     </div>
                                     <div id="f5d" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f5d )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Apa Tingkat Tempat Kerja Anda ?</label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -384,7 +384,7 @@
                                     </div>
                                     <div id="f18" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f18 )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Pertanyaan Studi Lanjut?</label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -421,7 +421,7 @@
 
                                     <div id="f12" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1 red-text">( f12 )</label>
+                                            <label class="control-label col-sm-1 red-text"></label>
                                             <label class="control-label col-sm-4">Sebutkan sumberdana dalam pembiayaan kuliah?</label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -469,7 +469,7 @@
 
                                     <div id="f14" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1 red-text">( f14 )</label>
+                                            <label class="control-label col-sm-1 red-text"></label>
                                             <label class="control-label col-sm-4"> Seberapa erat hubungan antara bidang studi dengan pekerjaan anda?</label>
                                             <div class="col-sm-7">
                                                 <span>
@@ -495,7 +495,7 @@
 
                                     <div id="f15" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1 red-text">( f15 )</label>
+                                            <label class="control-label col-sm-1 red-text"></label>
                                             <label class="control-label col-sm-4"> Tingkat pendidikan apa yang paling tepat/sesuai untuk pekerjaan anda saat ini?</label>
                                             <div class="col-sm-7">
                                                 <span>
@@ -521,7 +521,7 @@
                                     <div id="f2" class="form-group">
                                         <div class="row">
                                             <div class="col-sm-1">
-                                                <label class="control-label ">( f2 )</label>
+                                                <label class="control-label "></label>
                                             </div>
                                             <div class="col-sm-4">
                                                 <label class="control-label ">Menurut anda seberapa besar penekanan pada metode pembelajaran di bawah ini dilaksanakan di program studi anda?</label>
@@ -697,7 +697,7 @@
                                     <div id="f3" class="form-group">
                                         <div class="row">
                                             <div class="col-sm-1">
-                                                <label class="control-label">( f3 )</label>
+                                                <label class="control-label"></label>
                                             </div>
                                             <div class="col-sm-4">
                                                 <label class="control-label">Kapan anda mulai mencari pekerjaan? <i>Mohon pekerjaan sambilan tidak dimasukkan</i></label>
@@ -740,7 +740,7 @@
 
                                     <div id="f4" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f4 )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Bagaimana anda mencari pekerjaan tersebut?
                                                 <i>Jawaban bisa lebih dari satu</i></label>
                                             <div class="col-sm-7">
@@ -805,7 +805,7 @@
 
                                     <div id="f6" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f6 )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Berapa perusahaan/instansi/institusi yang sudah anda lamar (lewat surat atau e-mail) sebelum anda memeroleh pekerjaan pertama?</label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -822,7 +822,7 @@
 
                                     <div id="f7" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f7 )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Berapa banyak perusahaan/instansi/institusi yang merespons lamaran anda? </label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -839,7 +839,7 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f7a )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Berapa banyak perusahaan/instansi/institusi yang mengundang anda untuk wawancara? </label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -869,7 +869,7 @@
 
                                     <div id="f9" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f9 )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Bagaimana anda menggambarkan situasi anda saat ini? <i> Jawaban bisa lebih dari satu</i> </label>
                                             <div class="col-sm-7">
                                                 <input name="f901" <?php if ((trim(get_data_lulusan(Session()->get('C_NPM'))->f901)) == '1') {
@@ -901,7 +901,7 @@
 
                                     <div id="f10" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f10 )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4">Apakah anda aktif mencari pekerjaan dalam 4 minggu terakhir? <i> Pilihlah Satu Jawaban. KEMUDIAN LANJUT KE f17 </i> </label>
                                             <div class="col-sm-7">
                                                 <div class="row">
@@ -956,7 +956,7 @@
 
                                     <div id="f16" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f16 )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4"> Jika menurut anda pekerjaan anda saat ini tidak sesuai dengan pendidikan anda, mengapa anda mengambilnya? Jawaban bisa lebih dari satu</label>
                                             <div class="col-sm-7">
                                                 <span>
@@ -1014,7 +1014,7 @@
 
                                     <div id="f17" class="form-group">
                                         <div class="row">
-                                            <label class="control-label col-sm-1">( f17 )</label>
+                                            <label class="control-label col-sm-1"></label>
                                             <label class="control-label col-sm-4"> Pada saat lulus, pada tingkat mana kompetensi di bawah ini anda kuasai? (<b>Bagian A</b>) <br>
                                                 Pada saat ini, pada tingkat mana kompetensi di bawah ini diperlukan dalam pekerjaan? (<b>Bagian B</b>)</label>
                                             <div class="col-sm-7">
@@ -2119,14 +2119,67 @@
                             <button type="submit" name="button" value="simpan" class="btn btn-primary" id="checkBtn">Simpan Data</button>
                             <button type="button" id="btn-reset" class="btn btn-info" onClick='window.history.back()'>Batal</button>
                         </div>
+                        <!--begin::Scrolltop and Save Button Container-->
+                        <div id="kt_scrolltop_container" style="position: fixed; bottom: 20px; left: 20px; display: flex; align-items: center; gap: 10px;">
+                            <button type="submit" name="button" value="simpan" class="btn btn-secondary" id="checkBtn">
+                                <span style="color: black; font-weight: bold;">
+                                    Simpan Sementara
+                                </span>
+                            </button>
+                            <div id="kt_scrolltop" class="scrolltop">
+                                <span class="svg-icon">
+                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Up-2.svg-->
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <polygon points="0 0 24 0 24 24" />
+                                            <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1" />
+                                            <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero" />
+                                        </g>
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
+                            </div>
+                        </div>
+                        <!--end::Scrolltop and Save Button Container-->
                     </form>
                 </div>
             </div>
+
         <?php
         }
         ?>
     </div>
 </div>
+
+
+
+<style>
+    #kt_scrolltop_container {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        /* Space between buttons */
+    }
+
+    #save_button {
+        background-color: #007bff;
+        /* Bootstrap primary color */
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #save_button:hover {
+        background-color: #0056b3;
+        /* Darker shade on hover */
+    }
+</style>
+
 
 <?= view('layouts/footer.php') ?>
 <script>

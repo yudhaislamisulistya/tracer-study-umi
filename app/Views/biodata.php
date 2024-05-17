@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-form-label col-md-2">Alamat *</label>
+                        <label class="col-form-label col-md-2">Alamat Domisili *</label>
                         <div class="col-md-10">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="alamat" placeholder="Alamat Lengkap" id="alamat" value="<?= $data->alamat ?>" />
@@ -167,13 +167,40 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-form-label col-md-1">Pekerjaan *</label>
-                        <div class="col-md-3">
+                        <label class="col-form-label col-md-2">Status Pekerjaan *</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <select name="status_pekerjaan" id="status_pekerjaan" class="form-control">
+                                    <?php
+
+                                    if ($data->status_pekerjaan === "0" || $data->status_pekerjaan === "") {
+                                        echo '<option value="">Pilih Status Pekerjaan</option>';
+                                    } else {
+                                        echo '<option value="' . $data->status_pekerjaan . '">' . get_data_status_pekerjaan_by_id($data->status_pekerjaan)->status_job . '</option>';
+                                    }
+                                    ?>
+                                    <?php
+                                    echo '<option value="" disabled>====================</option>';
+                                    foreach (get_data_status_pekerjaan() as $key => $value) {
+                                        echo '<option value="' . $value->id_job . '">' . $value->status_job . '</option>';
+                                    }
+                                    ?>
+
+                                </select>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="la la-asterisk"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="col-form-label col-md-2">Pekerjaan *</label>
+                        <div class="col-md-4">
                             <div class="input-group">
                                 <select name="jenis_pekerjaan" id="jenis_pekerjaan" class="form-control">
                                     <?php
                                     if ($data->jenis_pekerjaan === "") {
-                                        echo '<option value="">Pilih Jenis Pekerjaan</option>';
+                                        echo '<option value="-">Pilih Jenis Pekerjaan</option>';
                                     } else {
                                         echo '<option value="' . $data->jenis_pekerjaan . '">' . get_data_pekerjaan_by_id($data->jenis_pekerjaan)->nm_pekerjaan . '</option>';
                                     }
@@ -184,6 +211,7 @@
                                     }
                                     ?>
                                 </select>
+                                <input type="hidden" name="jenis_pekerjaan_hidden" id="jenis_pekerjaan_hidden" value="">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-pied-piper-alt"></i>
@@ -191,10 +219,11 @@
                                 </div>
                             </div>
                         </div>
-                        <label class="col-form-label col-md-1">Nama Kantor/Perusahaan *</label>
-                        <div class="col-md-3">
+                        <label class="col-form-label col-md-2 mt-4">Nama Instansi atau Institusi *</label>
+                        <div class="col-md-4 mt-4">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="nama_perusahaan" placeholder="Nama Kantor atau Perusahaan" id="nama_perusahaan" value="<?= $data->nama_perusahaan ?>" />
+                                <input type="text" class="form-control" name="nama_perusahaan" placeholder="Nama Instansi atau Institusi" id="nama_perusahaan" value="<?= $data->nama_perusahaan ?>" />
+                                <input type="hidden" name="nama_perusahaan_hidden" id="nama_perusahaan_hidden" value="<?= $data->nama_perusahaan ?>">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-server"></i>
@@ -202,40 +231,14 @@
                                 </div>
                             </div>
                         </div>
-                        <label class="col-form-label col-md-1">Tanggal Masuk Kerja *</label>
-                        <div class="col-md-3">
+                        <label class="col-form-label col-md-2 mt-4" id="tanggal-label">Tanggal Masuk Kerja *</label>
+                        <div class="col-md-4 mt-4">
                             <div class="input-group">
                                 <input type="date" class="form-control" name="tanggal_masuk_kerja" placeholder="Tanggal Masuk Kerja" id="tanggal_masuk_kerja" value="<?= $data->tanggal_masuk_kerja ?>" />
+                                <input type="hidden" name="tanggal_masuk_kerja_hidden" id="tanggal_masuk_kerja_hidden" value="<?= $data->tanggal_masuk_kerja ?>">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-calendar-minus-o"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <label class="col-form-label col-md-1">Status Pekerjaan *</label>
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <select name="status_pekerjaan" id="status_pekerjaan" class="form-control">
-                                    <?php
-                                    
-                                    if ($data->status_pekerjaan === "0" || $data->status_pekerjaan === "") {
-                                        echo '<option value="">Pilih Status Pekerjaan</option>';
-                                    } else {
-                                        echo '<option value="' . $data->status_pekerjaan . '">' . get_data_status_pekerjaan_by_id($data->status_pekerjaan)->status_job . '</option>';
-                                    }
-                                    ?>
-                                    <?php
-                                    foreach (get_data_status_pekerjaan() as $key => $value) {
-                                        echo '<option value="' . $value->id_job . '">' . $value->status_job . '</option>';
-                                    }
-                                    ?>
-
-                                </select>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <i class="la la-asterisk"></i>
                                     </span>
                                 </div>
                             </div>
@@ -298,6 +301,66 @@
                     $('#kabupaten').append('<option value="' + v.id + '">' + v.name + '</option>');
                 });
             }
+        });
+    });
+
+$(document).ready(function() {
+        $('#status_pekerjaan').change(function() {
+            var statusPekerjaan = $(this).val();
+            var jenisPekerjaan = $('#jenis_pekerjaan');
+            var jenisPekerjaanHidden = $('#jenis_pekerjaan_hidden');
+            var namaPerusahaan = $('#nama_perusahaan');
+            var namaPerusahaanHidden = $('#nama_perusahaan_hidden');
+            var tanggalMasukKerja = $('#tanggal_masuk_kerja');
+            var tanggalMasukKerjaHidden = $('#tanggal_masuk_kerja_hidden');
+            var tanggalLabel = $('#tanggal-label');
+
+            if (statusPekerjaan === "2") { // Belum Bekerja / Menganggur
+                jenisPekerjaan.val('-').prop('disabled', true);
+                jenisPekerjaanHidden.val('-');
+                namaPerusahaan.val('-').prop('readonly', true);
+                namaPerusahaanHidden.val('-');
+                tanggalMasukKerja.val('').prop('disabled', true);
+                tanggalMasukKerjaHidden.val('');
+            } else if (statusPekerjaan === "3") { // Lanjut Studi
+                jenisPekerjaan.val('101').prop('disabled', true);
+                jenisPekerjaanHidden.val('101');
+                namaPerusahaan.prop('readonly', false);
+                namaPerusahaanHidden.val(namaPerusahaan.val());
+                tanggalLabel.text('Tanggal Masuk Kuliah *');
+                tanggalMasukKerja.prop('disabled', false);
+                tanggalMasukKerjaHidden.val(tanggalMasukKerja.val());
+            } else if (statusPekerjaan === "1") { // Bekerja
+                jenisPekerjaan.prop('disabled', false);
+                jenisPekerjaanHidden.val(jenisPekerjaan.val());
+                namaPerusahaan.prop('readonly', false);
+                namaPerusahaanHidden.val(namaPerusahaan.val());
+                tanggalLabel.text('Tanggal Masuk Kerja *');
+                tanggalMasukKerja.prop('disabled', false);
+                tanggalMasukKerjaHidden.val(tanggalMasukKerja.val());
+            } else {
+                jenisPekerjaan.prop('disabled', false);
+                jenisPekerjaanHidden.val(jenisPekerjaan.val());
+                namaPerusahaan.prop('readonly', false);
+                namaPerusahaanHidden.val(namaPerusahaan.val());
+                tanggalLabel.text('Tanggal Masuk Kerja *');
+                tanggalMasukKerja.prop('disabled', false);
+                tanggalMasukKerjaHidden.val(tanggalMasukKerja.val());
+            }
+        });
+
+        // Trigger the change event on page load to set the initial state correctly
+        $('#status_pekerjaan').trigger('change');
+
+        // Update hidden fields on input change
+        $('#jenis_pekerjaan').on('input', function() {
+            $('#jenis_pekerjaan_hidden').val($(this).val());
+        });
+        $('#nama_perusahaan').on('input', function() {
+            $('#nama_perusahaan_hidden').val($(this).val());
+        });
+        $('#tanggal_masuk_kerja').on('input', function() {
+            $('#tanggal_masuk_kerja_hidden').val($(this).val());
         });
     });
 </script>

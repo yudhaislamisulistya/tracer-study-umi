@@ -23,12 +23,13 @@ class BiodataController extends BaseController
         $negara = $this->request->getPost('negara');
         $provinsi = $this->request->getPost('provinsi');
         $kabupaten = $this->request->getPost('kabupaten');
-        $jenis_pekerjaan = $this->request->getPost('jenis_pekerjaan');
-        $nama_perusahaan = $this->request->getPost('nama_perusahaan');
-        $tanggal_masuk_kerja = $this->request->getPost('tanggal_masuk_kerja');
+        $jenis_pekerjaan = $this->request->getPost('jenis_pekerjaan_hidden') == "-" ? "" : $this->request->getPost('jenis_pekerjaan_hidden'); // Use hidden field
+        $nama_perusahaan = $this->request->getPost('nama_perusahaan_hidden') == "-" ? "" : $this->request->getPost('nama_perusahaan_hidden'); // Use hidden field
+        $tanggal_masuk_kerja = $this->request->getPost('tanggal_masuk_kerja_hidden') == "-" ? "" : $this->request->getPost('tanggal_masuk_kerja_hidden'); // Use hidden field
         $status_pekerjaan = $this->request->getPost('status_pekerjaan');
         $email = $this->request->getPost('email');
         $nomor_handphone = $this->request->getPost('nomor_handphone');
+
         if ($this->ModelBiodata->update_biodata($nim, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja, $status_pekerjaan, $email, $nomor_handphone)) {
             session()->setFlashdata('status', 'berhasil');
             return redirect()->to(base_url('biodata'));
@@ -37,6 +38,7 @@ class BiodataController extends BaseController
             return redirect()->to(base_url('biodata'));
         }
     }
+
 
     // Admin
     public function admin_biodata()

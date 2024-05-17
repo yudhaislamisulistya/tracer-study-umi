@@ -67,11 +67,11 @@
                         <label class="col-2 col-form-label">TTD Berkas <i style="color: red;">*</i></label>
                         <div class="col-10 col-form-label">
                             <div class="radio-inline">
-                                <label class="radio">
+                                <!-- <label class="radio">
                                     <input type="radio" name="ttd_berkas" id="customRadio1" value="Tanda Tangan Elektronik" required>
                                     <span></span>
                                     Tanda Tangan Elektronik
-                                </label>
+                                </label> -->
                                 <label class="radio">
                                     <input type="radio" name="ttd_berkas" id="customRadio2" value="Berkas Diambil di Fakultas" required>
                                     <span></span>
@@ -91,9 +91,7 @@
                         <label for="example-text-input" class="col-2 col-form-label">Bahasa <i style="color: red;">*</i></label>
                         <div class="col-10">
                             <select class="form-control" id="exampleSelect1" name="bahasa" required>
-                                <!-- default pilih bahasa -->
-                                <option selected disabled>Pilih Bahasa</option>
-                                <option>Indonesia</option>
+                                <option value="Indonesia">Indonesia</option>
                             </select>
                         </div>
                     </div>

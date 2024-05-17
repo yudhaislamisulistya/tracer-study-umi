@@ -353,38 +353,43 @@ class KuesionerController extends BaseController
             'jenis_kuesioner' => 'kue_2021'
         ];
 
-        // Loop melalui pertanyaan-pertanyaan
+        // Loop through questions
         foreach (get_data_pertanyaan_by_kuesioner_id($kuesionerId)["pertanyaan"] as $pertanyaan) {
-            // Mendapatkan nilai berdasarkan pertanyaan_id
+            // Get the question ID
             $pertanyaanId = $pertanyaan->pertanyaan_id;
 
-            // Mengambil nilai dari input sesuai dengan tipe pertanyaan
+            // Get the input value based on the question type
             if ($pertanyaan->tipe_pertanyaan != 'text' && !empty($pertanyaan->pilihan_jawaban)) {
                 if ($pertanyaan->tipe_pertanyaan == 'checkbox') {
                     // Checkbox
                     $checkboxValues = $this->request->getPost('checkbox_' . $pertanyaanId);
-                    $dataToSave['jawaban_text'] = implode(',', $checkboxValues);
+                    if (is_array($checkboxValues)) {
+                        $dataToSave['jawaban_text'] = implode(',', $checkboxValues);
+                    } else {
+                        $dataToSave['jawaban_text'] = ''; // or handle it in another way if needed
+                    }
                 } elseif ($pertanyaan->tipe_pertanyaan == 'radio') {
                     // Radio
                     $radioValue = $this->request->getPost('radio_' . $pertanyaanId);
-                    $dataToSave['jawaban_text'] = $radioValue;
+                    $dataToSave['jawaban_text'] = !empty($radioValue) ? $radioValue : '';
                 } elseif ($pertanyaan->tipe_pertanyaan == 'option') {
                     // Dropdown
                     $selectValue = $this->request->getPost('select_' . $pertanyaanId);
-                    $dataToSave['jawaban_text'] = $selectValue;
+                    $dataToSave['jawaban_text'] = !empty($selectValue) ? $selectValue : '';
                 }
             } elseif ($pertanyaan->tipe_pertanyaan == 'text') {
                 // Text
                 $textValue = $this->request->getPost('text_' . $pertanyaanId);
-                $dataToSave['jawaban_text'] = $textValue;
+                $dataToSave['jawaban_text'] = !empty($textValue) ? $textValue : '';
             }
 
-            // Menambahkan data pertanyaan ke array
+            // Add question data to array
             $dataToSave['pertanyaan_id'] = $pertanyaanId;
 
-            // Menyimpan data ke database
+            // Save data to the database
             $this->ModelKuesioner->insert_or_update_jawaban($dataToSave);
         }
+
 
         if ($this->ModelKuesioner->update_biodata($data)) {
             session()->setFlashdata('status', 'berhasil');
