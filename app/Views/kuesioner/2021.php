@@ -2107,6 +2107,10 @@
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <div class="alert alert-info">
+                                            <p class="mb-0">Tidak ada kuesioner optional yang tersedia.</p>
+                                        </div>
                                     <?php endif; ?>
                                 </div>
                             </div>
