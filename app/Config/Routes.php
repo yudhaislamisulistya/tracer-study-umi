@@ -119,6 +119,48 @@ $routes->group('admin-prodi', ['filter' => 'auth'], function ($routes) {
         $routes->post('update-status', 'LegalisirController::admin_prodi_update_status_legalisir', ['as' => 'admin_prodi_update_status_legalisir']);
         $routes->post('delete', 'LegalisirController::delete_pengajuan', ['as' => 'admin_prodi_delete_pengajuan']);
     });
+
+    // Info Loker
+    $routes->group('info-loker', function ($routes) {
+        $routes->get('/', 'LowonganKerjaController::admin_prodi_lowongan_kerja', ['as' => 'admin_prodi_lowongan_kerja']);
+        $routes->post('/', 'LowonganKerjaController::admin_prodi_lowongan_kerja_post', ['as' => 'admin_prodi_lowongan_kerja_post']);
+        $routes->post('delete', 'LowonganKerjaController::admin_prodi_delete_lowongan_kerja', ['as' => 'admin_prodi_lowongan_kerja_delete']);
+        $routes->post('update', 'LowonganKerjaController::admin_prodi_update_lowongan_kerja', ['as' => 'admin_prodi_lowongan_kerja_update']);
+    });
+
+    // Daftar Alumni
+    $routes->group('daftar-alumni', function ($routes) {
+        $routes->get('/', 'AlumniController::admin_prodi_daftar_alumni', ['as' => 'admin_prodi_daftar_alumni']);
+    });
+    // Informasi Dan Berita
+    $routes->group('informasi-dan-berita', function ($routes) {
+        // Berita
+        $routes->group('berita', function ($routes) {
+            $routes->get('/', 'BeritaController::admin_prodi_berita', ['as' => 'admin_prodi_berita']);
+            $routes->post('/', 'BeritaController::admin_prodi_berita_post', ['as' => 'admin_prodi_berita_alumni_post']);
+            $routes->post('delete', 'BeritaController::delete_admin_prodi_berita', ['as' => 'admin_prodi_berita_alumni_delete']);
+            $routes->post('update', 'BeritaController::update_admin_prodi_berita', ['as' => 'admin_prodi_berita_alumni_update']);
+        });
+        // Artikel
+        $routes->group('artikel', function ($routes) {
+            $routes->get('/', 'BeritaController::admin_prodi_artikel', ['as' => 'admin_prodi_artikel']);
+            $routes->post('/', 'BeritaController::admin_prodi_artikel_post', ['as' => 'admin_prodi_artikel_alumni_post']);
+            $routes->post('delete', 'BeritaController::delete_admin_prodi_artikel', ['as' => 'admin_prodi_artikel_alumni_delete']);
+            $routes->post('update', 'BeritaController::update_admin_prodi_artikel', ['as' => 'admin_prodi_artikel_alumni_update']);
+        });
+        // Event 
+        $routes->group('event', function ($routes) {
+            $routes->get('/', 'BeritaController::admin_prodi_event', ['as' => 'admin_prodi_event']);
+            $routes->post('/', 'BeritaController::admin_prodi_event_post', ['as' => 'admin_prodi_event_alumni_post']);
+            $routes->post('delete', 'BeritaController::delete_admin_prodi_event', ['as' => 'admin_prodi_event_alumni_delete']);
+            $routes->post('update', 'BeritaController::update_admin_prodi_event', ['as' => 'admin_prodi_event_alumni_update']);
+        });
+    });
+
+    // Daftar Perusahaan Pengguna Alumni
+    $routes->group('perusahaan-alumni', function ($routes) {
+        $routes->get('/', 'AlumniController::admin_prodi_perusahaan_alumni', ['as' => 'admin_prodi_perusahaan_alumni']);
+    });
 });
 
 // Group Admin
@@ -157,7 +199,7 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
         $routes->group('artikel', function ($routes) {
             $routes->get('/', 'BeritaController::admin_artikel', ['as' => 'admin_artikel']);
         });
-        // Event
+        // Event 
         $routes->group('event', function ($routes) {
             $routes->get('/', 'BeritaController::admin_event', ['as' => 'admin_event']);
         });

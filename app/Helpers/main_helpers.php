@@ -25,9 +25,20 @@ function get_data_kuesioner_by_nama_prodi($nama_prodi)
 function get_data_berita_by_kategori($kategori)
 {
     $db = \Config\Database::connect('accext_tracer');
-    $query = $db->table('berita')
-        ->where('kategori', $kategori)
-        ->get();
+    $kode_prodi = session()->get('C_KODE_PRODI');
+    if($kode_prodi != null){
+        $query = $db->table('berita')
+            ->where('kategori', $kategori)
+            ->where('kode_prodi', $kode_prodi)
+            ->orderBy('id', 'DESC')
+            ->get();
+    }else{
+        $query = $db->table('berita')
+            ->where('kategori', $kategori)
+            ->orderBy('id', 'DESC')
+            ->get();
+    }
+            
     $results = $query->getResult();
     return $results;
 }
@@ -42,10 +53,13 @@ function get_data_legalisir($kode_prodi)
     return $results;
 }
 
-function get_data_lowongan_kerja()
+function get_data_lowongan_kerja($C_KODE_PRODI = null)
 {
     $db = \Config\Database::connect('accext_tracer');
-    $query = $db->table('lowongan_kerja')->get();
+    $query = $db->table('lowongan_kerja')
+        ->where('kode_prodi', $C_KODE_PRODI)
+        ->orderBy('lowongan_id', 'desc')
+        ->get();
     $results = $query->getResult();
     return $results;
 }

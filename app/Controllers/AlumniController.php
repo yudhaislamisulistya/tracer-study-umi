@@ -68,7 +68,7 @@ class AlumniController extends BaseController
             $jenisKeluarSearch = $this->request->getVar('jenisKeluarSearch') ?? '';
             $tahunMasukSearch = $this->request->getVar('tahunMasukSearch') ?? '';
 
-            $data['data'] = $this->ModelAlumni->get_alumni_v2_pagination($limit, $offset, $nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch);
+            $data['data'] = $this->ModelAlumni->get_alumni_v2_pagiadmin_prodi_perusahaan_alumnination($limit, $offset, $nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch);
             $totalRecord = $this->ModelAlumni->get_alumni_v2($nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch);
             $pages = ceil(count($data['data']) / $perPage);
             $data['draw'] = $this->request->getVar('draw') ?? 1;
@@ -91,5 +91,21 @@ class AlumniController extends BaseController
     {
         $data['alumni'] = $this->ModelAlumni->get_perusahaan_alumni();
         return view('admin/karir_dan_pekerjaan/daftar_perusahaan_alumni', $data);
+    }
+
+    // // Admin Prodi
+    // Admin Prodi Alumni View
+    public function admin_prodi_daftar_alumni()
+    {
+        $C_KODE_PRODI = session()->get('C_KODE_PRODI');
+        return view('admin-prodi/alumni/daftar_alumni');
+    }
+
+    // Admin Prodi Daftar Perusahaan Pengguna Alumni
+    public function admin_prodi_perusahaan_alumni()
+    {
+        $C_KODE_PRODI = session()->get('C_KODE_PRODI');
+        $data['alumni'] = $this->ModelAlumni->get_perusahaan_alumni_prodi($C_KODE_PRODI);
+        return view('admin-prodi/karir_dan_pekerjaan/daftar_perusahaan_alumni', $data);
     }
 }

@@ -188,7 +188,7 @@ view('layouts/header');
                         <div class="card-body d-flex align-items-center">
                             <div>
                                 <h3 class="text-white font-weight-bolder line-height-lg mb-5">List<br>Alumni</h3>
-                                <a href="<?= route_to('admin_alumni') ?>" class="btn btn-success font-weight-bold px-6 py-3">Cek List</a>
+                                <a href="<?= route_to('admin_prodi_daftar_alumni') ?>" class="btn btn-success font-weight-bold px-6 py-3">Cek List</a>
                             </div>
                         </div>
                         <!--end::Body-->

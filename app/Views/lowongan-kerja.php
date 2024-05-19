@@ -69,17 +69,18 @@
                                     <span class='text-muted'>
                                         Periode : <?= format_tanggal($value->periode_mulai) ?> - <?= format_tanggal($value->periode_selesai) ?>
                                     </span>
+                                    <!-- Button Readmore -->
+                                    <br>
+                                    <a href='<?= base_url("lowongan-kerja/detail/{$value->job_hash}") ?>' target='_new' class='btn btn-primary btn-sm mt-3'>Read More</a>
                                 </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 <?php else : ?>
-                    <div class='card mb-5'>
-                        <div class='card-body'>
-                            <div class='mb-3 text-center'>
-                                <img src='<?= base_url('assets/svg/data-not-found.svg') ?>' class='img-fluid' alt='empty' height='400' width='400'>
-                                <h5 class='font-weight-semibold mb-1 text-center'>Lowongan Pekerjaan Tidak Ditemukan</h5>
-                            </div>
+                    <div class="alert alert-custom alert-light-danger fade show mb-5" role="alert">
+                        <div class="alert-icon">
+                            <i class="flaticon2-warning"></i>
+                            Lowongan pekerjaan tidak ditemukan
                         </div>
                     </div>
                 <?php endif; ?>

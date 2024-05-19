@@ -64,16 +64,12 @@
                 }
 
                 if (count($berita) == 0) {
-                    echo "<div class='card mb-5'>
-                        <div class='card-body'>
-                            <div class='mb-3 text-center'>
-                                <img src='" . base_url('assets/svg/data-not-found.svg') . "' class='img-fluid' alt='empty' height='400' width='400'>
-                                <h5 class='font-weight-semibold mb-1 text-center'>
-                                    Lowongan Pekerjaan Tidak Ditemukan
-                                </h5>
+                    echo '<div class="alert alert-custom alert-light-danger fade show mb-5" role="alert">
+                            <div class="alert-icon">
+                                <i class="flaticon2-warning"></i>
+                                Belum ada berita
                             </div>
-                        </div>
-                    </div>";
+                        </div>';
                 }
                 ?>
 
@@ -98,18 +94,19 @@
                             $startRecord = ($current_page - 1) * $perPage + 1;
                             $endRecord = min($current_page * $perPage, $totalRecords);
 
+                            $search = '';
 
                             if ($filter['search'] == null) {
                                 $search = '';
                             } else {
-                                $perusahaan = $filter['perusahaan'] == null ? '' : $filter['perusahaan'];
-                                $programStudi = $filter['program_studi'];
-                                $keahlian = $filter['keahlian'];
-                                $periodePembukaan = $filter['periode_pembukaan'];
-                                $periodePenutupan = $filter['periode_penutupan'];
-                                $gajiMin = $filter['gaji_min'];
-                                $gajiMax = $filter['gaji_max'];
-                                $penempatan = $filter['penempatan'];
+                                // $perusahaan = $filter['perusahaan'] == null ? '' : $filter['perusahaan'];
+                                // $programStudi = $filter['program_studi'];
+                                // $keahlian = $filter['keahlian'];
+                                // $periodePembukaan = $filter['periode_pembukaan'];
+                                // $periodePenutupan = $filter['periode_penutupan'];
+                                // $gajiMin = $filter['gaji_min'];
+                                // $gajiMax = $filter['gaji_max'];
+                                // $penempatan = $filter['penempatan'];
                             }
 
 

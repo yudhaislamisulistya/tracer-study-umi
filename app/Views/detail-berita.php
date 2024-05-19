@@ -54,7 +54,7 @@
 
                                 <!--begin::Container-->
                                 <div class="overlay mt-8">
-                                    <img src="<?= $gambar ?>" style="width: 95%; height: 100%; border-radius: 10px;" alt="">
+                                    <img src="<?= base_url('assets/images/' . $berita->gambar) ?>" style="width: 95%; height: 100%; border-radius: 10px;" alt="">
                                 </div>
                                 <!--end::Container-->
                             </div>

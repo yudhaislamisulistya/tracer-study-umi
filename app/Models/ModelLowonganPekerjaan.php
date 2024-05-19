@@ -110,6 +110,12 @@ class ModelLowonganPekerjaan extends Model
                     $query->orderBy('lowongan_kerja.lowongan_id', 'DESC'); // default sorting
             }
 
+            $kode_prodi = session()->get('id_prodi');
+
+            if ($kode_prodi != null) {
+                $query->where('lowongan_kerja.kode_prodi', $kode_prodi);
+            }
+
             $query->limit($limit, $start);
             return $query->get()->getResult();
         } catch (\Exception $th) {
@@ -144,6 +150,12 @@ class ModelLowonganPekerjaan extends Model
                     break;
                 default:
                     $query->orderBy('lowongan_kerja.lowongan_id', 'DESC'); // default sorting
+            }
+
+            $kode_prodi = session()->get('id_prodi');
+
+            if ($kode_prodi != null) {
+                $query->where('lowongan_kerja.kode_prodi', $kode_prodi);
             }
 
             return $query->get()->getResult();

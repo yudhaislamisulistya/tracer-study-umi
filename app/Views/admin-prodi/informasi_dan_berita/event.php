@@ -15,7 +15,7 @@ view('layouts/header');
             <div class="d-flex align-items-baseline flex-wrap mr-5">
                 <!--begin::Page Title-->
                 <h2 class="d-flex align-items-center  text-dark font-weight-bold my-1 mr-3">
-                    Daftar Kuesioner
+                    Daftar Event
                 </h2>
                 <!--end::Page Title-->
 
@@ -27,8 +27,13 @@ view('layouts/header');
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_prodi_kuesioner_prodi') ?>" class="text-muted">
-                            Prodi
+                        <a href="#" class="text-muted">
+                            Informasi dan Event
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item text-muted">
+                        <a href="<?= route_to('admin_prodi_event') ?>" class="text-muted">
+                            Event
                         </a>
                     </li>
                 </ul>
@@ -45,33 +50,17 @@ view('layouts/header');
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class=" container ">
-        <?php
-        if (Session()->getFlashData('success')) {
-            echo '<div class="alert alert-custom alert-success fade show" role="alert">
-                            <div class="alert-text">' . Session()->getFlashData('success') . '</div>
-                            <div class="alert-close">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
-                                </button>
-                            </div>
-                        </div>';
-        } elseif (Session()->getFlashData('error')) {
-            echo '<div class="alert alert-custom alert-danger fade show" role="alert">
-                            <div class="alert-text">' . Session()->getFlashData('error') . '</div>
-                            <div class="alert-close">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
-                                </button>
-                            </div>
-                        </div>';
-        }
-        ?>
+        <?php if (session()->getFlashdata('status')) : ?>
+            <div class="alert alert-<?= session()->getFlashdata('status') == 'berhasil' ? 'success' : 'danger' ?>">
+                <?= session()->getFlashdata('message') ?>
+            </div>
+        <?php endif; ?>
         <!--begin::Card-->
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <div class="card-title">
                     <h3 class="card-label">
-                        Daftar Kuesioner
+                        Daftar Event
                     </h3>
                 </div>
                 <div class="card-toolbar">
@@ -149,53 +138,49 @@ view('layouts/header');
                 <table id="alumniTable" class="table table-bordered table-checkable" style="width:100%">
                     <thead>
                         <tr>
+                            <!-- "id","berita_hash","judul","isi","penulis","tanggal_publish","gambar","kategori","status","created_at","updated_at" -->
                             <th>ID</th>
                             <th>No</th>
-                            <th>Nama Kuesioner</th>
-                            <th>Nama Prodi</th>
-                            <th>Periode Mulai</th>
-                            <th>Periode Berakhir</th>
+                            <th>Event Hash</th>
+                            <th>Judul</th>
+                            <th>Isi</th>
+                            <th>Penulis</th>
+                            <th>Tanggal Publish</th>
+                            <th>Gambar</th>
+                            <th>Kategori</th>
                             <th>Status</th>
-                            <th>Actions</th>
-
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Actions
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Get Data Kuesioner -->
                         <?php
-                        $prodiIdSession = session()->get('ID_PRODI');
-                        foreach (get_data_kuesioner_by_nama_prodi(get_data_nama_prodi_with_kode($prodiIdSession)->NAMA_PRODI) as $key => $value) {
-                            if ($value->status == "aktif") {
-                                $value->status = '<span class="label label-inline label-light-success font-weight-bold">Aktif</span>';
-                            } else {
-                                $value->status = '<span class="label label-inline label-light-danger font-weight-bold">Tidak Aktif</span>';
-                            }
+                        foreach (get_data_berita_by_kategori("Event") as $key => $value) {
+                            $isiEventEncoded = htmlspecialchars($value->isi);
+                            $gambar = $value->gambar == null ? base_url('assets/images/default-image.png') : "assets/img/berita/$value->gambar";
                             echo '<tr>';
-                            echo '<td>' . $value->kuesioner_id . '</td>';
+                            echo '<td>' . $value->id . '</td>';
                             echo '<td>' . ($key + 1) . '</td>';
-                            echo '<td>' . $value->nama_kuesioner . '</td>';
-                            echo '<td>' . $value->nama_prodi . '</td>';
-                            echo '<td>' . $value->periode_mulai . '</td>';
-                            echo '<td>' . $value->periode_selesai . '</td>';
+                            echo '<td>' . $value->berita_hash . '</td>';
+                            echo '<td>' . $value->judul . '</td>';
+                            echo '<td>' . short_isi_limit($value->isi, 50) . '</td>';
+                            echo '<td>' . $value->penulis . '</td>';
+                            echo '<td>' . $value->tanggal_publish . '</td>';
+                            echo '<td>';
+                            echo '<img src="' . base_url($gambar) . '" style="width: 100px; height: 100px; border-radius: 10px;" alt="">';
+                            echo '</td>';
+                            echo '<td>' . $value->kategori . '</td>';
                             echo '<td>' . $value->status . '</td>';
+                            echo '<td>' . $value->created_at . '</td>';
+                            echo '<td>' . $value->updated_at . '</td>';
                             echo '<td nowrap="nowrap">';
-                            echo '<a href="#" class="btn btn-sm btn-clean btn-icon mr-2 btn-edit" title="Edit details">';
+                            echo '<a href="#" class="btn btn-sm btn-clean btn-icon mr-2 btn-edit" title="Edit details" data-isi="' . htmlspecialchars($value->isi, ENT_QUOTES) . '" data-judul="' . htmlspecialchars($value->judul, ENT_QUOTES) . '" ... >';
                             echo '<i class="fas fa-edit"></i>';
                             echo '</span>';
                             echo '</a>';
-                            echo '<a href="#" class="btn btn-sm btn-clean btn-icon btn-delete mr-2" title="Delete">';
+                            echo '<a href="#" class="btn btn-sm btn-clean btn-icon btn-delete" title="Delete">';
                             echo '<i class="fas fa-trash"></i>';
-                            echo '</a>';
-                            // add detail button here for add question and answer for each kuesioner
-                            echo '<a href="' . route_to('admin_prodi_kuesioner_prodi_detail', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
-                            echo '<i class="fas fa-eye"></i>';
-                            // add detail button chart
-                            echo '<a href="' . route_to('admin_prodi_kuesioner_prodi_detail_chart', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
-                            echo '<i class="fas fa-chart-bar"></i>';
-                            echo '</a>';
-                            // add download icon
-                            echo '<a href="' . route_to('admin_prodi_kuesioner_prodi_download', $value->kuesioner_id) . '" class="btn btn-sm btn-clean btn-icon btn-detail " title="Detail">';
-                            echo '<i class="fas fa-download"></i>';
                             echo '</a>';
                             echo '</td>';
                             echo '</tr>';
@@ -217,32 +202,44 @@ view('layouts/header');
 
 <!-- Modal Tambah Data -->
 <div class="modal fade" id="modalTambahData" tabindex="-1" role="dialog" aria-labelledby="modalTambahDataTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalTambahDataTitle">Tambah Data Kuesioner</h5>
+                <h5 class="modal-title" id="modalTambahDataTitle">Tambah Data Event</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <!-- Form Tambah Data -->
-                <form id="formTambahData" action="<?= route_to('admin_prodi_kuesioner_prodi_post') ?>" method="POST">
+                <form id="formTambahData" action="<?= route_to('admin_prodi_event_alumni_post') ?>" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="nama_kuesioner">Kuesioner</label>
-                        <input type="text" class="form-control" id="nama_kuesioner" name="nama_kuesioner" required>
+                        <label for="judulEvent">Judul</label>
+                        <input type="text" class="form-control" id="judulEvent" name="judulEvent" required>
                     </div>
                     <div class="form-group">
-                        <label for="nama_prodi">Prodi</label>
-                        <input type="text" class="form-control" id="nama_prodi" name="nama_prodi" value="<?= get_data_nama_prodi_with_kode($prodiIdSession)->NAMA_PRODI ?>" readonly>
+                        <label for="isiEvent">Isi</label>
+                        <textarea class="form-control" id="isiEvent" name="isiEvent" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="periode_mulai">Periode Mulai</label>
-                        <input type="date" class="form-control" id="periode_mulai" name="periode_mulai" required>
+                        <label for="tanggalEvent">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggalEvent" name="tanggalEvent" required>
                     </div>
                     <div class="form-group">
-                        <label for="periode_selesai">Periode Selesai</label>
-                        <input type="date" class="form-control" id="periode_selesai" name="periode_selesai" required>
+                        <label for="gambarEvent">Gambar</label>
+                        <input type="file" class="form-control" id="gambarEvent" name="gambarEvent">
+                    </div>
+                    <div class="form-group">
+                        <label for="kategoriEvent">Kategori</label>
+                        <input type="text" class="form-control" id="kategoriEvent" name="kategoriEvent" readonly value="Event">
+                    </div>
+                    <div class="form-group">
+                        <label for="statusEvent">Status</label>
+                        <select class="form-control" id="statusEvent" name="statusEvent">
+                            <option value="Draft">Draft</option>
+                            <option value="Published">Published</option>
+                            <option value="Archived">Archived</option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -256,32 +253,45 @@ view('layouts/header');
 
 <!-- Modal Edit Data -->
 <div class="modal fade" id="modalEditData" tabindex="-1" role="dialog" aria-labelledby="modalEditDataTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalEditDataTitle">Edit Data Kuesioner</h5>
+                <h5 class="modal-title" id="modalEditDataTitle">Edit Data Event</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formEditData" action="<?= route_to('admin_prodi_kuesioner_prodi_update') ?>" method="POST">
+                <!-- Form Edit Data -->
+                <form id="formEditData" action="<?= route_to('admin_prodi_event_alumni_update') ?>" method="POST" enctype="multipart/form-data">
                     <input type="hidden" id="editId" name="editId">
                     <div class="form-group">
-                        <label for="editNamaKuesioner">Kuesioner</label>
-                        <input type="text" class="form-control" id="editNamaKuesioner" name="editNamaKuesioner" required>
+                        <label for="editJudulEvent">Judul</label>
+                        <input type="text" class="form-control" id="editJudulEvent" name="editJudulEvent" required>
                     </div>
                     <div class="form-group">
-                        <label for="editNamaProdi">Prodi</label>
-                        <input type="text" class="form-control" id="editNamaProdi" name="editNamaProdi" value="<?= get_data_nama_prodi_with_kode($prodiIdSession)->NAMA_PRODI ?>" readonly>
+                        <label for="editIsiEvent">Isi</label>
+                        <textarea class="form-control" id="editIsiEvent" name="editIsiEvent" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="editPeriodeMulai">Periode Mulai</label>
-                        <input type="date" class="form-control" id="editPeriodeMulai" name="editPeriodeMulai" required>
+                        <label for="editTanggalEvent">Tanggal</label>
+                        <input type="date" class="form-control" id="editTanggalEvent" name="editTanggalEvent" required>
                     </div>
                     <div class="form-group">
-                        <label for="editPeriodeSelesai">Periode Selesai</label>
-                        <input type="date" class="form-control" id="editPeriodeSelesai" name="editPeriodeSelesai" required>
+                        <label for="editGambarEvent">Gambar</label>
+                        <input type="file" class="form-control" id="editGambarEvent" name="editGambarEvent">
+                    </div>
+                    <div class="form-group">
+                        <label for="editKategoriEvent">Kategori</label>
+                        <input type="text" class="form-control" id="editKategoriEvent" name="editKategoriEvent" readonly value="Event">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStatusEvent">Status</label>
+                        <select class="form-control" id="editStatusEvent" name="editStatusEvent">
+                            <option value="Draft">Draft</option>
+                            <option value="Published">Published</option>
+                            <option value="Archived">Archived</option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -307,7 +317,7 @@ view('layouts/header');
                 Apakah Anda yakin ingin menghapus data ini?
             </div>
             <div class="modal-footer">
-                <form action="<?= route_to('admin_prodi_kuesioner_prodi_delete') ?>" method="POST">
+                <form action="<?= route_to('admin_prodi_event_alumni_delete') ?>" method="POST">
                     <input type="hidden" id="hapusId" name="hapusId">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-danger">Hapus</button>
@@ -316,12 +326,15 @@ view('layouts/header');
     </div>
 </div>
 
+
+
+<script src="https://cdn.tiny.cloud/1/ig8di9cz1xxzwf89x6bwrjtfy1q368sa2l4m3dl9j0356w0c/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
 <?=
 
 view('layouts/footer');
 
 ?>
-
 <script>
     $(document).ready(function() {
         toastr.options = {
@@ -341,6 +354,11 @@ view('layouts/footer');
             "hideMethod": "fadeOut"
         };
 
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
         var title = document.getElementsByClassName('card-label')[0].innerText
         var table = $('#alumniTable').DataTable({
             "buttons": [{
@@ -392,16 +410,14 @@ view('layouts/footer');
             "responsive": true,
             "order": [],
             "columnDefs": [{
-                    "targets": -1,
-                    "orderable": false,
-                    "responsivePriority": 1,
-                },
-                {
-                    "targets": 0,
-                    "visible": false,
-                }
-            ]
-
+                "targets": -1,
+                "orderable": false,
+                "responsivePriority": 1,
+            }, {
+                "targets": 0,
+                "visible": false,
+            
+            }],
         });
 
         $('#printButton').on('click', function() {
@@ -429,6 +445,14 @@ view('layouts/footer');
             $('#modalTambahData').modal('show');
         });
 
+        $('#formTambahData').on('submit', function(e) {
+            tinymce.triggerSave();
+            var content = tinymce.get('isiEvent').getContent();
+            if (content.length === 0) {
+                e.preventDefault();
+            }
+        });
+
 
         $('#alumniTable').on('click', '.btn-edit', function(e) {
             e.preventDefault();
@@ -436,20 +460,24 @@ view('layouts/footer');
             var row = $(this).closest('tr');
             var data = table.row(row).data();
             var id = data[0];
-            var namaKuesioner = row.find('td:eq(1)').text();
-            var namaProdi = row.find('td:eq(2)').text();
-            console.log(namaProdi);
-            var periodeMulai = row.find('td:eq(3)').text();
-            var periodeSelesai = row.find('td:eq(4)').text();
+            var judul = row.find('td:eq(2)').text();
+            var isi = $(this).data('isi');
+            var tanggal = row.find('td:eq(5)').text();
+            var kategori = row.find('td:eq(7)').text();
+            var status = row.find('td:eq(8)').text();
 
-            $('#pilihanNamaProdi').text(namaProdi).val(namaProdi).prop('selected', true);
             $('#formEditData #editId').val(id);
-            $('#formEditData #editNamaKuesioner').val(namaKuesioner);
-            $('#formEditData #editPeriodeMulai').val(periodeMulai);
-            $('#formEditData #editPeriodeSelesai').val(periodeSelesai);
+            $('#formEditData #editJudulEvent').val(judul);
+            tinymce.get('editIsiEvent').setContent(isi);
+            $('#formEditData #editTanggalEvent').val(tanggal);
+            $('#formEditData #editKategoriEvent').val(kategori);
+            $('#formEditData #editStatusEvent').val(status);
 
             $('#modalEditData').modal('show');
         });
+
+
+
 
         $('#alumniTable').on('click', '.btn-delete', function(e) {
             e.preventDefault();
