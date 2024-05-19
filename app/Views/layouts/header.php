@@ -49,6 +49,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <style>
         /* Aside sidebar styles */
+        /* Aside sidebar styles */
         .aside {
             width: 250px;
             /* Width of the sidebar */
@@ -73,8 +74,23 @@ License: You must have a valid license purchased only from themeforest(the above
 
         /* Hide sidebar by default on small screens */
         @media screen and (max-width: 768px) {
-            .aside {
-                transform: translateX(-100%);
+            #kt_aside {
+                display: none !important;
+            }
+
+            #kt_logout_button_new {
+                display: block !important;
+            }
+
+            #kt_aside.active {
+                transform: translateX(0) !important;
+                position: fixed !important;
+                width: 100% !important;
+                height: 100% !important;
+                background-color: white !important;
+                z-index: 1000 !important;
+                top: 0 !important;
+                left: 0 !important;
             }
         }
 
@@ -153,20 +169,21 @@ if (session()->get('STATUS') == 'alumni') {
 
             <!--begin::Toolbar-->
             <div class="d-flex align-items-center">
-                <button class="btn p-0 burger-icon rounded-0 burger-icon-left toggle-sidebar-btn" onclick="toggleSidebar()">
+                <button class="btn p-0 burger-icon rounded-0 burger-icon-left" onclick="toggleSidebar()">
                     <span></span>
                 </button>
 
                 <button class="btn btn-hover-text-primary p-0 ml-3" id="kt_header_mobile_topbar_toggle">
                     <span class="svg-icon svg-icon-xl">
-                        <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <polygon points="0 0 24 0 24 24 0 24" />
                                 <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
                                 <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
                             </g>
                         </svg>
-                        <!--end::Svg Icon--></span> </button>
+                    </span>
+                </button>
             </div>
             <!--end::Toolbar-->
         </div>
@@ -301,21 +318,46 @@ if (session()->get('STATUS') == 'alumni') {
                                     <img alt="Logo" src="<?= base_url('assets/media/logos/umi.png') ?>" class="logo-sticky max-h-35px" />
                                 </a>
                             </div>
+                            <!--begin::Topbar-->
                             <div class="topbar">
-                                <div class="topbar-item mr-4">
-                                    <div class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_quick_user_toggle">
-                                        <span class="svg-icon svg-icon-lg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <polygon points="0 0 24 0 24 24 0 24" />
-                                                    <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
-                                                    <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
-                                                </g>
-                                            </svg>
-                                        </span>
+                                <div class="topbar-item mr-4 d-flex justify-content-between w-100">
+                                    <!-- Logout button with text on the left side -->
+                                    <div style="display: none;" id="kt_logout_button_new">
+                                        <a href="<?= base_url('/logout') ?>" class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_logout_button">
+                                            <span class="svg-icon svg-icon-lg text-danger">
+                                                <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Sign-out.svg-->
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24" />
+                                                        <path d="M16,17 L21,12 L16,7 L16,10 L10,10 L10,14 L16,14 L16,17 Z" fill="#000000" />
+                                                        <path d="M3,3 L15,3 C15.5522847,3 16,3.44771525 16,4 C16,4.55228475 15.5522847,5 15,5 L5,5 L5,19 L15,19 C15.5522847,19 16,19.4477153 16,20 C16,20.5522847 15.5522847,21 15,21 L3,21 C2.44771525,21 2,20.5522847 2,20 L2,4 C2,3.44771525 2.44771525,3 3,3 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                    </g>
+                                                </svg>
+                                                <!--end::Svg Icon-->
+                                            </span>
+                                            <span class="text-danger" style="font-weight: bold;">Logout</span>
+                                        </a>
+                                    </div>
+                                    <!-- User icon on the right side -->
+                                    <div>
+                                        <div class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_quick_user_toggle">
+                                            <span class="svg-icon svg-icon-lg">
+                                                <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <polygon points="0 0 24 0 24 24 0 24" />
+                                                        <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                        <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                                                    </g>
+                                                </svg>
+                                                <!--end::Svg Icon-->
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <!--end::Topbar-->
                         </div>
                     </div>
                 <?php
@@ -340,14 +382,15 @@ if (session()->get('STATUS') == 'alumni') {
 
                                 <button class="btn btn-hover-text-primary p-0 ml-3" id="kt_header_mobile_topbar_toggle">
                                     <span class="svg-icon svg-icon-xl">
-                                        <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                 <polygon points="0 0 24 0 24 24 0 24" />
                                                 <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
                                                 <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
                                             </g>
                                         </svg>
-                                        <!--end::Svg Icon--></span> </button>
+                                    </span>
+                                </button>
                             </div>
                             <!--end::Toolbar-->
                         </div>
@@ -656,21 +699,46 @@ if (session()->get('STATUS') == 'alumni') {
                                                     <img alt="Logo" src="<?= base_url('assets/media/logos/umi.png') ?>" class="logo-sticky max-h-35px" />
                                                 </a>
                                             </div>
+                                            <!--begin::Topbar-->
                                             <div class="topbar">
-                                                <div class="topbar-item mr-4">
-                                                    <div class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_quick_user_toggle">
-                                                        <span class="svg-icon svg-icon-lg">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                    <polygon points="0 0 24 0 24 24 0 24" />
-                                                                    <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
-                                                                    <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
-                                                                </g>
-                                                            </svg>
-                                                        </span>
+                                                <div class="topbar-item mr-4 d-flex justify-content-between w-100">
+                                                    <!-- Logout button with text on the left side -->
+                                                    <div style="display: none;" id="kt_logout_button_new">
+                                                        <a href="<?= base_url('/logout') ?>" class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_logout_button">
+                                                            <span class="svg-icon svg-icon-lg text-danger">
+                                                                <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Sign-out.svg-->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                        <rect x="0" y="0" width="24" height="24" />
+                                                                        <path d="M16,17 L21,12 L16,7 L16,10 L10,10 L10,14 L16,14 L16,17 Z" fill="#000000" />
+                                                                        <path d="M3,3 L15,3 C15.5522847,3 16,3.44771525 16,4 C16,4.55228475 15.5522847,5 15,5 L5,5 L5,19 L15,19 C15.5522847,19 16,19.4477153 16,20 C16,20.5522847 15.5522847,21 15,21 L3,21 C2.44771525,21 2,20.5522847 2,20 L2,4 C2,3.44771525 2.44771525,3 3,3 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <!--end::Svg Icon-->
+                                                            </span>
+                                                            <span class="text-danger" style="font-weight: bold;">Logout</span>
+                                                        </a>
+                                                    </div>
+                                                    <!-- User icon on the right side -->
+                                                    <div>
+                                                        <div class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_quick_user_toggle">
+                                                            <span class="svg-icon svg-icon-lg">
+                                                                <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                        <polygon points="0 0 24 0 24 24 0 24" />
+                                                                        <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                                        <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                                                                    </g>
+                                                                </svg>
+                                                                <!--end::Svg Icon-->
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <!--end::Topbar-->
                                         </div>
                                     </div>
                                 <?php } else { ?>
@@ -728,7 +796,7 @@ if (session()->get('STATUS') == 'alumni') {
                                                 <!--end::Aside-->
 
                                                 <!--begin::Wrapper-->
-                                                <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                                                <div class="d-flex flex-column flex-row-fluid wrapper main-content" id="kt_wrapper">
                                                     <!--begin::Header-->
                                                     <div id="kt_header" class="header  header-fixed ">
                                                         <!--begin::Container-->
@@ -761,25 +829,47 @@ if (session()->get('STATUS') == 'alumni') {
                                                             <!--end::Left-->
 
                                                             <!--begin::Topbar-->
+                                                            <!--begin::Topbar-->
                                                             <div class="topbar">
-
-                                                                <!--begin::User-->
-                                                                <div class="topbar-item mr-4">
-                                                                    <div class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_quick_user_toggle">
-                                                                        <span class="svg-icon svg-icon-lg">
-                                                                            <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                                    <polygon points="0 0 24 0 24 24 0 24" />
-                                                                                    <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
-                                                                                    <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
-                                                                                </g>
-                                                                            </svg>
-                                                                            <!--end::Svg Icon--></span>
+                                                                <div class="topbar-item mr-4 d-flex justify-content-between w-100">
+                                                                    <!-- Logout button with text on the left side -->
+                                                                    <div style="display: none;" id="kt_logout_button_new">
+                                                                        <a href="<?= base_url('/logout') ?>" class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_logout_button">
+                                                                            <span class="svg-icon svg-icon-lg text-danger">
+                                                                                <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Sign-out.svg-->
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                        <rect x="0" y="0" width="24" height="24" />
+                                                                                        <path d="M16,17 L21,12 L16,7 L16,10 L10,10 L10,14 L16,14 L16,17 Z" fill="#000000" />
+                                                                                        <path d="M3,3 L15,3 C15.5522847,3 16,3.44771525 16,4 C16,4.55228475 15.5522847,5 15,5 L5,5 L5,19 L15,19 C15.5522847,19 16,19.4477153 16,20 C16,20.5522847 15.5522847,21 15,21 L3,21 C2.44771525,21 2,20.5522847 2,20 L2,4 C2,3.44771525 2.44771525,3 3,3 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                                                    </g>
+                                                                                </svg>
+                                                                                <!--end::Svg Icon-->
+                                                                            </span>
+                                                                            <span class="text-danger" style="font-weight: bold;">Logout</span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <!-- User icon on the right side -->
+                                                                    <div>
+                                                                        <div class="btn btn-icon btn-sm btn-clean btn-text-dark-75" id="kt_quick_user_toggle">
+                                                                            <span class="svg-icon svg-icon-lg">
+                                                                                <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                        <polygon points="0 0 24 0 24 24 0 24" />
+                                                                                        <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                                                        <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                                                                                    </g>
+                                                                                </svg>
+                                                                                <!--end::Svg Icon-->
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <!--end::User-->
-
                                                             </div>
+
+                                                            <!--end::Topbar-->
+
                                                             <!--end::Topbar-->
                                                         </div>
                                                         <!--end::Container-->
@@ -790,6 +880,31 @@ if (session()->get('STATUS') == 'alumni') {
                                                 <script>
                                                     function toggleSidebar() {
                                                         const sidebar = document.getElementById('kt_aside');
-                                                        sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' ? 'translateX(-100%)' : 'translateX(0px)';
+
+                                                        // Check the current display status and toggle it
+                                                        if (window.getComputedStyle(sidebar).display === 'none') {
+                                                            $('#kt_aside').attr('style', `
+                                                                display: block !important;
+                                                                position: fixed !important;
+                                                                width: 100% !important;
+                                                                height: 100% !important;
+                                                                z-index: 1000 !important;
+                                                                top: 0 !important;
+                                                                left: 0 !important;
+                                                                background-color: white !important;
+                                                            `);
+                                                        } else {
+                                                            $('#kt_aside').attr('style', 'display: none !important');
+                                                        }
                                                     }
+
+                                                    // Add an event listener to handle the resize event
+                                                    window.addEventListener('resize', function() {
+                                                        const sidebar = document.getElementById('kt_aside');
+                                                        if (window.innerWidth > 768) {
+                                                            $('#kt_aside').attr('style', 'display: block !important');
+                                                        } else if (!sidebar.classList.contains('active')) {
+                                                            $('#kt_aside').attr('style', 'display: none !important');
+                                                        }
+                                                    });
                                                 </script>
