@@ -71,18 +71,18 @@ view('layouts/header');
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold my-2 p-0">
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_dashboard') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_dashboard') ?>" class="text-muted">
                             Dashboard
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="#" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_kuesioner_prodi') ?>" class="text-muted">
                             Kuesioner
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
                         <a href="#" class="text-muted">
-                            Detail Kue
+                            Detail Kuesioner
                         </a>
                     </li>
                 </ul>
@@ -168,13 +168,12 @@ view('layouts/header');
                     </div>
                 <?php else : ?>
                     <div id="pesanKosong" class="text-center">
-                        <img src="<?= base_url('assets/svg/data-not-found.svg') ?>" alt="List Kosong" height="300px">
-                        <p>List pertanyaan perlu ditambahkan</p>
+                        <h2 class="text-center">Belum ada pertanyaan, silahkan tambahkan pertanyaan</h2>
                     </div>
                 <?php endif; ?>
                 <div id="daftarPertanyaan"></div>
                 <button id="btnSimpanSemua" class="btn btn-success mt-3" style="display: none;">Simpan Semua</button>
-                <a href="<?= route_to('admin_kuesioner_prodi_detail', $data["kuesioner"]->kuesioner_id) ?>" class="btn btn-primary mt-3" style="display: none;" id="btnShowPertanyaan">Show Pertanyaan</a>
+                <a href="<?= route_to('admin_prodi_kuesioner_prodi_detail', $data["kuesioner"]->kuesioner_id) ?>" class="btn btn-primary mt-3" style="display: none;" id="btnShowPertanyaan">Show Pertanyaan</a>
             </div>
         </div>
         <!--end::Card-->
@@ -346,16 +345,22 @@ view('layouts/footer');
                 data: JSON.stringify(semuaPertanyaan),
                 success: function(response) {
                     console.log('Data berhasil disimpan', response);
-                    toastr.success('Data berhasil disimpan');
+                    toastr.success('Data berhasil disimpan dan akan direfresh dalam 2 detik');
                     $('#btnShowPertanyaan').show();
                 },
                 error: function(xhr, status, error) {
                     console.error('Error Response:', xhr.responseText);
-                    toastr.error('Gagal menyimpan data');
+                    toastr.error('Gagal menyimpan data pertanyaan dan direfresh dalam 2 detik');
                 },
                 complete: function() {
                     // Sembunyikan loading indicator
                     $('#loadingIndicator').modal('hide');
+                    // btnSimpanSemua.hide();
+                    $('#btnSimpanSemua').hide();
+                    // refresh halaman setelah 2 detik
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 2000);
                 }
             });
         });

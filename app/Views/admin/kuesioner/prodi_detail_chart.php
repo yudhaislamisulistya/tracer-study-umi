@@ -22,12 +22,12 @@ view('layouts/header');
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold my-2 p-0">
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_dashboard') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_dashboard') ?>" class="text-muted">
                             Dashboard
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="#" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_kuesioner_prodi') ?>" class="text-muted">
                             Kuesioner
                         </a>
                     </li>
@@ -51,6 +51,12 @@ view('layouts/header');
     <div class="container">
         <div class="card card-custom">
             <div class="card-body">
+                <!-- Check  $data['pertanyaan'] is null or not -->
+                <?php if (empty($data['pertanyaan'])) : ?>
+                    <div class="text-center">
+                        <h2 class="text-center">Belum ada pertanyaan, silahkan tambahkan pertanyaan untuk menampilkan chart pada kuesioner ini</h2>
+                    </div>
+                <?php endif; ?>
                 <?php foreach ($data['pertanyaan'] as $pertanyaan) : ?>
                     <div class="pertanyaan-item mb-3">
                         <div class="card mb-3">

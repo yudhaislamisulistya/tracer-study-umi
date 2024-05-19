@@ -22,17 +22,12 @@ view('layouts/header');
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold my-2 p-0">
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_dashboard') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_dashboard') ?>" class="text-muted">
                             Dashboard
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="#" class="text-muted">
-                            Kuesioner
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_kuesioner_prodi') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_kuesioner_prodi') ?>" class="text-muted">
                             Prodi
                         </a>
                     </li>
