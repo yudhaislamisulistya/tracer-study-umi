@@ -58,6 +58,7 @@ class OtentikasiController extends BaseController
 
         if ($httpcode == 200) {
             $data = json_decode($response);
+
             if ($data->response->username == "superadmin-ts") {
                 $data = [
                     "ID_PROFIL" => $data->response->id_profil,
@@ -70,7 +71,7 @@ class OtentikasiController extends BaseController
                 ];
                 session()->set($data);
                 return redirect()->to(base_url('admin/dashboard'));
-            } else if ($data->response->username == "admin-ts") {
+            } else if ($data->response->username == "admin-ts" || strpos($data->response->username, "stpmp") !== false) {
                 $dataResponse = json_decode($response);
                 $data = [
                     "ID_PROFIL" => $dataResponse->response->id_profil,
@@ -86,6 +87,7 @@ class OtentikasiController extends BaseController
                 $data['ID_PRODI'] = $dataUserCurrent["response"]["id_unit_univ"];
                 $data['C_EMAIL'] = $dataUserCurrent["response"]["personal"]["email"];
                 $data["C_NAMA"] = $dataUserCurrent["response"]["personal"]["nama"];
+                $data["C_KODE_PRODI"] = $dataUserCurrent["response"]["id_unit_univ"];
                 session()->set($data);
                 return redirect()->to(base_url('admin-prodi/dashboard'));
             } else {
@@ -104,11 +106,13 @@ class OtentikasiController extends BaseController
                 $dataUserCurrent = $biodata->get_current_user();
 
 
+
                 if ($dataUserCurrent["response"] === null) {
                     return redirect()->to(base_url('/logout-v2'));
                 }
 
-
+                $data['id_prodi'] = $dataUserCurrent["response"]["id_prodi"];
+                session()->set($data);
 
                 $nama_lengkap = $dataUserCurrent["response"]["nama"];
                 $jenis_kelamin = $dataUserCurrent["response"]["personal"]["jns_kelamin"];

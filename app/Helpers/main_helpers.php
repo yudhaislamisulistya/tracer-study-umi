@@ -32,10 +32,12 @@ function get_data_berita_by_kategori($kategori)
     return $results;
 }
 
-function get_data_legalisir()
+function get_data_legalisir($kode_prodi)
 {
     $db = \Config\Database::connect('accext_tracer');
-    $query = $db->table('legalisir')->get();
+    $query = $db->table('legalisir')
+        ->where('kode_prodi', $kode_prodi)
+        ->get();
     $results = $query->getResult();
     return $results;
 }

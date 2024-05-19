@@ -111,6 +111,14 @@ $routes->group('admin-prodi', ['filter' => 'auth'], function ($routes) {
             $routes->get('download/(:any)', 'KuesionerController::admin_kuesioner_prodi_download/$1', ['as' => 'admin_prodi_kuesioner_prodi_download']);
         });
     });
+
+    // Legalisir
+    $routes->group('legalisir', function ($routes) {
+        $routes->get('/', 'LegalisirController::admin_prodi_legalisir', ['as' => 'admin_prodi_legalisir']);
+        $routes->post('/', 'LegalisirController::admin_prodi_legalisir_post', ['as' => 'admin_prodi_legalisir_post']);
+        $routes->post('update-status', 'LegalisirController::admin_prodi_update_status_legalisir', ['as' => 'admin_prodi_update_status_legalisir']);
+        $routes->post('delete', 'LegalisirController::delete_pengajuan', ['as' => 'admin_prodi_delete_pengajuan']);
+    });
 });
 
 // Group Admin

@@ -129,6 +129,8 @@
                         <label for="example-text-input" class="col-2 col-form-label">Biaya Pengiriman <i style="color: red;">*</i></label>
                         <div class="col-10">
                             <input class="form-control" type="number" name="biaya_pengiriman" id="biaya_pengiriman_value" readonly>
+                            <small class="form-text text-muted">Biaya Pengiriman akan dihitung berdasarkan kode pos pengirim dan penerima</small>
+                            <small class="form-text text-muted">Extra Ongkir : Rp. <?= format_rupiah($pengaturan_legalisir->extra_ongkir) ?></small>
                         </div>
                     </div>
                     <!-- Set Button Total Biaya -->
@@ -168,6 +170,10 @@
 <?= view('layouts/footer.php') ?>
 
 <script>
+
+    // var data untuk mengambil data dari controller dengan variabel $pengaturan_legalisir
+    var data = <?= json_encode($pengaturan_legalisir) ?>;
+
     $(document).ready(function() {
         console.log("ready!");
         $("#kodepos").hide();
@@ -205,16 +211,18 @@
     function postConstViaApiRajaOngkir(kode_pos_asal, kode_pos_tujuan) {
         console.log(kode_pos_asal);
         console.log(kode_pos_tujuan.value);
+        console.log(parseInt(data['extra_ongkir']));
         var origin = kode_pos_asal;
         var destination = kode_pos_tujuan.value;
         var weight = 1000;
         var courier = "jne";
+        var extra_ongkir = parseInt(data['extra_ongkir']);
         $.ajax({
             url: "<?= base_url('legalisir/raja_ongkir_cost') ?>/" + origin + "/" + destination + "/" + weight + "/" + courier,
             type: "GET",
             dataType: "JSON",
             success: function(data) {
-                biaya_pengiriman_value.value = data.rajaongkir.results[0].costs[0].cost[0].value;
+                biaya_pengiriman_value.value = data.rajaongkir.results[0].costs[0].cost[0].value + extra_ongkir;
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
@@ -229,11 +237,11 @@
         $jenisBerkas = $("#jenis_berkas_value").val();
         $hargaPerLembar = 0;
         if ($jenisBerkas == "Transkrip Nilai") {
-            $hargaPerLembar = 2000;
+            $hargaPerLembar = data['biaya_transkrip_nilai'];
         } else if ($jenisBerkas == "Ijazah") {
-            $hargaPerLembar = 2000;
+            $hargaPerLembar = data['biaya_legalisir_ijazah'];
         } else if ($jenisBerkas == "Ijazah dan Transkrip Nilai") {
-            $hargaPerLembar = 4000;
+            $hargaPerLembar = parseInt(data['biaya_transkrip_nilai']) + parseInt(data['biaya_legalisir_ijazah']);
         }
 
         // set biaya legalisir
@@ -245,11 +253,11 @@
         $jumlahBerkas = $("#jumlah_berkas_value").val();
 
         if (jenis_berkas.value == "Transkrip Nilai") {
-            $hargaPerLembar = 2000;
+            $hargaPerLembar = data['biaya_transkrip_nilai'];
         } else if (jenis_berkas.value == "Ijazah") {
-            $hargaPerLembar = 2000;
+            $hargaPerLembar = data['biaya_legalisir_ijazah'];
         } else if (jenis_berkas.value == "Ijazah dan Transkrip Nilai") {
-            $hargaPerLembar = 4000;
+            $hargaPerLembar = parseInt(data['biaya_transkrip_nilai']) + parseInt(data['biaya_legalisir_ijazah']);
         }
 
         // set biaya legalisir

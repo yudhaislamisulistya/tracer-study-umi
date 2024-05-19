@@ -16,6 +16,7 @@ class LegalisirController extends BaseController
     public function index()
     {
         $data['data_legalisir'] = $this->ModelLegalisir->get_all_legalisir_by_nim(session()->get('C_NPM'));
+        $data['pengaturan_legalisir'] = $this->ModelLegalisir->get_pengaturan_legalisir_by_kode_prodi(session()->get('id_prodi'));
 
         return view('legalisir', $data);
     }
@@ -23,13 +24,10 @@ class LegalisirController extends BaseController
     public function pengajuan()
     {
         try {
+
             $data = [
-                'title' => 'Pengajuan Legalisir',
-                'menu' => 'legalisir',
-                'sub_menu' => 'pengajuan',
+                'pengaturan_legalisir' => $this->ModelLegalisir->get_pengaturan_legalisir_by_kode_prodi(session()->get('id_prodi')),
             ];
-
-
             return view('pengajuan-legalisir', $data);
         } catch (\Exception $th) {
             throw $th;
@@ -55,6 +53,7 @@ class LegalisirController extends BaseController
             }
 
             $data = [
+                'kode_prodi' => session()->get('id_prodi'),
                 'legalisir_path' => generateRandomString(20),
                 'nim' => session()->get('C_NPM'),
                 'jenis_berkas' => $post['jenis_berkas'],
@@ -128,6 +127,83 @@ class LegalisirController extends BaseController
             return view('admin/akademik/legalisir_dokumen');
         } catch (\Exception $th) {
             throw $th;
+        }
+    }
+
+    // // Admin Prodi
+    // Admin Prodi Legalisir View
+    public function admin_prodi_legalisir()
+    {
+        try {
+
+            $C_KODE_PRODI = session()->get('C_KODE_PRODI');
+            $data = [
+                'data_legalisir' => $this->ModelLegalisir->get_pengaturan_legalisir_by_kode_prodi($C_KODE_PRODI),
+            ];
+
+            return view('admin-prodi/legalisir/daftar_legalisir', $data);
+        } catch (\Exception $th) {
+            throw $th;
+        }
+    }
+
+    // Admin Prodi Legalisir Post
+    public function admin_prodi_legalisir_post()
+    {
+        try {
+            $post = $this->request->getPost();
+            $C_KODE_PRODI = session()->get('C_KODE_PRODI');
+
+            // if $post['whatsapp'] starts with 0, remove it and replace with 62, and start with 8, add 62
+            if (substr($post['whatsapp'], 0, 1) == '0') {
+                $post['whatsapp'] = '62' . substr($post['whatsapp'], 1);
+            } elseif (substr($post['whatsapp'], 0, 1) == '8') {
+                $post['whatsapp'] = '62' . $post['whatsapp'];
+            }
+
+            $data = [
+                'kode_prodi' => $C_KODE_PRODI,
+                'catatan' => $post['catatan'],
+                'extra_ongkir' => $post['extraOngkir'],
+                'biaya_legalisir_ijazah' => $post['hargaLegalisirIjazah'],
+                'biaya_transkrip_nilai' => $post['hargaTranskripNilai'],
+                'whatsapp' => $post['whatsapp'],
+            ];
+
+            $this->ModelLegalisir->post_add_legalisir($data);
+
+            return redirect()->back()->with('status', 'berhasil')->with('message', 'Berhasil menambahkan atau mengupdate pengaturan legalisir');
+        } catch (\Exception $th) {
+            return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal menambahkan atau mengupdate pengaturan legalisir');
+        }
+    }
+
+    // Admin Prodi Update Status
+    public function admin_prodi_update_status_legalisir()
+    {
+        try {
+            $post = $this->request->getPost();
+            $data = [
+                'status' => $post['status'],
+            ];
+
+            $this->ModelLegalisir->update_status_legalisir($post['id'], $data);
+
+            return redirect()->back()->with('status', 'berhasil')->with('message', 'Berhasil mengupdate status legalisir');
+        } catch (\Exception $th) {
+            return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal mengupdate status legalisir');
+        }
+    }
+
+    // Admin Delete Pengajuan Legalisil
+    public function delete_pengajuan(){
+        try {
+            $post = $this->request->getPost();
+            $this->ModelLegalisir->delete_pengajuan($post['id']);
+
+            return redirect()->back()->with('status', 'berhasil')->with('message', 'Berhasil menghapus pengajuan legalisir');
+        } catch (\Exception $th) {
+            return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal menghapus pengajuan legalisir');
         }
     }
 }

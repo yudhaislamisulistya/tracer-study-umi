@@ -198,6 +198,7 @@
     };
 </script>
 
+<script src="https://cdn.tiny.cloud/1/ig8di9cz1xxzwf89x6bwrjtfy1q368sa2l4m3dl9j0356w0c/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="<?= base_url() ?>/assets/plugins/global/plugins.bundle.js"></script>
 <script src="<?= base_url() ?>/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="<?= base_url() ?>/assets/js/scripts.bundle.js"></script>
