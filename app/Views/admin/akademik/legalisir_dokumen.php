@@ -340,9 +340,7 @@ view('layouts/footer');
 
         var table = $('#alumniTable').DataTable({
             "responsive": true,
-            "order": [
-                [1, "desc"]
-            ],
+            "order": [],
             "columnDefs": [{
                     "targets": -1,
                     "orderable": false,

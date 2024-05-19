@@ -48,10 +48,12 @@ function get_data_legalisir($kode_prodi)
     $db = \Config\Database::connect('accext_tracer');
     if($kode_prodi == "" || $kode_prodi == null){
         $query = $db->table('legalisir')
+        ->orderBy('id', 'DESC')
             ->get();
     }else{
         $query = $db->table('legalisir')
             ->where('kode_prodi', $kode_prodi)
+            ->orderBy('id', 'DESC')
             ->get();
     }
     $results = $query->getResult();
