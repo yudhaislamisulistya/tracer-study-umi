@@ -68,7 +68,7 @@ class AlumniController extends BaseController
             $jenisKeluarSearch = $this->request->getVar('jenisKeluarSearch') ?? '';
             $tahunMasukSearch = $this->request->getVar('tahunMasukSearch') ?? '';
 
-            $data['data'] = $this->ModelAlumni->get_alumni_v2_pagiadmin_prodi_perusahaan_alumnination($limit, $offset, $nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch);
+            $data['data'] = $this->ModelAlumni->get_alumni_v2_pagination($limit, $offset, $nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch);
             $totalRecord = $this->ModelAlumni->get_alumni_v2($nameSearch, $nimSearch, $programStudiSearch, $jenisKeluarSearch, $tahunMasukSearch);
             $pages = ceil(count($data['data']) / $perPage);
             $data['draw'] = $this->request->getVar('draw') ?? 1;
