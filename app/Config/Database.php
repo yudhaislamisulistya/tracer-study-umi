@@ -127,7 +127,7 @@ class Database extends Config
 
     public $db_alumni = [
         'DSN'      => '',
-        'hostname' => '127.0.0.1:3306', // Use the tunneled port here
+        'hostname' => '127.0.0.1', // Localhost because of the SSH tunnel
         'username' => 'root',
         'password' => '1007ad4b264efa873c0fa2f296e0e126',
         'database' => 'db_simpeg',
@@ -142,8 +142,9 @@ class Database extends Config
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
-        'port'     => 3306,
+        'port'     => 3307, // Local port used for the SSH tunnel
     ];
+
 
     /**
      * This database connection is used when

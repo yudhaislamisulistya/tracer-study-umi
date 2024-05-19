@@ -110,6 +110,12 @@ class ModelLowonganPekerjaan extends Model
                     $query->orderBy('lowongan_kerja.lowongan_id', 'DESC'); // default sorting
             }
 
+            $kode_prodi = session()->get('id_prodi');
+
+            if ($kode_prodi != null) {
+                $query->where('lowongan_kerja.kode_prodi', $kode_prodi);
+            }
+
             $query->limit($limit, $start);
             return $query->get()->getResult();
         } catch (\Exception $th) {
@@ -144,6 +150,12 @@ class ModelLowonganPekerjaan extends Model
                     break;
                 default:
                     $query->orderBy('lowongan_kerja.lowongan_id', 'DESC'); // default sorting
+            }
+
+            $kode_prodi = session()->get('id_prodi');
+
+            if ($kode_prodi != null) {
+                $query->where('lowongan_kerja.kode_prodi', $kode_prodi);
             }
 
             return $query->get()->getResult();
@@ -183,7 +195,12 @@ class ModelLowonganPekerjaan extends Model
     public function get_total_lowongan_pekerjaan()
     {
         try {
-            $sql = "SELECT COUNT(*) AS total_lowongan_pekerjaan FROM lowongan_kerja";
+            $kode_prodi = session()->get('C_KODE_PRODI');
+            if ($kode_prodi != null) {
+                $sql = "SELECT COUNT(*) AS total_lowongan_pekerjaan FROM lowongan_kerja WHERE kode_prodi = '$kode_prodi'";
+            } else {
+                $sql = "SELECT COUNT(*) AS total_lowongan_pekerjaan FROM lowongan_kerja";
+            }
             $query = $this->dbext_tracer->query($sql);
             return $query->getRow();
         } catch (\Exception $th) {

@@ -336,7 +336,7 @@ view('layouts/header');
                                 <option value="" disabled>====================</option>
                                 <?php
                                 foreach (get_data_program_studi() as $key => $value) {
-                                    echo '<option value="' . $value->NAMA_PRODI . '">' . $value->NAMA_PRODI . '</option>';
+                                    echo '<option value="' . $value->C_KODE_PRODI . '">' . $value->NAMA_PRODI . '</option>';
                                 }
                                 ?>
                             </select>

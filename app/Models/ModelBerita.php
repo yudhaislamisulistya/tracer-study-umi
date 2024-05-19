@@ -18,7 +18,20 @@ class ModelBerita extends Model
     public function get_berita_pagination($limit, $start, $search)
     {
         try {
-            $query = $this->dbext_tracer->table('berita')
+            $kode_prodi = session()->get('id_prodi');
+            if ($kode_prodi != null){
+                $query = $this->dbext_tracer->table('berita')
+                ->groupStart()
+                    ->like('judul', '%' . $search . '%')
+                    ->orLike('isi', '%' . $search . '%')
+                ->groupEnd()
+                ->where('berita.status', 'Published')
+                ->where('berita.kode_prodi', $kode_prodi)
+                ->orderBy('berita.id', 'DESC')
+                ->limit($limit, $start)
+                ->get();
+            }else{
+                $query = $this->dbext_tracer->table('berita')
                 ->groupStart()
                     ->like('judul', '%' . $search . '%')
                     ->orLike('isi', '%' . $search . '%')
@@ -27,6 +40,7 @@ class ModelBerita extends Model
                 ->orderBy('berita.id', 'DESC')
                 ->limit($limit, $start)
                 ->get();
+            }
 
             return $query->getResult();
         } catch (\Exception $th) {
@@ -81,7 +95,12 @@ class ModelBerita extends Model
     public function get_total_berita()
     {
         try {
-            $sql = "SELECT COUNT(*) AS total_berita FROM berita";
+            $kode_prodi = session()->get('C_KODE_PRODI');
+            if($kode_prodi != null){
+                $sql = "SELECT COUNT(*) AS total_berita FROM berita WHERE kode_prodi = '$kode_prodi'";
+            }else{
+                $sql = "SELECT COUNT(*) AS total_berita FROM berita";
+            }
             $query = $this->dbext_tracer->query($sql);
             return $query->getRow();
         } catch (\Exception $th) {

@@ -92,4 +92,20 @@ class AlumniController extends BaseController
         $data['alumni'] = $this->ModelAlumni->get_perusahaan_alumni();
         return view('admin/karir_dan_pekerjaan/daftar_perusahaan_alumni', $data);
     }
+
+    // // Admin Prodi
+    // Admin Prodi Alumni View
+    public function admin_prodi_daftar_alumni()
+    {
+        $C_KODE_PRODI = session()->get('C_KODE_PRODI');
+        return view('admin-prodi/alumni/daftar_alumni');
+    }
+
+    // Admin Prodi Daftar Perusahaan Pengguna Alumni
+    public function admin_prodi_perusahaan_alumni()
+    {
+        $C_KODE_PRODI = session()->get('C_KODE_PRODI');
+        $data['alumni'] = $this->ModelAlumni->get_perusahaan_alumni_prodi($C_KODE_PRODI);
+        return view('admin-prodi/karir_dan_pekerjaan/daftar_perusahaan_alumni', $data);
+    }
 }

@@ -22,17 +22,12 @@ view('layouts/header');
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold my-2 p-0">
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_dashboard') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_dashboard') ?>" class="text-muted">
                             Dashboard
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="#" class="text-muted">
-                            Akademik
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_lowongan_kerja') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_lowongan_kerja') ?>" class="text-muted">
                             Daftar Lowongan Kerja
                         </a>
                     </li>
@@ -167,7 +162,7 @@ view('layouts/header');
                     <tbody>
                         <!-- Get Data Program Studi -->
                         <?php
-                        foreach (get_data_lowongan_kerja() as $key => $value) {
+                        foreach (get_data_lowongan_kerja(session()->get('C_KODE_PRODI')) as $key => $value) {
                             echo '<tr>';
                             echo '<td>' . $value->lowongan_id . '</td>';
                             echo '<td>' . ($key + 1) . '</td>';
@@ -234,7 +229,7 @@ view('layouts/header');
             </div>
             <div class="modal-body">
                 <!-- Form Tambah Data -->
-                <form id="formTambahData" action="<?= route_to('admin_lowongan_kerja_post') ?>" method="POST">
+                <form id="formTambahData" action="<?= route_to('admin_prodi_lowongan_kerja_post') ?>" method="POST">
                     <div class="row">
                         <!-- Nama Perusahaan dan Judul Rekrutmen -->
                         <div class="col-md-6 form-group">
@@ -355,7 +350,7 @@ view('layouts/header');
             </div>
             <div class="modal-body">
                 <!-- Form Tambah Data -->
-                <form id="formEditData" action="<?= route_to('admin_lowongan_kerja_update') ?>" method="POST">
+                <form id="formEditData" action="<?= route_to('admin_prodi_lowongan_kerja_update') ?>" method="POST">
                     <input type="hidden" id="editId" name="editId">
                     <div class="row">
                         <!-- Nama Perusahaan dan Judul Rekrutmen -->
@@ -482,7 +477,7 @@ view('layouts/header');
                 Apakah Anda yakin ingin menghapus data ini?
             </div>
             <div class="modal-footer">
-                <form action="<?= route_to('admin_lowongan_kerja_delete') ?>" method="POST">
+                <form action="<?= route_to('admin_prodi_lowongan_kerja_delete') ?>" method="POST">
                     <input type="hidden" id="hapusId" name="hapusId">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-danger">Hapus</button>
@@ -575,13 +570,16 @@ view('layouts/footer');
             "responsive": true,
             "order": [],
             "columnDefs": [{
-                "targets": -1,
-                "orderable": false,
-                "responsivePriority": 1,
-            }, {
-                "targets": 0,
-                "visible": false,
-            }],
+                    "targets": -1,
+                    "orderable": false,
+                    "responsivePriority": 1,
+                },
+                {
+                    "targets": 0,
+                    "visible": false,
+
+                }
+            ],
         });
 
         $('#printButton').on('click', function() {

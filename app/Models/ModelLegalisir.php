@@ -45,7 +45,28 @@ class ModelLegalisir extends Model
     public function get_total_legalisir()
     {
         try {
-            $sql = "SELECT COUNT(*) AS total_legalisir FROM legalisir";
+            $kode_prodi = session()->get('C_KODE_PRODI');
+            if ($kode_prodi != null) {
+                $sql = "SELECT COUNT(*) AS total_legalisir FROM legalisir WHERE kode_prodi = '$kode_prodi';";
+            } else {
+                $sql = "SELECT COUNT(*) AS total_legalisir FROM legalisir;";
+            }
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getRow();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_kuesioner_pengguna_lulusan()
+    {
+        try {
+            $kode_prodi = session()->get('C_KODE_PRODI');
+            if ($kode_prodi != null) {
+                $sql = "SELECT COUNT(*) AS total_kuesioner FROM lulusan_satu WHERE kdpstmsmh = '$kode_prodi';";
+            } else {
+                $sql = "SELECT COUNT(*) AS total_kuesioner FROM lulusan_satu;";
+            }
             $query = $this->dbext_tracer->query($sql);
             return $query->getRow();
         } catch (\Exception $th) {

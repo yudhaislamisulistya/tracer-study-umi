@@ -152,7 +152,7 @@
                             <i class="flaticon-network display-4 text-muted font-weight-bold"></i>
                         </span>
                         <div class="d-flex flex-column text-dark-75">
-                            <span class="font-weight-bolder font-size-sm">Pekerjaan</span>
+                            <span class="font-weight-bolder font-size-sm">Jenis Pekerjaan Pengguna Alumni</span>
                             <span
                                 class="font-weight-bolder font-size-h5"><?= get_data_pekerjaan_by_id(get_data_biodata(Session()->get('C_NPM'))->jenis_pekerjaan)->nm_pekerjaan ?? '<span class="text-danger">Belum Ada Data</span>' ?></span>
                         </div>

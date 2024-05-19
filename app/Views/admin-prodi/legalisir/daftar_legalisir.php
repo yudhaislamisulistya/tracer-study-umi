@@ -22,17 +22,12 @@ view('layouts/header');
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold my-2 p-0">
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_dashboard') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_dashboard') ?>" class="text-muted">
                             Dashboard
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="#" class="text-muted">
-                            Akademik
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_program_studi') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_legalisir') ?>" class="text-muted">
                             Daftar Legalisir Dokumen
                         </a>
                     </li>
@@ -435,7 +430,7 @@ view('layouts/footer');
             var row = $(this).closest('tr');
             var data = table.row(row).data();
             var id = data[0]; // Assuming the ID column index is 0
-            var currentStatus = data[15]; // Assuming the status column index is 15
+            var currentStatus = data[16]; // Assuming the status column index is 15
             $('#statusSelect').val(currentStatus);
             $('#id').val(id);
             $('#statusModal').modal('show');

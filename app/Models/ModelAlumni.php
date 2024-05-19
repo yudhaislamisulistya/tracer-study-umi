@@ -103,6 +103,22 @@ class ModelAlumni extends Model
         }
     }
 
+    public function get_total_alumni_by_kode_prodi()
+    {
+        try {
+            $kode_prodi = session()->get('C_KODE_PRODI');
+            if ($kode_prodi != null) {
+                $sql = 'SELECT COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = "ALUMNI" AND id_prodi = "' . $kode_prodi . '" GROUP BY nm_prodi';
+            } else {
+                $sql = "SELECT COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY nm_prodi";
+            }
+            $query = $this->db_alumni->query($sql);
+            return $query->getRow();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
     public function get_total_alumni_based_jumlah_lulusan()
     {
         try {
@@ -238,7 +254,7 @@ class ModelAlumni extends Model
 
     // Get Alumni v2
     // SELECT * FROM db_simpeg.vwDetailMahasiswa WHERE kode_level = 'Alumni' LIMIT 50;
-        public function get_alumni_v2($nameSearch = null, $nimSearch = null, $programStudiSearch = null, $jenisKeluarSearch = null, $tahunMasukSearch = null)
+    public function get_alumni_v2($nameSearch = null, $nimSearch = null, $programStudiSearch = null, $jenisKeluarSearch = null, $tahunMasukSearch = null)
     {
         try {
             $conditions = []; // Array untuk menyimpan kondisi pencarian
@@ -264,6 +280,12 @@ class ModelAlumni extends Model
             }
 
             $conditions[] = "kode_level = 'ALUMNI'";
+
+            // Check if session value exists and add condition
+            $kodeProdi = session()->get('C_KODE_PRODI');
+            if (!empty($kodeProdi)) {
+                $conditions[] = "id_prodi = '" . $this->db_alumni->escapeString($kodeProdi) . "'";
+            }
 
             $sql = "SELECT * FROM vwDetailMahasiswa";
 
@@ -304,6 +326,12 @@ class ModelAlumni extends Model
 
             $conditions[] = "kode_level = 'ALUMNI'";
 
+            // Check if session value exists and add condition
+            $kodeProdi = session()->get('C_KODE_PRODI');
+            if (!empty($kodeProdi)) {
+                $conditions[] = "id_prodi = '" . $this->db_alumni->escapeString($kodeProdi) . "'";
+            }
+
             $sql = "SELECT * FROM vwDetailMahasiswa";
 
             if (!empty($conditions)) {
@@ -320,7 +348,8 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_alumni_by_tahun_masuk(){
+    public function get_total_alumni_by_tahun_masuk()
+    {
         try {
             $sql = "SELECT thn_masuk, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY thn_masuk ORDER BY thn_masuk";
             $query = $this->db_alumni->query($sql);
@@ -330,7 +359,8 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_alumni_by_program_studi_new(){
+    public function get_total_alumni_by_program_studi_new()
+    {
         try {
             $sql = "SELECT nm_prodi, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY nm_prodi ORDER BY jumlah_alumni DESC";
             $query = $this->db_alumni->query($sql);
@@ -340,7 +370,8 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_alumni_by_jenjang_pendidikan(){
+    public function get_total_alumni_by_jenjang_pendidikan()
+    {
         try {
             $sql = "SELECT nm_jenjang_prodi, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY nm_jenjang_prodi ORDER BY nm_jenjang_prodi";
             $query = $this->db_alumni->query($sql);
@@ -350,7 +381,8 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_alumni_by_fakultas(){
+    public function get_total_alumni_by_fakultas()
+    {
         try {
             $sql = "SELECT nm_fakultas, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY nm_fakultas ORDER BY jumlah_alumni DESC";
             $query = $this->db_alumni->query($sql);
@@ -360,10 +392,24 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_alumni_by_jenis_kelamin(){
+    public function get_total_alumni_by_jenis_kelamin()
+    {
         try {
             $sql = "SELECT jns_kelamin, COUNT(*) AS jumlah_alumni FROM vwDetailMahasiswa WHERE kode_level = 'ALUMNI' GROUP BY jns_kelamin ORDER BY jns_kelamin";
             $query = $this->db_alumni->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    // // Admin Prodi
+    // Get Data Daftar Perusahaan Pengguna Alumni by Kode Prodi
+    public function get_perusahaan_alumni_prodi($kodeProdi)
+    {
+        try {
+            $sql = "SELECT ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS no, CASE WHEN nama_perusahaan IS NULL OR nama_perusahaan = '' THEN 'Belum Terdata' ELSE nama_perusahaan END AS nama_perusahaan, COUNT(*) AS jumlah_alumni FROM ref_biodata WHERE kode_prodi = '" . $kodeProdi . "' GROUP BY CASE WHEN nama_perusahaan IS NULL OR nama_perusahaan = '' THEN 'Belum Terdata' ELSE nama_perusahaan END ORDER BY COUNT(*) DESC;";
+            $query = $this->dbext_tracer->query($sql);
             return $query->getResult();
         } catch (\Exception $th) {
             return 0;

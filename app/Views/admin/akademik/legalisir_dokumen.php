@@ -27,12 +27,7 @@ view('layouts/header');
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="#" class="text-muted">
-                            Akademik
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_program_studi') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_legalisir') ?>" class="text-muted">
                             Daftar Legalisir Dokumen
                         </a>
                     </li>
@@ -46,10 +41,17 @@ view('layouts/header');
 </div>
 <!--end::Subheader-->
 
+<!--  -->
 <!--begin::Entry-->
+
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class=" container ">
+        <?php if (session()->getFlashdata('status')) : ?>
+            <div class="alert alert-<?= session()->getFlashdata('status') == 'berhasil' ? 'success' : 'danger' ?>">
+                <?= session()->getFlashdata('message') ?>
+            </div>
+        <?php endif; ?>
         <!--begin::Card-->
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
@@ -62,15 +64,17 @@ view('layouts/header');
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:/metronic/theme/html/demo5/dist/assets/media/svg/icons/Design/PenAndRuller.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <span class="svg-icon svg-icon-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24" />
                                         <path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3" />
                                         <path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000" />
                                     </g>
-                                </svg><!--end::Svg Icon--></span> Export
+                                </svg>
+                            </span>
+                            Export
                         </button>
-
                         <!--begin::Dropdown Menu-->
                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                             <!--begin::Navigation-->
@@ -122,8 +126,10 @@ view('layouts/header');
                         <tr>
                             <!-- "id","legalisir_path","nim","jenis_berkas","berkas_path","ttd_berkas_path","bahasa","jumlah","kode_pos","alamat_pengiriman","biaya_legalisasi","tarif_pengiriman","total_biaya","catatan","status","created_at","updated_at" -->
                             <th>ID</th>
+                            <th>No</th>
                             <th>Legalisir Path</th>
                             <th>NIM</th>
+                            <th>Nama</th>
                             <th>Jenis Berkas</th>
                             <th>Berkas Path</th>
                             <th>TTD Berkas Path</th>
@@ -142,11 +148,13 @@ view('layouts/header');
                     <tbody>
                         <!-- Get Data Program Studi -->
                         <?php
-                        foreach (get_data_legalisir() as $key => $value) {
+                        foreach (get_data_legalisir(session()->get('C_KODE_PRODI')) as $key => $value) {
                             echo '<tr>';
                             echo '<td>' . $value->id . '</td>';
+                            echo '<td>' . ($key + 1) . '</td>';
                             echo '<td>' . $value->legalisir_path . '</td>';
                             echo '<td>' . $value->nim . '</td>';
+                            echo '<td>' . get_data_biodata($value->nim)->nama_lengkap . '</td>';
                             echo '<td>' . $value->jenis_berkas . '</td>';
                             echo '<td>';
                             echo '<a href="' . base_url('assets/berkas/legalisir/' . $value->berkas_path) . '" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2"> <i class="fas fa-eye"></i> </a>';
@@ -161,7 +169,7 @@ view('layouts/header');
                             echo '<td>' . format_rupiah($value->total_biaya) . '</td>';
                             echo '<td>' . $value->catatan . '</td>';
                             echo '<td>' . $value->status . '</td>';
-                            echo '<td nowrap="nowrap">';
+                            echo '<td>';
                             echo '<a href="#" class="btn btn-sm btn-clean btn-icon mr-2 btn-edit" title="Edit details">';
                             echo '<i class="fas fa-edit"></i>';
                             echo '</span>';
@@ -180,12 +188,124 @@ view('layouts/header');
         <!--end::Card-->
     </div>
     <!--end::Container-->
-
-
-
 </div>
 <!--end::Entry-->
 <!--end::Content-->
+
+<!-- Modal -->
+<div class="modal fade" id="legalisirModal" tabindex="-1" aria-labelledby="legalisirModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="legalisirModalLabel">Pengaturan Legalisir</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="legalisirForm" action="<?= route_to('admin_legalisir_post') ?>" method="post">
+                    <div class="form-group">
+                        <label for="catatan">Catatan</label>
+                        <textarea class="form-control" id="catatan" name="catatan" rows="3" value="<?= $data_legalisir->catatan ?? '' ?>"></textarea>
+                        <small id="catatanHelp" class="form-text text-muted">Catatan ini akan muncul pada halaman legalisir yang ada pada bagian alumni.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="extraOngkir">Harga Extra Ongkir</label>
+                        <input type="number" class="form-control" id="extraOngkir" name="extraOngkir" value="<?= $data_legalisir->extra_ongkir ?? '' ?>">
+                        <small id="extraOngkirHelp" class="form-text text-muted">Harga extra ongkir merupakan extra biaya pengiriman yang akan ditambahkan pada total biaya legalisir.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="hargaLegalisirIjazah">Harga Legalisir Ijazah</label>
+                        <input type="number" class="form-control" id="hargaLegalisirIjazah" name="hargaLegalisirIjazah" value="<?= $data_legalisir->biaya_legalisir_ijazah ?? '' ?>">
+                        <small id="hargaLegalisirIjazahHelp" class="form-text text-muted">Harga legalisir ijazah merupakan biaya legalisir ijazah yang akan dikenakan pada alumni per satu dokumen legalisir ijazah.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="hargaTranskripNilai">Harga Transkrip Nilai</label>
+                        <input type="number" class="form-control" id="hargaTranskripNilai" name="hargaTranskripNilai" value="<?= $data_legalisir->biaya_transkrip_nilai ?? '' ?>">
+                        <small id="hargaTranskripNilaiHelp" class="form-text text-muted">Harga transkrip nilai merupakan biaya legalisir transkrip nilai yang akan dikenakan pada alumni per satu dokumen legalisir transkrip nilai.</small>
+                    </div>
+                    <!-- whatsapp -->
+                    <div class="form-group">
+                        <label for="whatsapp">Whatsapp</label>
+                        <input type="text" class="form-control" id="whatsapp" name="whatsapp" value="<?= $data_legalisir->whatsapp ?? '' ?>">
+                        <small id="whatsappHelp" class="form-text text-muted">Whatsapp ini akan muncul pada halaman legalisir yang ada pada bagian alumni.</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="legalisirForm">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="statusModalLabel">Edit Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="statusForm" action="<?= route_to('admin_update_status_legalisir') ?>" method="post">
+                    <input type="hidden" name="id" id="id">
+                    <div class="form-group">
+                        <label for="statusSelect">Status</label>
+                        <select class="form-control" id="statusSelect" name="status">
+                            <option value="Submitted">Submitted</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                        <small id="statusHelp" class="form-text text-muted">
+                            <span class="badge badge-danger">Submitted </span> adalah status ketika legalisir baru saja diinputkan<br>
+                            <span class="badge badge-primary">Processing </span> adalah status ketika legalisir sedang diproses<br>
+                            <span class="badge badge-success">Completed </span> adalah status ketika legalisir telah selesai diproses<br>
+                            <span class="badge badge-info">Shipped </span> adalah status ketika legalisir telah dikirim<br>
+                            <span class="badge badge-secondary">Cancelled </span> adalah status ketika legalisir dibatalkan
+                        </small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveStatusBtn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus data ini?</p>
+                <form id="deleteForm" action="<?= route_to('admin_delete_pengajuan') ?>" method="post">
+                    <input type="hidden" name="id" id="deleteId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger" form="deleteForm">Hapus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <?=
 
@@ -212,15 +332,28 @@ view('layouts/footer');
             "hideMethod": "fadeOut"
         };
 
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+
         var table = $('#alumniTable').DataTable({
             "responsive": true,
+            "order": [
+                [1, "desc"]
+            ],
             "columnDefs": [{
                     "targets": -1,
                     "orderable": false,
                     "responsivePriority": 1,
                 },
                 {
-                    "targets": [0, 2, 3, 4, 6, 7, 10, 12, 13],
+                    "targets": [0],
+                    "visible": false,
+                },
+                {
+                    "targets": [1, 4, 5, 6, 8, 9, 12, 14, 15],
                     "render": function(data, type, row) {
                         if (data == null || data == "" || data == undefined || data == false || data == 0 || data == "NULL") {
                             return "<span class='badge badge-danger'>Data Belum Diisi</span>";
@@ -230,11 +363,11 @@ view('layouts/footer');
                     }
                 },
                 {
-                    "targets": [1],
+                    "targets": [2],
                     "visible": false,
                 },
                 {
-                    "targets": [5],
+                    "targets": [7],
                     // Tanda Tangan Elektronik, Berkas Diambil di Fakultas, Berkas Dikirim
                     "render": function(data, type, row) {
                         console.log(row);
@@ -250,7 +383,7 @@ view('layouts/footer');
                     }
                 },
                 {
-                    "targets": [8,9,11],
+                    "targets": [10, 11, 13],
                     // IF TTD Berkas Path == Tanda Tangan Elektronik, then for value - at target 8,9,11
                     "render": function(data, type, row) {
                         if (row[5] == "Tanda Tangan Elektronik" || row[5] == "Berkas Diambil di Fakultas") {
@@ -263,7 +396,7 @@ view('layouts/footer');
                     }
                 },
                 {
-                    "targets": [14],
+                    "targets": [16],
                     // 'Submitted','Processing','Completed','Shipped','Cancelled'
                     "render": function(data, type, row) {
                         if (data == "Submitted") {
@@ -282,20 +415,48 @@ view('layouts/footer');
                     }
                 }
             ],
-
         });
 
-        // Event handler untuk tombol edit
+        // Event handler for edit button
         $('#alumniTable').on('click', '.btn-edit', function(e) {
             e.preventDefault();
-            // Tampilkan toast warning
-            toastr.warning('Fitur ini belum tersedia!');
+            var row = $(this).closest('tr');
+            var data = table.row(row).data();
+            var id = data[0]; // Assuming the ID column index is 0
+            var currentStatus = data[16]; // Assuming the status column index is 15
+            $('#statusSelect').val(currentStatus);
+            $('#id').val(id);
+            $('#statusModal').modal('show');
         });
-        // Event handler untuk tombol edit
+
+
+        // Event handler for delete button
         $('#alumniTable').on('click', '.btn-delete', function(e) {
             e.preventDefault();
-            // Tampilkan toast warning
-            toastr.warning('Fitur ini belum tersedia!');
+            var row = $(this).closest('tr');
+            var data = table.row(row).data();
+            var id = data[0]; // Assuming the ID column index is 0
+            $('#deleteId').val(id);
+            $('#deleteModal').modal('show');
+        });
+
+
+        $('#saveStatusBtn').on('click', function() {
+            $('#statusForm').submit();
+        });
+
+        $('#legalisirForm').on('submit', function(e) {
+            tinymce.triggerSave();
+            var content = tinymce.get('catatan').getContent();
+            if (content.length === 0) {
+                e.preventDefault();
+            }
+        });
+
+        $('#addModalPengaturanLegalisir').on('click', function(e) {
+            e.preventDefault();
+            var isi = $(this).data('isi');
+            tinymce.get('catatan').setContent(isi);
         });
     });
 </script>

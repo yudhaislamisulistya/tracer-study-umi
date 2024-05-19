@@ -221,13 +221,12 @@ class MainController extends BaseController
     // Admin Prodi
     function admin_prodi_dashboard()
     {
-        $data['total_alumni'] = 56744;
-        $data['total_program_studi'] = $this->ModelProgramStudi->get_total_program_studi()->total_program_studi;
+        $data['total_alumni'] = $this->ModelAlumni->get_total_alumni_by_kode_prodi()->jumlah_alumni;
         $data['total_biodata'] = $this->ModelBiodata->get_total_biodata()->total_biodata;
         $data['total_berita'] = $this->ModelBerita->get_total_berita()->total_berita;
         $data['total_lowongan_pekerjaan'] = $this->ModelLowonganPekerjaan->get_total_lowongan_pekerjaan()->total_lowongan_pekerjaan;
         $data['total_legalisir'] = $this->ModelLegalisir->get_total_legalisir()->total_legalisir;
-        $data['total_pekerjaan'] = $this->ModelPekerjaan->get_total_pekerjaan()->total_pekerjaan;
+        $data['total_kuesioner'] = $this->ModelLegalisir->get_total_kuesioner_pengguna_lulusan()->total_kuesioner;
         return view('admin-prodi/dashboard', $data);
     }
 

@@ -15,25 +15,25 @@ view('layouts/header');
             <div class="d-flex align-items-baseline flex-wrap mr-5">
                 <!--begin::Page Title-->
                 <h2 class="d-flex align-items-center  text-dark font-weight-bold my-1 mr-3">
-                    Daftar Berita
+                    Daftar Event
                 </h2>
                 <!--end::Page Title-->
 
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold my-2 p-0">
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_dashboard') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_dashboard') ?>" class="text-muted">
                             Dashboard
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
                         <a href="#" class="text-muted">
-                            Informasi dan Berita
+                            Informasi dan Event
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_berita') ?>" class="text-muted">
-                            Berita
+                        <a href="<?= route_to('admin_prodi_event') ?>" class="text-muted">
+                            Event
                         </a>
                     </li>
                 </ul>
@@ -60,7 +60,7 @@ view('layouts/header');
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <div class="card-title">
                     <h3 class="card-label">
-                        Daftar Berita
+                        Daftar Event
                     </h3>
                 </div>
                 <div class="card-toolbar">
@@ -141,7 +141,7 @@ view('layouts/header');
                             <!-- "id","berita_hash","judul","isi","penulis","tanggal_publish","gambar","kategori","status","created_at","updated_at" -->
                             <th>ID</th>
                             <th>No</th>
-                            <th>Berita Hash</th>
+                            <th>Event Hash</th>
                             <th>Judul</th>
                             <th>Isi</th>
                             <th>Penulis</th>
@@ -156,8 +156,8 @@ view('layouts/header');
                     </thead>
                     <tbody>
                         <?php
-                        foreach (get_data_berita_by_kategori("Berita") as $key => $value) {
-                            $isiBeritaEncoded = htmlspecialchars($value->isi);
+                        foreach (get_data_berita_by_kategori("Event") as $key => $value) {
+                            $isiEventEncoded = htmlspecialchars($value->isi);
                             $gambar = $value->gambar == null ? base_url('assets/images/default-image.png') : "assets/img/berita/$value->gambar";
                             echo '<tr>';
                             echo '<td>' . $value->id . '</td>';
@@ -205,37 +205,37 @@ view('layouts/header');
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalTambahDataTitle">Tambah Data Berita</h5>
+                <h5 class="modal-title" id="modalTambahDataTitle">Tambah Data Event</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <!-- Form Tambah Data -->
-                <form id="formTambahData" action="<?= route_to('admin_berita_alumni_post') ?>" method="POST" enctype="multipart/form-data">
+                <form id="formTambahData" action="<?= route_to('admin_prodi_event_alumni_post') ?>" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="judulBerita">Judul</label>
-                        <input type="text" class="form-control" id="judulBerita" name="judulBerita" required>
+                        <label for="judulEvent">Judul</label>
+                        <input type="text" class="form-control" id="judulEvent" name="judulEvent" required>
                     </div>
                     <div class="form-group">
-                        <label for="isiBerita">Isi</label>
-                        <textarea class="form-control" id="isiBerita" name="isiBerita" rows="3"></textarea>
+                        <label for="isiEvent">Isi</label>
+                        <textarea class="form-control" id="isiEvent" name="isiEvent" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="tanggalBerita">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggalBerita" name="tanggalBerita" required>
+                        <label for="tanggalEvent">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggalEvent" name="tanggalEvent" required>
                     </div>
                     <div class="form-group">
-                        <label for="gambarBerita">Gambar</label>
-                        <input type="file" class="form-control" id="gambarBerita" name="gambarBerita">
+                        <label for="gambarEvent">Gambar</label>
+                        <input type="file" class="form-control" id="gambarEvent" name="gambarEvent">
                     </div>
                     <div class="form-group">
-                        <label for="kategoriBerita">Kategori</label>
-                        <input type="text" class="form-control" id="kategoriBerita" name="kategoriBerita" readonly value="Berita">
+                        <label for="kategoriEvent">Kategori</label>
+                        <input type="text" class="form-control" id="kategoriEvent" name="kategoriEvent" readonly value="Event">
                     </div>
                     <div class="form-group">
-                        <label for="statusBerita">Status</label>
-                        <select class="form-control" id="statusBerita" name="statusBerita">
+                        <label for="statusEvent">Status</label>
+                        <select class="form-control" id="statusEvent" name="statusEvent">
                             <option value="Draft">Draft</option>
                             <option value="Published">Published</option>
                             <option value="Archived">Archived</option>
@@ -256,38 +256,38 @@ view('layouts/header');
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalEditDataTitle">Edit Data Berita</h5>
+                <h5 class="modal-title" id="modalEditDataTitle">Edit Data Event</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <!-- Form Edit Data -->
-                <form id="formEditData" action="<?= route_to('admin_berita_alumni_update') ?>" method="POST" enctype="multipart/form-data">
+                <form id="formEditData" action="<?= route_to('admin_prodi_event_alumni_update') ?>" method="POST" enctype="multipart/form-data">
                     <input type="hidden" id="editId" name="editId">
                     <div class="form-group">
-                        <label for="editJudulBerita">Judul</label>
-                        <input type="text" class="form-control" id="editJudulBerita" name="editJudulBerita" required>
+                        <label for="editJudulEvent">Judul</label>
+                        <input type="text" class="form-control" id="editJudulEvent" name="editJudulEvent" required>
                     </div>
                     <div class="form-group">
-                        <label for="editIsiBerita">Isi</label>
-                        <textarea class="form-control" id="editIsiBerita" name="editIsiBerita" rows="3"></textarea>
+                        <label for="editIsiEvent">Isi</label>
+                        <textarea class="form-control" id="editIsiEvent" name="editIsiEvent" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="editTanggalBerita">Tanggal</label>
-                        <input type="date" class="form-control" id="editTanggalBerita" name="editTanggalBerita" required>
+                        <label for="editTanggalEvent">Tanggal</label>
+                        <input type="date" class="form-control" id="editTanggalEvent" name="editTanggalEvent" required>
                     </div>
                     <div class="form-group">
-                        <label for="editGambarBerita">Gambar</label>
-                        <input type="file" class="form-control" id="editGambarBerita" name="editGambarBerita">
+                        <label for="editGambarEvent">Gambar</label>
+                        <input type="file" class="form-control" id="editGambarEvent" name="editGambarEvent">
                     </div>
                     <div class="form-group">
-                        <label for="editKategoriBerita">Kategori</label>
-                        <input type="text" class="form-control" id="editKategoriBerita" name="editKategoriBerita" readonly value="Berita">
+                        <label for="editKategoriEvent">Kategori</label>
+                        <input type="text" class="form-control" id="editKategoriEvent" name="editKategoriEvent" readonly value="Event">
                     </div>
                     <div class="form-group">
-                        <label for="editStatusBerita">Status</label>
-                        <select class="form-control" id="editStatusBerita" name="editStatusBerita">
+                        <label for="editStatusEvent">Status</label>
+                        <select class="form-control" id="editStatusEvent" name="editStatusEvent">
                             <option value="Draft">Draft</option>
                             <option value="Published">Published</option>
                             <option value="Archived">Archived</option>
@@ -317,7 +317,7 @@ view('layouts/header');
                 Apakah Anda yakin ingin menghapus data ini?
             </div>
             <div class="modal-footer">
-                <form action="<?= route_to('admin_berita_alumni_delete') ?>" method="POST">
+                <form action="<?= route_to('admin_prodi_event_alumni_delete') ?>" method="POST">
                     <input type="hidden" id="hapusId" name="hapusId">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-danger">Hapus</button>
@@ -416,12 +416,11 @@ view('layouts/footer');
             }, {
                 "targets": 0,
                 "visible": false,
-
+            
             }],
         });
 
         $('#printButton').on('click', function() {
-            console.log('print');
             $('#alumniTable').DataTable().button('4').trigger();
         });
 
@@ -448,7 +447,7 @@ view('layouts/footer');
 
         $('#formTambahData').on('submit', function(e) {
             tinymce.triggerSave();
-            var content = tinymce.get('isiBerita').getContent();
+            var content = tinymce.get('isiEvent').getContent();
             if (content.length === 0) {
                 e.preventDefault();
             }
@@ -468,11 +467,11 @@ view('layouts/footer');
             var status = row.find('td:eq(8)').text();
 
             $('#formEditData #editId').val(id);
-            $('#formEditData #editJudulBerita').val(judul);
-            tinymce.get('editIsiBerita').setContent(isi);
-            $('#formEditData #editTanggalBerita').val(tanggal);
-            $('#formEditData #editKategoriBerita').val(kategori);
-            $('#formEditData #editStatusBerita').val(status);
+            $('#formEditData #editJudulEvent').val(judul);
+            tinymce.get('editIsiEvent').setContent(isi);
+            $('#formEditData #editTanggalEvent').val(tanggal);
+            $('#formEditData #editKategoriEvent').val(kategori);
+            $('#formEditData #editStatusEvent').val(status);
 
             $('#modalEditData').modal('show');
         });

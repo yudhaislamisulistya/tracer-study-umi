@@ -155,6 +155,7 @@ view('layouts/header');
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>No</th>
                             <th>Nama Kuesioner</th>
                             <th>Nama Prodi</th>
                             <th>Periode Mulai</th>
@@ -167,7 +168,6 @@ view('layouts/header');
                     <tbody>
                         <!-- Get Data Kuesioner -->
                         <?php
-                        $i = 1;
                         foreach (get_data_kuesioner() as $key => $value) {
                             if ($value->status == "aktif") {
                                 $value->status = '<span class="label label-inline label-light-success font-weight-bold">Aktif</span>';
@@ -176,6 +176,7 @@ view('layouts/header');
                             }
                             echo '<tr>';
                             echo '<td>' . $value->kuesioner_id . '</td>';
+                            echo '<td>' . ($key + 1) . '</td>';
                             echo '<td>' . $value->nama_kuesioner . '</td>';
                             echo '<td>' . $value->nama_prodi . '</td>';
                             echo '<td>' . $value->periode_mulai . '</td>';
@@ -408,10 +409,15 @@ view('layouts/footer');
                 }
             ],
             "responsive": true,
+            "order": [],
             "columnDefs": [{
                 "targets": -1,
                 "orderable": false,
                 "responsivePriority": 1,
+            }, {
+                "targets": 0,
+                "visible": false,
+
             }],
         });
 
@@ -445,7 +451,8 @@ view('layouts/footer');
             e.preventDefault();
 
             var row = $(this).closest('tr');
-            var id = row.find('td:eq(0)').text();
+            var data = table.row(row).data();
+            var id = data[0];
             var namaKuesioner = row.find('td:eq(1)').text();
             var namaProdi = row.find('td:eq(2)').text();
             console.log(namaProdi);
@@ -465,7 +472,8 @@ view('layouts/footer');
             e.preventDefault();
 
             var row = $(this).closest('tr');
-            var id = row.find('td:eq(0)').text();
+            var data = table.row(row).data();
+            var id = data[0];
 
             $('#modalHapusData #hapusId').val(id);
             $('#modalHapusData').modal('show');

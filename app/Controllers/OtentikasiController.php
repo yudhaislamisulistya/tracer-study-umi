@@ -124,9 +124,10 @@ class OtentikasiController extends BaseController
                 $tempat_lahir = $dataUserCurrent["response"]["personal"]["tempat_lahir"];
                 $tanggal_lahir = $dataUserCurrent["response"]["personal"]["tgl_lahir"];
                 $program_studi = $dataUserCurrent["response"]["nm_prodi"];
+                $kode_prodi = $dataUserCurrent["response"]["id_prodi"];
 
                 if (!$check) {
-                    $this->ModelBiodata->insert_data_default($nim, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $program_studi);
+                    $this->ModelBiodata->insert_data_default($kode_prodi, $nim, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $program_studi);
                 }
                 return redirect()->to(base_url('dashboard'));
             }

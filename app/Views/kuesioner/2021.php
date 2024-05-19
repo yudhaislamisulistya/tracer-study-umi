@@ -20,10 +20,9 @@
             <div class="alert-icon"><i class="flaticon-warning"></i></div>
             <div class="alert-text"><span class="h4">Informasi Kuesioner Tracer Study.</span><br>
                 Saat ini Anda sudah dapat mengisi Kuesioner Tracer Study.<br>
-                Pengisian Tracer Study hanya dapat dilakukan oleh seluruh Lulusan Universitas Muslim Indonesia tahun
-                2019.<br>
+                Pengisian Tracer Study hanya dapat dilakukan oleh seluruh Lulusan Universitas Muslim Indonesia<br>
                 Kami ucapkan terimakasih dan penghargaan setinggi-tingginya buat para lulusan atas partisipasi dan
-                dukungan yang diberikan dalam kegiatan Tracer Study tahun 2021.</div>
+                dukungan yang diberikan dalam kegiatan Tracer Study tahun 2024</div>
             <div class="alert-close">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true"><i class="ki ki-close"></i></span>

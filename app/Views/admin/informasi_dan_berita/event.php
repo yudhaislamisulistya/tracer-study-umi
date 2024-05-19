@@ -32,7 +32,7 @@ view('layouts/header');
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_negara') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_artikel') ?>" class="text-muted">
                             Event
                         </a>
                     </li>
@@ -50,6 +50,11 @@ view('layouts/header');
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class=" container ">
+        <?php if (session()->getFlashdata('status')) : ?>
+            <div class="alert alert-<?= session()->getFlashdata('status') == 'berhasil' ? 'success' : 'danger' ?>">
+                <?= session()->getFlashdata('message') ?>
+            </div>
+        <?php endif; ?>
         <!--begin::Card-->
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
@@ -60,7 +65,7 @@ view('layouts/header');
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
-  <div class="dropdown dropdown-inline mr-2">
+                    <div class="dropdown dropdown-inline mr-2">
                         <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:/metronic/theme/html/demo5/dist/assets/media/svg/icons/Design/PenAndRuller.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -135,6 +140,7 @@ view('layouts/header');
                         <tr>
                             <!-- "id","berita_hash","judul","isi","penulis","tanggal_publish","gambar","kategori","status","created_at","updated_at" -->
                             <th>ID</th>
+                            <th>No</th>
                             <th>Event Hash</th>
                             <th>Judul</th>
                             <th>Isi</th>
@@ -155,6 +161,7 @@ view('layouts/header');
                             $gambar = $value->gambar == null ? base_url('assets/images/default-image.png') : "assets/img/berita/$value->gambar";
                             echo '<tr>';
                             echo '<td>' . $value->id . '</td>';
+                            echo '<td>' . ($key + 1) . '</td>';
                             echo '<td>' . $value->berita_hash . '</td>';
                             echo '<td>' . $value->judul . '</td>';
                             echo '<td>' . short_isi_limit($value->isi, 50) . '</td>';
@@ -207,28 +214,28 @@ view('layouts/header');
                 <!-- Form Tambah Data -->
                 <form id="formTambahData" action="<?= route_to('admin_berita_alumni_post') ?>" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="judulEvent">Judul</label>
-                        <input type="text" class="form-control" id="judulEvent" name="judulEvent" required>
+                        <label for="judulBerita">Judul</label>
+                        <input type="text" class="form-control" id="judulBerita" name="judulBerita" required>
                     </div>
                     <div class="form-group">
-                        <label for="isiEvent">Isi</label>
-                        <textarea class="form-control" id="isiEvent" name="isiEvent" rows="3"></textarea>
+                        <label for="isiBerita">Isi</label>
+                        <textarea class="form-control" id="isiBerita" name="isiBerita" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="tanggalEvent">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggalEvent" name="tanggalEvent" required>
+                        <label for="tanggalBerita">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggalBerita" name="tanggalBerita" required>
                     </div>
                     <div class="form-group">
-                        <label for="gambarEvent">Gambar</label>
-                        <input type="file" class="form-control" id="gambarEvent" name="gambarEvent">
+                        <label for="gambarBerita">Gambar</label>
+                        <input type="file" class="form-control" id="gambarBerita" name="gambarBerita">
                     </div>
                     <div class="form-group">
-                        <label for="kategoriEvent">Kategori</label>
-                        <input type="text" class="form-control" id="kategoriEvent" name="kategoriEvent" readonly value="Event">
+                        <label for="kategoriBerita">Kategori</label>
+                        <input type="text" class="form-control" id="kategoriBerita" name="kategoriBerita" readonly value="Event">
                     </div>
                     <div class="form-group">
-                        <label for="statusEvent">Status</label>
-                        <select class="form-control" id="statusEvent" name="statusEvent">
+                        <label for="statusBerita">Status</label>
+                        <select class="form-control" id="statusBerita" name="statusBerita">
                             <option value="Draft">Draft</option>
                             <option value="Published">Published</option>
                             <option value="Archived">Archived</option>
@@ -259,28 +266,28 @@ view('layouts/header');
                 <form id="formEditData" action="<?= route_to('admin_berita_alumni_update') ?>" method="POST" enctype="multipart/form-data">
                     <input type="hidden" id="editId" name="editId">
                     <div class="form-group">
-                        <label for="editJudulEvent">Judul</label>
-                        <input type="text" class="form-control" id="editJudulEvent" name="editJudulEvent" required>
+                        <label for="editJudulBerita">Judul</label>
+                        <input type="text" class="form-control" id="editJudulBerita" name="editJudulBerita" required>
                     </div>
                     <div class="form-group">
-                        <label for="editIsiEvent">Isi</label>
-                        <textarea class="form-control" id="editIsiEvent" name="editIsiEvent" rows="3"></textarea>
+                        <label for="editIsiBerita">Isi</label>
+                        <textarea class="form-control" id="editIsiBerita" name="editIsiBerita" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="editTanggalEvent">Tanggal</label>
-                        <input type="date" class="form-control" id="editTanggalEvent" name="editTanggalEvent" required>
+                        <label for="editTanggalBerita">Tanggal</label>
+                        <input type="date" class="form-control" id="editTanggalBerita" name="editTanggalBerita" required>
                     </div>
                     <div class="form-group">
-                        <label for="editGambarEvent">Gambar</label>
-                        <input type="file" class="form-control" id="editGambarEvent" name="editGambarEvent">
+                        <label for="editGambarBerita">Gambar</label>
+                        <input type="file" class="form-control" id="editGambarBerita" name="editGambarBerita">
                     </div>
                     <div class="form-group">
-                        <label for="editKategoriEvent">Kategori</label>
-                        <input type="text" class="form-control" id="editKategoriEvent" name="editKategoriEvent" readonly value="Event">
+                        <label for="editKategoriBerita">Kategori</label>
+                        <input type="text" class="form-control" id="editKategoriBerita" name="editKategoriBerita" readonly value="Event">
                     </div>
                     <div class="form-group">
-                        <label for="editStatusEvent">Status</label>
-                        <select class="form-control" id="editStatusEvent" name="editStatusEvent">
+                        <label for="editStatusBerita">Status</label>
+                        <select class="form-control" id="editStatusBerita" name="editStatusBerita">
                             <option value="Draft">Draft</option>
                             <option value="Published">Published</option>
                             <option value="Archived">Archived</option>
@@ -401,10 +408,14 @@ view('layouts/footer');
                 }
             ],
             "responsive": true,
+            "order": [],
             "columnDefs": [{
                 "targets": -1,
                 "orderable": false,
                 "responsivePriority": 1,
+            },{
+                "targets": 0,
+                "visible": false,
             }],
         });
 
@@ -435,7 +446,7 @@ view('layouts/footer');
 
         $('#formTambahData').on('submit', function(e) {
             tinymce.triggerSave();
-            var content = tinymce.get('isiEvent').getContent();
+            var content = tinymce.get('isiBerita').getContent();
             if (content.length === 0) {
                 e.preventDefault();
             }
@@ -446,7 +457,8 @@ view('layouts/footer');
             e.preventDefault();
 
             var row = $(this).closest('tr');
-            var id = row.find('td:eq(0)').text();
+            var data = table.row(row).data();
+            var id = data[0];
             var judul = row.find('td:eq(2)').text();
             var isi = $(this).data('isi');
             var tanggal = row.find('td:eq(5)').text();
@@ -454,11 +466,11 @@ view('layouts/footer');
             var status = row.find('td:eq(8)').text();
 
             $('#formEditData #editId').val(id);
-            $('#formEditData #editJudulEvent').val(judul);
-            tinymce.get('editIsiEvent').setContent(isi);
-            $('#formEditData #editTanggalEvent').val(tanggal);
-            $('#formEditData #editKategoriEvent').val(kategori);
-            $('#formEditData #editStatusEvent').val(status);
+            $('#formEditData #editJudulBerita').val(judul);
+            tinymce.get('editIsiBerita').setContent(isi);
+            $('#formEditData #editTanggalBerita').val(tanggal);
+            $('#formEditData #editKategoriBerita').val(kategori);
+            $('#formEditData #editStatusBerita').val(status);
 
             $('#modalEditData').modal('show');
         });
@@ -470,7 +482,8 @@ view('layouts/footer');
             e.preventDefault();
 
             var row = $(this).closest('tr');
-            var id = row.find('td:eq(0)').text();
+            var data = table.row(row).data();
+            var id = data[0];
 
             $('#modalHapusData #hapusId').val(id);
             $('#modalHapusData').modal('show');

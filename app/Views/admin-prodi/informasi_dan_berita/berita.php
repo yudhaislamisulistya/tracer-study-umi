@@ -22,7 +22,7 @@ view('layouts/header');
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold my-2 p-0">
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_dashboard') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_dashboard') ?>" class="text-muted">
                             Dashboard
                         </a>
                     </li>
@@ -32,7 +32,7 @@ view('layouts/header');
                         </a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="<?= route_to('admin_berita') ?>" class="text-muted">
+                        <a href="<?= route_to('admin_prodi_berita') ?>" class="text-muted">
                             Berita
                         </a>
                     </li>
@@ -212,7 +212,7 @@ view('layouts/header');
             </div>
             <div class="modal-body">
                 <!-- Form Tambah Data -->
-                <form id="formTambahData" action="<?= route_to('admin_berita_alumni_post') ?>" method="POST" enctype="multipart/form-data">
+                <form id="formTambahData" action="<?= route_to('admin_prodi_berita_alumni_post') ?>" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="judulBerita">Judul</label>
                         <input type="text" class="form-control" id="judulBerita" name="judulBerita" required>
@@ -263,7 +263,7 @@ view('layouts/header');
             </div>
             <div class="modal-body">
                 <!-- Form Edit Data -->
-                <form id="formEditData" action="<?= route_to('admin_berita_alumni_update') ?>" method="POST" enctype="multipart/form-data">
+                <form id="formEditData" action="<?= route_to('admin_prodi_berita_alumni_update') ?>" method="POST" enctype="multipart/form-data">
                     <input type="hidden" id="editId" name="editId">
                     <div class="form-group">
                         <label for="editJudulBerita">Judul</label>
@@ -317,7 +317,7 @@ view('layouts/header');
                 Apakah Anda yakin ingin menghapus data ini?
             </div>
             <div class="modal-footer">
-                <form action="<?= route_to('admin_berita_alumni_delete') ?>" method="POST">
+                <form action="<?= route_to('admin_prodi_berita_alumni_delete') ?>" method="POST">
                     <input type="hidden" id="hapusId" name="hapusId">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-danger">Hapus</button>
@@ -410,14 +410,14 @@ view('layouts/footer');
             "responsive": true,
             "order": [],
             "columnDefs": [{
-                "targets": -1,
-                "orderable": false,
-                "responsivePriority": 1,
-            }, {
-                "targets": 0,
-                "visible": false,
-
-            }],
+                    "targets": -1,
+                    "responsivePriority": 1,
+                },
+                {
+                    "targets": [0],
+                    "visible": false,
+                },
+            ],
         });
 
         $('#printButton').on('click', function() {
@@ -461,6 +461,8 @@ view('layouts/footer');
             var row = $(this).closest('tr');
             var data = table.row(row).data();
             var id = data[0];
+            console.log("Ini merupakan ID");
+            console.log(id);
             var judul = row.find('td:eq(2)').text();
             var isi = $(this).data('isi');
             var tanggal = row.find('td:eq(5)').text();

@@ -26,10 +26,11 @@ class ModelBiodata extends Model
                 ->join('pekerjaan', 'ref_biodata.jenis_pekerjaan = pekerjaan.id_pekerjaan', 'left')
                 ->join('status_pekerjaan', 'ref_biodata.status_pekerjaan = status_pekerjaan.id_job', 'left')
                 ->groupStart()
-                    ->like('nama_lengkap', '%' . $nameSearch . '%')
-                    ->like('nim', '%' . $nimSearch . '%')
-                    ->like('tahun_masuk', '%' . $tahunMasukSearch . '%')
-                    ->like('tahun_keluar', '%' . $tahunKeluarSearch . '%')
+                ->like('nama_lengkap', '%' . $nameSearch . '%')
+                ->like('nim', '%' . $nimSearch . '%')
+                ->like('tahun_masuk', '%' . $tahunMasukSearch . '%')
+                ->like('tahun_keluar', '%' . $tahunKeluarSearch . '%')
+                ->like('kode_prodi', '%' . $programStudiSearch . '%')
                 ->groupEnd()
                 ->limit($limit, $offset)
                 ->get();
@@ -50,10 +51,11 @@ class ModelBiodata extends Model
                 ->join('pekerjaan', 'ref_biodata.jenis_pekerjaan = pekerjaan.id_pekerjaan', 'left')
                 ->join('status_pekerjaan', 'ref_biodata.status_pekerjaan = status_pekerjaan.id_job', 'left')
                 ->groupStart()
-                    ->like('nama_lengkap', '%' . $nameSearch . '%')
-                    ->like('nim', '%' . $nimSearch . '%')
-                    ->like('tahun_masuk', '%' . $tahunMasukSearch . '%')
-                    ->like('tahun_keluar', '%' . $tahunKeluarSearch . '%')
+                ->like('nama_lengkap', '%' . $nameSearch . '%')
+                ->like('nim', '%' . $nimSearch . '%')
+                ->like('tahun_masuk', '%' . $tahunMasukSearch . '%')
+                ->like('tahun_keluar', '%' . $tahunKeluarSearch . '%')
+                ->like('kode_prodi', '%' . $programStudiSearch . '%')
                 ->groupEnd()
                 ->get();
             return $query->getResult();
@@ -81,18 +83,18 @@ class ModelBiodata extends Model
             $this->dbext_tracer->table('ref_biodata')
                 ->where('nim', $nim)
                 ->update([
-                    "tahun_masuk" => $tahun_masuk,
-                    "tahun_keluar" => $tahun_keluar,
-                    "alamat" => $alamat,
-                    "negara" => $negara,
-                    "provinsi" => $provinsi,
-                    "kabupaten" => $kabupaten,
-                    "jenis_pekerjaan" => $jenis_pekerjaan,
-                    "nama_perusahaan" => $nama_perusahaan,
-                    "tanggal_masuk_kerja" => $tanggal_masuk_kerja,
-                    "status_pekerjaan" => $status_pekerjaan,
-                    "email" => $email,
-                    "nomor_handphone" => $nomor_handphone,
+                    "tahun_masuk" => $tahun_masuk == "" ? "" : $tahun_masuk,
+                    "tahun_keluar" => $tahun_keluar == "" ? "" : $tahun_keluar,
+                    "alamat" => $alamat == "" ? "" : $alamat,
+                    "negara" => $negara == "" ? "" : $negara,
+                    "provinsi" => $provinsi == "" ? "" : $provinsi,
+                    "kabupaten" => $kabupaten == "" ? "" : $kabupaten,
+                    "jenis_pekerjaan" => $jenis_pekerjaan == "" ? "" : $jenis_pekerjaan,
+                    "nama_perusahaan" => $nama_perusahaan == "" ? "" : $nama_perusahaan,
+                    "tanggal_masuk_kerja" => $tanggal_masuk_kerja == "" ? "" : $tanggal_masuk_kerja,
+                    "status_pekerjaan" => $status_pekerjaan == "" ? "" : $status_pekerjaan,
+                    "email" => $email == "" ? "" : $email,
+                    "nomor_handphone" => $nomor_handphone == "" ? "" : $nomor_handphone,
                 ]);
             return 1;
         } catch (\Exception $th) {
@@ -118,11 +120,12 @@ class ModelBiodata extends Model
         }
     }
 
-    public function insert_data_default($nim, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $program_studi)
+    public function insert_data_default($kode_prodi, $nim, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $program_studi)
     {
         try {
             $this->dbext_tracer->table('ref_biodata')
                 ->insert([
+                    'kode_prodi' => $kode_prodi,
                     "nim" => $nim,
                     "nama_lengkap" => $nama_lengkap,
                     "jenis_kelamin" => $jenis_kelamin,
@@ -151,7 +154,12 @@ class ModelBiodata extends Model
     public function get_total_biodata()
     {
         try {
-            $sql = "SELECT COUNT(*) AS total_biodata FROM ref_biodata;";
+            $kode_prodi = session()->get('C_KODE_PRODI');
+            if ($kode_prodi != null) {
+                $sql = "SELECT COUNT(*) AS total_biodata FROM ref_biodata WHERE kode_prodi = '$kode_prodi';";
+            }else{
+                $sql = "SELECT COUNT(*) AS total_biodata FROM ref_biodata;";
+            }
             $query = $this->dbext_tracer->query($sql);
             return $query->getRow();
         } catch (\Exception $th) {
@@ -170,7 +178,8 @@ class ModelBiodata extends Model
         }
     }
 
-    public function delete_biodata($nim){
+    public function delete_biodata($nim)
+    {
         try {
             $this->dbext_tracer->table('ref_biodata')
                 ->where('nim', $nim)
