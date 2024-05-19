@@ -128,6 +128,8 @@ class BeritaController extends BaseController
 
     public function delete_admin_berita()
     {
+    public function delete_admin_berita()
+    {
         try {
             $hapusId = $this->request->getPost('hapusId');
             $query = $this->ModelBerita->delete_data($hapusId);

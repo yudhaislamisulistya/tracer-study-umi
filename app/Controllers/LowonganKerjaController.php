@@ -295,4 +295,106 @@ class LowonganKerjaController extends BaseController
             return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal update data lowongan kerja');
         }
     }
+
+    // // Admin Prodi
+    // Get Lowongan Kerja By Prodi
+    public function admin_prodi_lowongan_kerja(){
+        try {
+            return view('admin-prodi/info_loker/daftar_lowongan_kerja');
+        } catch (\Exception $th) {
+            return redirect()->to(base_url('admin-prodi/info-loker/daftar-lowongan-kerja'));
+        }
+    }
+
+    public function admin_prodi_lowongan_kerja_post(){
+        try {
+            $data = [
+                'kode_prodi' => session()->get('C_KODE_PRODI'),
+                'job_hash' => md5(date('Y-m-d H:i:s')),
+                'nama_perusahaan' => $this->request->getPost('nama_perusahaan'),
+                'judul_rekrutmen' => $this->request->getPost('judul_rekrutmen'),
+                'jenis' => $this->request->getPost('jenis'),
+                'deskripsi_pekerjaan' => $this->request->getPost('deskripsi_pekerjaan'),
+                'nama_formasi' => $this->request->getPost('nama_formasi'),
+                'jumlah_formasi' => $this->request->getPost('jumlah_formasi'),
+                'jenjang' => $this->request->getPost('jenjang'),
+                'domisili' => $this->request->getPost('domisili'),
+                'pengalaman_kerja' => $this->request->getPost('pengalaman_kerja'),
+                'keterampilan' => $this->request->getPost('keterampilan'),
+                'syarat_kerja' => $this->request->getPost('syarat_kerja'),
+                'status' => $this->request->getPost('status'),
+                'kisaran_gaji_min' => $this->request->getPost('kisaran_gaji_min'),
+                'kisaran_gaji_max' => $this->request->getPost('kisaran_gaji_max'),
+                'manfaat' => $this->request->getPost('manfaat'),
+                'periode_mulai' => $this->request->getPost('periode_mulai'),
+                'periode_selesai' => $this->request->getPost('periode_selesai'),
+                'url_registration' => $this->request->getPost('url_registration'),
+                'tampilkan_berdasarkan_periode' => $this->request->getPost('periode_tidak_tampil') == 'on' ? 0 : 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            $query = $this->ModelLowonganPekerjaan->insert_data($data);
+
+            if (!$query) {
+                return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal menambahkan lowongan kerja');
+            } else {
+                return redirect()->back()->with('status', 'berhasil')->with('message', 'Berhasil menambahkan lowongan kerja');
+            }
+        } catch (\Exception $th) {
+            return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal menambahkan lowongan kerja');
+        }
+    }
+
+    public function admin_prodi_delete_lowongan_kerja(){
+        try {
+            $hapusId = $this->request->getPost('hapusId');
+            $query = $this->ModelLowonganPekerjaan->delete_data($hapusId);
+
+            if (!$query) {
+                return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal menghapus data lowongan kerja');
+            } else {
+                return redirect()->back()->with('status', 'berhasil')->with('message', 'Berhasil menghapus data lowongan kerja');
+            }
+        } catch (\Exception $th) {
+            return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal menghapus data lowongan kerja');
+        }
+    }
+
+    public function admin_prodi_update_lowongan_kerja(){
+        try {
+            $data = [
+                'nama_perusahaan' => $this->request->getPost('editNamaPerusahaan'),
+                'judul_rekrutmen' => $this->request->getPost('editJudulRekrutmen'),
+                'jenis' => $this->request->getPost('editJenis'),
+                'deskripsi_pekerjaan' => $this->request->getPost('editDeskripsiPekerjaan'),
+                'nama_formasi' => $this->request->getPost('editNamaFormasi'),
+                'jumlah_formasi' => $this->request->getPost('editJumlahFormasi'),
+                'jenjang' => $this->request->getPost('editJenjang'),
+                'domisili' => $this->request->getPost('editDomisili'),
+                'pengalaman_kerja' => $this->request->getPost('editPengalamanKerja'),
+                'keterampilan' => $this->request->getPost('editKeterampilan'),
+                'syarat_kerja' => $this->request->getPost('editSyaratKerja'),
+                'status' => $this->request->getPost('editStatus'),
+                'kisaran_gaji_min' => $this->request->getPost('editKisaranGajiMin'),
+                'kisaran_gaji_max' => $this->request->getPost('editKisaranGajiMax'),
+                'manfaat' => $this->request->getPost('editManfaat'),
+                'periode_mulai' => $this->request->getPost('editPeriodeMulai'),
+                'periode_selesai' => $this->request->getPost('editPeriodeSelesai'),
+                'url_registration' => $this->request->getPost('editUrlRegistration'),
+                'tampilkan_berdasarkan_periode' => $this->request->getPost('editPeriodeTidakTampil') == 'on' ? 0 : 1,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+            $query = $this->ModelLowonganPekerjaan->update_data($data, $this->request->getPost('editId'));
+            if ($query) {
+                return redirect()->back()->with('status', 'berhasil')->with('message', 'Berhasil update data lowongan perkejaan');
+            } else {
+                return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal update data lowongan perkejaan');
+            }
+
+        } catch (\Exception $th) {
+            return redirect()->back()->with('status', 'gagal')->with('message', 'Gagal update data lowongan kerja');
+        }
+    }
 }
