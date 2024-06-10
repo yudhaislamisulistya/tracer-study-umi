@@ -71,29 +71,27 @@
 
                         <ul class="nav nav-tabs nav-justified" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link flex-fill active" data-toggle="tab" href="#kuesioner-wajib">Kuesioner Wajib</a>
+                                <a class="nav-link active" data-toggle="tab" href="#kuesioner-wajib">Kuesioner Wajib</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link flex-fill" data-toggle="tab" href="#kuesioner-optional">Kuesioner Optional (Program Studi)</a>
+                                <a class="nav-link" data-toggle="tab" href="#kuesioner-optional">Kuesioner Optional (Program Studi)</a>
                             </li>
                         </ul>
 
                         <div class="tab-content">
-                            <div class="tab-pane active" id="identitas-alumni">
-                                <!-- Indentiftas Alumni -->
-                                <input type="hidden" readonly name="nim" value="<?= Session()->get('C_NPM') ?>" class="form-control" readonly>
-                                <input type="hidden" readonly value="091002 - Universitas Muslim Indonesia" class="form-control" readonly>
-                                <input type="hidden" readonly value="091002" name="kode_pt" class="form-control" type="hidden">
-                                <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->tahun_masuk ?>" name="tahun_masuk" class="form-control">
-                                <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->tahun_keluar ?>" name="tahun_lulus" class="form-control">
-                                <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->program_studi ?>" name="kode_prodi" class="form-control">
-                                <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->program_studi ?>" name="program_studi" class="form-control">
-                                <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->nama_lengkap ?>" name="nama_lengkap" class="form-control">
-                                <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->nomor_handphone ?>" name="nomor_handphone" class="form-control">
-                                <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->email ?>" name="email" class="form-control">
-                                <input type="hidden" required="" value="<?= get_data_lulusan(Session()->get('C_NPM'))->nikmsmh ?>" name="nik" class="form-control">
-                                <input type="hidden" required="" value="<?= get_data_lulusan(Session()->get('C_NPM'))->npwpmsmh ?>" name="npwp" class="form-control">
-                            </div>
+                            <!-- Indentiftas Alumni -->
+                            <input type="hidden" readonly name="nim" value="<?= Session()->get('C_NPM') ?>" class="form-control" readonly>
+                            <input type="hidden" readonly value="091002 - Universitas Muslim Indonesia" class="form-control" readonly>
+                            <input type="hidden" readonly value="091002" name="kode_pt" class="form-control" type="hidden">
+                            <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->tahun_masuk ?>" name="tahun_masuk" class="form-control">
+                            <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->tahun_keluar ?>" name="tahun_lulus" class="form-control">
+                            <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->program_studi ?>" name="kode_prodi" class="form-control">
+                            <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->program_studi ?>" name="program_studi" class="form-control">
+                            <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->nama_lengkap ?>" name="nama_lengkap" class="form-control">
+                            <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->nomor_handphone ?>" name="nomor_handphone" class="form-control">
+                            <input type="hidden" readonly required="" value="<?= get_data_biodata(Session()->get('C_NPM'))->email ?>" name="email" class="form-control">
+                            <input type="hidden" required="" value="<?= get_data_lulusan(Session()->get('C_NPM'))->nikmsmh ?>" name="nik" class="form-control">
+                            <input type="hidden" required="" value="<?= get_data_lulusan(Session()->get('C_NPM'))->npwpmsmh ?>" name="npwp" class="form-control">
                             <div class="tab-pane active" id="kuesioner-wajib">
                                 <!-- Kuesioner Wajib -->
 
