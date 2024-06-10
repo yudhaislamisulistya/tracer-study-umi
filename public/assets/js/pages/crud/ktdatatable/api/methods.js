@@ -68,7 +68,7 @@ var KTDefaultDatatableDemo = function () {
 					title: 'Tahun Masuk',
 				}, {
 					field: 'tahun_keluar',
-					title: 'Tahun Keluar',
+					title: 'Tahun Lulus',
 				}, {
 					field: 'semester_keluar',
 					title: 'Semester Keluar',

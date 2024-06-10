@@ -4,14 +4,17 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ModelBiodata;
+use App\Models\ModelKuesioner;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class BiodataController extends BaseController
 {
     protected $ModelBiodata;
+    public $ModelKuesioner;
     public function __construct()
     {
         $this->ModelBiodata = new ModelBiodata();
+        $this->ModelKuesioner = new ModelKuesioner();
     }
 
     public function post_biodata()
@@ -30,7 +33,20 @@ class BiodataController extends BaseController
         $email = $this->request->getPost('email');
         $nomor_handphone = $this->request->getPost('nomor_handphone');
 
-        if ($this->ModelBiodata->update_biodata($nim, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja, $status_pekerjaan, $email, $nomor_handphone)) {
+        $dataKuesioner = array(
+            'nimhsmsmh'            => $this->request->getPost('nim'),
+            'kdptimsmh'            => $this->request->getPost('kode_pt'),
+            'tahun_masuk'        => $this->request->getPost('tahun_masuk'),
+            'tahun_lulus'        => $this->request->getPost('tahun_lulus'),
+            'kdpstmsmh'            => $this->request->getPost('kode_prodi'),
+            'nmmhsmsmh'            => $this->request->getPost('nama_lengkap'),
+            'telpomsmh'            => $this->request->getPost('nomor_handphone'),
+            'emailmsmh'     => $this->request->getPost('email'),
+            'nikmsmh'     => $this->request->getPost('nik'),
+            'npwpmsmh'     => $this->request->getPost('npwp'),
+        );
+
+        if ($this->ModelBiodata->update_biodata($nim, $tahun_masuk, $tahun_keluar, $alamat, $negara, $provinsi, $kabupaten, $jenis_pekerjaan, $nama_perusahaan, $tanggal_masuk_kerja, $status_pekerjaan, $email, $nomor_handphone) && $this->ModelKuesioner->update_biodata($dataKuesioner)) {
             session()->setFlashdata('status', 'berhasil');
             return redirect()->to(base_url('biodata'));
         } else {

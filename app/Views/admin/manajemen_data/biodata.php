@@ -175,11 +175,11 @@ view('layouts/header');
                                 ?>
                             </select>
                         </div>
-                        <!-- Tahun Keluar -->
+                        <!-- Tahun Lulus -->
                         <div class="col-md-3 mb-lg-0 mb-6">
-                            <label>Tahun Keluar:</label>
+                            <label>Tahun Lulus:</label>
                             <select class="form-control datatable-input" id="tahunKeluarSearch" data-col-index="3">
-                                <option value="">Pilih Tahun Keluar</option>
+                                <option value="">Pilih Tahun Lulus</option>
                                 <?php
                                 for ($i = 2010; $i <= date('Y'); $i++) {
                                     echo '<option value="' . $i . '">' . $i . '</option>';
@@ -219,7 +219,7 @@ view('layouts/header');
                             <th>NIM</th>
                             <th>Program Studi</th>
                             <th>Tahun Masuk</th>
-                            <th>Tahun Keluar</th>
+                            <th>Tahun Lulus</th>
                             <th>Alamat</th>
                             <th>Negara</th>
                             <th>Provinsi</th>
@@ -354,10 +354,10 @@ view('layouts/header');
                                 </div>
                             </div>
                         </div>
-                        <label class="col-form-label col-md-2">Tahun Keluar Kuliah *</label>
+                        <label class="col-form-label col-md-2">Tahun Lulus Kuliah *</label>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="editTahunKeluar" placeholder="Tahun Keluar" id="editTahunKeluar" />
+                                <input type="text" class="form-control" name="editTahunKeluar" placeholder="Tahun Lulus" id="editTahunKeluar" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="la la-angle-up"></i>
