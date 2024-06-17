@@ -169,6 +169,7 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
     $routes->get('dashboard', 'MainController::admin_dashboard', ['as' => 'admin_dashboard']);
     $routes->get('statistik', 'MainController::admin_statistik', ['as' => 'admin_statistik']);
     $routes->get('laporan', 'MainController::admin_laporan', ['as' => 'admin_laporan']);
+    $routes->post('laporan', 'MainController::post_admin_laporan', ['as' => 'admin_laporan_post']);
     $routes->group('alumni', function ($routes) {
         $routes->get('/', 'AlumniController::index', ['as' => 'admin_alumni']);
     });

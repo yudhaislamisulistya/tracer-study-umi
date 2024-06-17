@@ -199,4 +199,13 @@ function check_registration_kkn($nim){
     }
 }
 
+function get_data_tahun_lulus(){
+    $tahun = date('Y');
+    $tahun_lulus = [];
+    for ($i=2010; $i <= $tahun; $i++) { 
+        $tahun_lulus[] = $i;
+    }
+    return $tahun_lulus;
+}
+
 ?>

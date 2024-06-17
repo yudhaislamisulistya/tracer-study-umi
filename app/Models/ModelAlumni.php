@@ -153,10 +153,14 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_responden()
+    public function get_total_responden($tahun_lulus = null)
     {
         try {
-            $sql = "SELECT COUNT(lulusan_id) AS total_responden FROM lulusan_satu;";
+            if ($tahun_lulus == null) {
+                $sql = "SELECT COUNT(lulusan_id) AS total_responden FROM lulusan_satu;";
+            } else {
+                $sql = "SELECT COUNT(lulusan_id) AS total_responden FROM lulusan_satu WHERE tahun_lulus = '$tahun_lulus';";
+            }
             $query = $this->dbext_tracer->query($sql);
             return $query->getRow();
         } catch (\Exception $th) {
@@ -164,10 +168,15 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_alumni_by_tahun_lulus($tahun_lulus)
+    public function get_total_alumni_by_tahun_lulus($tahun_lulus = null)
     {
         try {
-            $sql = "SELECT COUNT(*) AS total_alumni FROM alumni WHERE tahun_keluar = '$tahun_lulus';";
+
+            if ($tahun_lulus == null) {
+                $sql = "SELECT COUNT(*) AS total_alumni FROM alumni;";
+            } else {
+                $sql = "SELECT COUNT(*) AS total_alumni FROM alumni WHERE tahun_keluar = '$tahun_lulus';";
+            }
             $query = $this->db_tracer->query($sql);
             return $query->getRow();
         } catch (\Exception $th) {
@@ -409,6 +418,254 @@ class ModelAlumni extends Model
     {
         try {
             $sql = "SELECT ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS no, CASE WHEN nama_perusahaan IS NULL OR nama_perusahaan = '' THEN 'Belum Terdata' ELSE nama_perusahaan END AS nama_perusahaan, COUNT(*) AS jumlah_alumni FROM ref_biodata WHERE kode_prodi = '" . $kodeProdi . "' GROUP BY CASE WHEN nama_perusahaan IS NULL OR nama_perusahaan = '' THEN 'Belum Terdata' ELSE nama_perusahaan END ORDER BY COUNT(*) DESC;";
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_status_pekerjaan_lulusan($tahun_lulus = null)
+    {
+        try {
+            if ($tahun_lulus == null) {
+                $sql = "
+            SELECT 
+                COALESCE(status_pekerjaan, 'Belum Terdata') AS status_pekerjaan, 
+                COUNT(*) AS total_lulusan 
+            FROM lulusan_satu 
+            GROUP BY status_pekerjaan 
+            ORDER BY status_pekerjaan
+        ";
+            } else {
+                $sql = "
+            SELECT 
+                COALESCE(status_pekerjaan, 'Belum Terdata') AS status_pekerjaan, 
+                COUNT(*) AS total_lulusan 
+            FROM lulusan_satu 
+            WHERE tahun_lulus = '$tahun_lulus' 
+            GROUP BY status_pekerjaan 
+            ORDER BY status_pekerjaan
+        ";
+            }
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_masa_tunggu_mendapatkan_pekerjaan($tahun_lulus = null)
+    {
+        try {
+            if ($tahun_lulus == null) {
+                $sql = "
+            SELECT 
+                COALESCE(masa_tunggu, 'Belum mendapatkan pekerjaan') AS masa_tunggu,
+                COUNT(*) AS total_lulusan
+            FROM lulusan_satu
+            GROUP BY masa_tunggu
+            ORDER BY masa_tunggu
+        ";
+            } else {
+                $sql = "
+            SELECT
+                COALESCE(masa_tunggu, 'Belum mendapatkan pekerjaan') AS masa_tunggu,
+                COUNT(*) AS total_lulusan
+            FROM lulusan_satu
+            WHERE tahun_lulus = '$tahun_lulus'
+            GROUP BY masa_tunggu
+            ORDER BY masa_tunggu
+        ";
+            }
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_jenis_pekerjaan_tempat_bekerja($tahun_lulus = null)
+    {
+        try {
+            if ($tahun_lulus == null) {
+                $sql = "
+            SELECT 
+                COALESCE(jenis_perusahaan, 'Belum Terdata') AS jenis_perusahaan,
+                COUNT(*) AS total_lulusan
+            FROM lulusan_satu
+            GROUP BY jenis_perusahaan
+            ORDER BY jenis_perusahaan
+        ";
+            } else {
+                $sql = "
+            SELECT 
+                COALESCE(jenis_perusahaan, 'Belum Terdata') AS jenis_perusahaan,
+                COUNT(*) AS total_lulusan
+            FROM lulusan_satu
+            WHERE tahun_lulus = '$tahun_lulus'
+            GROUP BY jenis_perusahaan
+            ORDER BY jenis_perusahaan
+        ";
+            }
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_tingkat_tempat_bekerja($tahun_lulus = null)
+    {
+        try {
+            if ($tahun_lulus == null) {
+                $sql = "
+            SELECT 
+                COALESCE(tingkat_kerja, 'Belum Terdata') AS tingkat_kerja,
+                COUNT(*) AS total_lulusan
+            FROM lulusan_satu
+            GROUP BY tingkat_kerja
+            ORDER BY tingkat_kerja
+        ";
+            } else {
+                $sql = "
+            SELECT 
+                COALESCE(tingkat_kerja, 'Belum Terdata') AS tingkat_kerja,
+                COUNT(*) AS total_lulusan
+            FROM lulusan_satu
+            WHERE tahun_lulus = '$tahun_lulus'
+            GROUP BY tingkat_kerja
+            ORDER BY tingkat_kerja
+        ";
+            }
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_rata_rata_pendapatan_per_bulan($tahun_lulus = null)
+    {
+        try {
+            if ($tahun_lulus == null) {
+                $sql = "
+            SELECT 
+                COALESCE(pendapatan, 'Belum Terdata') AS pendapatan,
+                COUNT(*) AS jumlah
+            FROM lulusan_satu
+            GROUP BY pendapatan
+            ORDER BY pendapatan
+        ";
+            } else {
+                $sql = "
+            SELECT 
+                COALESCE(pendapatan, 'Belum Terdata') AS pendapatan,
+                COUNT(*) AS jumlah
+            FROM lulusan_satu
+            WHERE tahun_lulus = '$tahun_lulus'
+            GROUP BY pendapatan
+            ORDER BY pendapatan
+        ";
+            }
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaan($tahun_lulus = null)
+    {
+        try {
+            if ($tahun_lulus == null) {
+                $sql = "
+                SELECT
+                    CASE 
+                        WHEN bulan_tunggu_6 IS NULL THEN 'Belum mendapatkan pekerjaan'
+                        WHEN bulan_tunggu_6 = 0 THEN '0 Bulan'
+                        WHEN bulan_tunggu_6 = 1 THEN '1 Bulan'
+                        WHEN bulan_tunggu_6 = 2 THEN '2 Bulan'
+                        WHEN bulan_tunggu_6 = 3 THEN '3 Bulan'
+                        WHEN bulan_tunggu_6 = 4 THEN '4 Bulan'
+                        WHEN bulan_tunggu_6 = 5 THEN '5 Bulan'
+                        WHEN bulan_tunggu_6 = 6 THEN '6 Bulan'
+                        ELSE 'Other'
+                    END AS bulan_tunggu_6,
+                    COUNT(*) AS jumlah 
+                FROM lulusan_satu 
+                WHERE bulan_tunggu_6 IS NULL OR bulan_tunggu_6 <= 6
+                GROUP BY bulan_tunggu_6
+            ";
+            } else {
+                $sql = "
+                SELECT 
+                    CASE 
+                        WHEN bulan_tunggu_6 IS NULL THEN 'Belum mendapatkan pekerjaan'
+                        WHEN bulan_tunggu_6 = 0 THEN '0 Bulan'
+                        WHEN bulan_tunggu_6 = 1 THEN '1 Bulan'
+                        WHEN bulan_tunggu_6 = 2 THEN '2 Bulan'
+                        WHEN bulan_tunggu_6 = 3 THEN '3 Bulan'
+                        WHEN bulan_tunggu_6 = 4 THEN '4 Bulan'
+                        WHEN bulan_tunggu_6 = 5 THEN '5 Bulan'
+                        WHEN bulan_tunggu_6 = 6 THEN '6 Bulan'
+                        ELSE 'Other'
+                    END AS bulan_tunggu_6,
+                    COUNT(*) AS jumlah 
+                FROM lulusan_satu 
+                WHERE (bulan_tunggu_6 IS NULL OR bulan_tunggu_6 <= 6) AND tahun_lulus = '$tahun_lulus'
+                GROUP BY bulan_tunggu_6
+            ";
+            }
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+    public function get_total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan($tahun_lulus = null)
+    {
+        try {
+            if ($tahun_lulus == null) {
+                $sql = "
+                SELECT
+                    CASE 
+                        WHEN bulan_tunggu_6_plus IS NULL THEN 'Belum mendapatkan pekerjaan'
+                        WHEN bulan_tunggu_6_plus = 0 THEN '6 Bulan'
+                        WHEN bulan_tunggu_6_plus = 7 THEN '7 Bulan'
+                        WHEN bulan_tunggu_6_plus = 8 THEN '8 Bulan'
+                        WHEN bulan_tunggu_6_plus = 9 THEN '9 Bulan'
+                        WHEN bulan_tunggu_6_plus = 10 THEN '10 Bulan'
+                        WHEN bulan_tunggu_6_plus = 11 THEN '11 Bulan'
+                        WHEN bulan_tunggu_6_plus = 12 THEN '12 Bulan'
+                        ELSE 'Diatas 12 Bulan'
+                    END AS bulan_tunggu_6_plus,
+                    COUNT(*) AS jumlah 
+                FROM lulusan_satu 
+                WHERE bulan_tunggu_6_plus IS NULL OR bulan_tunggu_6_plus >= 6
+                GROUP BY bulan_tunggu_6_plus
+            ";
+            } else {
+                $sql = "
+                SELECT 
+                    CASE 
+                        WHEN bulan_tunggu_6_plus IS NULL THEN 'Belum mendapatkan pekerjaan'
+                        WHEN bulan_tunggu_6_plus = 0 THEN '6 Bulan'
+                        WHEN bulan_tunggu_6_plus = 7 THEN '7 Bulan'
+                        WHEN bulan_tunggu_6_plus = 8 THEN '8 Bulan'
+                        WHEN bulan_tunggu_6_plus = 9 THEN '9 Bulan'
+                        WHEN bulan_tunggu_6_plus = 10 THEN '10 Bulan'
+                        WHEN bulan_tunggu_6_plus = 11 THEN '11 Bulan'
+                        WHEN bulan_tunggu_6_plus = 12 THEN '12 Bulan'
+                        ELSE 'Diatas 12 Bulan'
+                    END AS bulan_tunggu_6_plus,
+                    COUNT(*) AS jumlah 
+                FROM lulusan_satu 
+                WHERE (bulan_tunggu_6_plus IS NULL OR bulan_tunggu_6_plus >= 6) AND tahun_lulus = '$tahun_lulus'
+                GROUP BY bulan_tunggu_6_plus
+            ";
+            }
             $query = $this->dbext_tracer->query($sql);
             return $query->getResult();
         } catch (\Exception $th) {

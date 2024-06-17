@@ -9,45 +9,11 @@ view('layouts/header');
         <div class=" container ">
             <div class="row">
                 <div class="col-md-12">
-                    <!-- make form for select tahun lulus alumni -->
-                    <form action="<?= route_to('admin_laporan_post') ?>" method="POST">
-                        <div class="form-group">
-                            <label for="tahun_lulus">Tahun Lulus</label>
-                            <select class="form-control" id="tahun_lulus" name="tahun_lulus">
-                                <option value="semua">-- Semua Tahun Lulusan --</option>
-                                <?php
-                                foreach (get_data_tahun_lulus() as $item) {
-                                ?>
-                                    <option value="<?= $item ?>">Tahun <?= $item ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-
-                        </div>
-                        <div class="form-group">
-                            <label for="program_studi">Program Studi</label>
-                            <select class="form-control" id="program_studi">
-                                <option value="semua">-- Semua Program Studi --</option>
-                                <?php
-                                foreach (get_data_program_studi() as $item) {
-                                ?>
-                                    <option value="<?= $item->C_KODE_PRODI ?>"><?= $item->NAMA_PRODI ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                            <a href="<?= base_url('admin/laporan') ?>" class="btn btn-danger mt-3">Reset</a>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-12">
                     <div class="card card-custom gutter-b">
                         <div class="card-header">
                             <div class="card-title">
                                 <h3 class="card-label">
-                                    Data Aktivitas dan Pekerjaan Lulusan
+                                    Responden Tracer Study berdasarkan Program Studi
                                 </h3>
                             </div>
                             <div class="card-tools" style="align-self: center;">
@@ -61,7 +27,7 @@ view('layouts/header');
                             <!-- Table -->
                             <div class="table-responsive">
                                 <div>
-                                    <p style="font-size: 16px;"><?= $content_data_aktivitas_dan_pekerjaan_lulusan ?></p>
+                                    <p style="font-size: 16px;">Pengumpulan data Tracer Study dilakukan melalui kuesioner online di https://alumni.umi.ac.id/. Pengumpulan data dilakukan dari bulan awal Maret sampai dengan pertengahan Desember 2023 , diperoleh <b><?= format_ribuan($total_responden) ?></b> alumni yang merespon survei dari <b><?= format_ribuan($total_alumni_by_tahun_lulus) ?></b> target responden. Persentase response rate <b>Tracer Study UMI 2021 (Lulusan tahun 2020)</b> jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi adalah <b><?= round($total_responden / $total_alumni_by_tahun_lulus * 100, 2) ?>%</b>.</p>
                                 </div>
                                 <table class="table table-bordered table-hover table-checkable" id="kt_datatable">
                                     <thead>
@@ -91,37 +57,9 @@ view('layouts/header');
                                     </tbody>
                                 </table>
                                 <caption>
-                                    <small style="color: red;">Total Responden : <?= format_ribuan($total_responden) ?></small>
+                                    <h3>Total Responden : <?= format_ribuan($total_responden) ?></h3>
                                 </caption>
-                                <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Data Status Pekerjaan Lulusan</h3>
-                                    <hr>
-                                    <div id="chart-status-pekerjaan-lulusan"></div>
-                                </div>
-                                <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Masa Tunggu untuk Mendapatkan Pekerjaan</h3>
-                                    </hr>
-                                    <div id="chart-masa-tunggu-mendapatkan-pekerjaan"></div>
-                                    <h5>Masa Tunggu Dibawah 6 bulan Mendapatkan Pekerjaan setelah lulus </h5>
-                                    <div id="chart-masa-tunggu-dibawah-mendapatkan-pekerjaan"></div>
-                                    <h5>Masa Tunggu Diatas 6 bulan Mendapatkan Pekerjaan setelah lulus </h5>
-                                    <div id="chart-masa-tunggu-diatas-mendapatkan-pekerjaan"></div>
-                                </div>
-                                <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Jenis Perusahaan Tempat Bekerja</h3>
-                                    <hr>
-                                    <div id="chart-jenis-perusahaan-tempat-bekerja"></div>
-                                </div>
-                                <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Tingkat Tempat Kerja</h3>
-                                    <hr>
-                                    <div id="chart-tingkat-tempat-bekerja"></div>
-                                </div>
-                                <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Pendapatan Rata-Rata Perbulan</h3>
-                                    <hr>
-                                    <div id="chart-pendapatan-rata-rata-perbulan"></div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -133,7 +71,7 @@ view('layouts/header');
                         <div class="card-header">
                             <div class="card-title">
                                 <h3 class="card-label">
-                                    Data Capaian Pembelajaran Lulusan
+                                    Aktivitas Lulusan Semua Jenjang Program Studi
                                 </h3>
                             </div>
                             <div class="card-tools" style="align-self: center;">
@@ -159,10 +97,7 @@ view('layouts/header');
                                         </select>
                                     </div>
 
-                                    <div class="col-md-12">
-                                        <h3>Data Status Pekerjaan Lulusan</h3>
-                                        <div id="chart-aktivitas-lulusan"></div>
-                                    </div>
+                                    <div id="chart-aktivitas-lulusan"></div>
                                 </div>
                                 <div class="col-md-6" style="align-self: center; text-align: justify;">
                                     <p style="font-size: 16px;">Alumni jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi memiliki beragam aktivitas. Alumni yang bekerja sebanyak <b id="totalRespondenYa"> 2.035</b> atau sebesar <b id="persentaseRespondenYa">57,7%</b> dari total responden <b><?= format_ribuan($total_responden) ?></b>. Selain itu, alumni yang melanjutkan studi cukup besar yakni sebesar <b id="persentaseRespondenMelanjutkanStudi">27,7%</b> dan alumni yang memilih menjadi wiraswasta sebesar <b id="persentaseRespondenWiraswasta">8,9%</b>​</p>
@@ -183,7 +118,7 @@ view('layouts/header');
                         <div class="card-header">
                             <div class="card-title">
                                 <h3 class="card-label">
-                                    Data Kemampuan Lulusan
+                                    Pekerjaan dan aktivitas saat ini
                                 </h3>
                             </div>
                             <div class="card-tools" style="align-self: center;">
@@ -205,6 +140,36 @@ view('layouts/header');
                                 <div class="col-md-6 mt-5" style="margin-top: 50px !important;">
                                     <h4>Status penghasilan berdasarkan UMP Sulawei selatan</h4>
                                     <div id="chart-penghasilan-ump"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h3 class="card-label">
+                                    Capaian Pembelajaran Lulusan
+                                </h3>
+                            </div>
+                            <div class="card-tools" style="align-self: center;">
+                                <button class="btn btn-tool" data-toggle="collapse" data-target="#collapseCardBody4">
+                                    <i class="fas fa-plus" id="collapseIcon4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body collapse" id="collapseCardBody4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4>Kesesuaian tingkat pendidikan dengan pekerjaan saat ini</h4>
+                                    <div id="chart-tingkat-pendidikan"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Tingkat kerja atau posisi alumni saat ini</h4>
+                                    <div id="chart-hubungan-studi"></div>
                                 </div>
                             </div>
                         </div>
@@ -235,27 +200,6 @@ view('layouts/header');
         var chartPieTingkatPendidikan;
         var chartPieHubunganStudi;
         var chartLine;
-
-        var total_status_pekerjaan_lulusan = <?php echo json_encode($total_status_pekerjaan_lulusan); ?>;
-        var chartPieStatusPekerjaanLulusan;
-        var total_total_masa_tunggu_mendapatkan_pekerjaan = <?php echo json_encode($total_masa_tunggu_mendapatkan_pekerjaan); ?>;
-        var chartPieMasaTungguMendapatkanPekerjaan;
-        var total_jenis_pekerjaan_tempat_bekerja = <?php echo json_encode($total_jenis_pekerjaan_tempat_bekerja); ?>;
-        var chartPieJenisPekerjaanTempatBekerja;
-        var total_tingkat_tempat_bekerja = <?php echo json_encode($total_tingkat_tempat_bekerja); ?>;
-        var chartPieTingkatTempatBekerja;
-        var total_pendapatan_rata_rata_perbulan = <?php echo json_encode($total_pendapatan_rata_rata_perbulan); ?>;
-        var chartPiePendapatanRataRataPerbulan;
-        var total_masa_tunggu_dibawah_6_bulan_mendaapatkan_pekerjaan = <?php echo json_encode($total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaaan); ?>;
-        var chartBarMasaTungguDibawahMendapatkanPekerjaan;
-        var total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan = <?php echo json_encode($total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan); ?>;
-        var chartBarMasaTungguDiatasMendapatkanPekerjaan;
-
-        console.log('total_responden_by_aktivitas_lulusan:', total_masa_tunggu_dibawah_6_bulan_mendaapatkan_pekerjaan);
-
-
-
-
         $(document).ready(function() {
             updateStatistics("semua");
             $('#collapseCardBody').on('shown.bs.collapse', function() {
@@ -282,6 +226,14 @@ view('layouts/header');
                 $('#collapseIcon3').removeClass('fa-minus').addClass('fa-plus');
             });
 
+            $('#collapseCardBody4').on('shown.bs.collapse', function() {
+                $('#collapseIcon4').removeClass('fa-plus').addClass('fa-minus');
+            });
+
+            $('#collapseCardBody4').on('hidden.bs.collapse', function() {
+                $('#collapseIcon4').removeClass('fa-minus').addClass('fa-plus');
+            });
+
             var totalDataSebaranMasaTunggu = prepareDataSebaranMasaTunggu(total_responden_by_sebaran_masa_tunggu, "semua");
             initSebaranMasaTungguChart(totalDataSebaranMasaTunggu);
 
@@ -299,27 +251,6 @@ view('layouts/header');
 
             var totalDataHubunganStudi = calculateTotalByHubunganStudi(total_responden_hubungan_studi);
             initHubunganStudiChart(totalDataHubunganStudi);
-
-            var totalDataStatusPekerjaanLulusan = calculateTotalByStatusPekerjaanLulusan(total_status_pekerjaan_lulusan);
-            initStatusPekerjaanLulusanChart(totalDataStatusPekerjaanLulusan);
-
-            var totalDataMasaTungguMendapatkanPekerjaan = calculateTotalMasaTungguMendapatkanPekerjaan(total_total_masa_tunggu_mendapatkan_pekerjaan);
-            initStatusMasaTungguMendapakatkanPekerjaan(totalDataMasaTungguMendapatkanPekerjaan);
-
-            var totalDataJenisPekerjaanTempatBekerja = calculateTotalByJenisPekerjaanTempatBekerja(total_jenis_pekerjaan_tempat_bekerja);
-            initJenisPekerjaanTempatBekerjaChart(totalDataJenisPekerjaanTempatBekerja);
-
-            var totalDataTingkatTempatBekerja = calculateTotalByTingkatPekerjaan(total_tingkat_tempat_bekerja);
-            initTingkatTempatBekerjaChart(totalDataTingkatTempatBekerja);
-
-            var totalDataPendapatanRataRataPerbulan = calculateTotalByPendapatanRataRataPerbulan(total_pendapatan_rata_rata_perbulan);
-            initPendapatanRataRataPerbulanChart(totalDataPendapatanRataRataPerbulan);
-
-            var totalDataMasaTungguDibawah6BulanMendapatkanPekerjaan = calculateTotalMasaTungguDibawah6BulanMendapatkanPekerjaan(total_masa_tunggu_dibawah_6_bulan_mendaapatkan_pekerjaan);
-            initMasaTungguDibawahMendapatkanPekerjaanChart(totalDataMasaTungguDibawah6BulanMendapatkanPekerjaan);
-
-            var totalDataMasaTungguDiatas6BulanMendapatkanPekerjaan = calculateTotalMasaTungguDiatas6BulanMendapatkanPekerjaan(total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan);
-            initMasaTungguDiatasMendapatkanPekerjaanChart(totalDataMasaTungguDiatas6BulanMendapatkanPekerjaan);
 
             var totalData = calculateTotalByStatus(total_responden_by_aktivitas_lulusan);
             KTApexChartsDemo.init(totalData);
@@ -349,398 +280,6 @@ view('layouts/header');
                 updateLineChart(total_responden_by_sebaran_masa_tunggu, selectedProdi); // Pass selectedProdi to the update function
             });
         });
-
-        function calculateTotalMasaTungguDiatas6BulanMendapatkanPekerjaan(data) {
-            var statusTotals = {
-                "6 Bulan": 0,
-                "7 Bulan": 0,
-                "8 Bulan": 0,
-                "9 Bulan": 0,
-                "10 Bulan": 0,
-                "11 Bulan": 0,
-                "12 Bulan": 0,
-                "Diatas 12 Bulan": 0,
-                "Belum mendapatkan pekerjaan": 0,
-            };
-
-            data.forEach(function(item) {
-                if (statusTotals.hasOwnProperty(item.bulan_tunggu_6_plus)) {
-                    statusTotals[item.bulan_tunggu_6_plus] += parseInt(item.jumlah);
-                }
-            });
-
-            return Object.keys(statusTotals).map(function(key) {
-                return {
-                    bulan_tunggu_6_plus: key,
-                    jumlah: statusTotals[key]
-                };
-            });
-        }
-
-        function initMasaTungguDiatasMendapatkanPekerjaanChart(data) {
-            var categories = [];
-            var seriesData = [];
-
-            data.forEach(function(item) {
-                categories.push(item.bulan_tunggu_6_plus);
-                seriesData.push(item.jumlah);
-            });
-
-            var options = {
-                series: [{
-                    name: 'Jumlah',
-                    data: seriesData
-                }],
-                chart: {
-                    height: 300,
-                    type: 'bar'
-                },
-                xaxis: {
-                    categories: categories
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: false
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                title: {
-                    text: 'Masa Tunggu Mendapatkan Pekerjaan',
-                    align: 'center'
-                }
-            };
-
-            if (chartBarMasaTungguDiatasMendapatkanPekerjaan) {
-                chartBarMasaTungguDiatasMendapatkanPekerjaan.destroy();
-            }
-
-            chartBarMasaTungguDiatasMendapatkanPekerjaan = new ApexCharts(document.querySelector("#chart-masa-tunggu-diatas-mendapatkan-pekerjaan"), options);
-            chartBarMasaTungguDiatasMendapatkanPekerjaan.render();
-        }
-
-        function calculateTotalMasaTungguDibawah6BulanMendapatkanPekerjaan(data) {
-            var statusTotals = {
-                "0 Bulan": 0,
-                "1 Bulan": 0,
-                "2 Bulan": 0,
-                "3 Bulan": 0,
-                "4 Bulan": 0,
-                "5 Bulan": 0,
-                "6 Bulan": 0,
-                "Belum mendapatkan pekerjaan": 0,
-            };
-
-            data.forEach(function(item) {
-                if (statusTotals.hasOwnProperty(item.bulan_tunggu_6)) {
-                    statusTotals[item.bulan_tunggu_6] += parseInt(item.jumlah);
-                }
-            });
-
-            return Object.keys(statusTotals).map(function(key) {
-                return {
-                    bulan_tunggu_6: key,
-                    jumlah: statusTotals[key]
-                };
-            });
-        }
-
-        function initMasaTungguDibawahMendapatkanPekerjaanChart(data) {
-            var categories = [];
-            var seriesData = [];
-
-            data.forEach(function(item) {
-                categories.push(item.bulan_tunggu_6);
-                seriesData.push(item.jumlah);
-            });
-
-            var options = {
-                series: [{
-                    name: 'Jumlah',
-                    data: seriesData
-                }],
-                chart: {
-                    height: 300,
-                    type: 'bar'
-                },
-                xaxis: {
-                    categories: categories
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: false
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                title: {
-                    text: 'Masa Tunggu Mendapatkan Pekerjaan',
-                    align: 'center'
-                }
-            };
-
-            if (chartBarMasaTungguDibawahMendapatkanPekerjaan) {
-                chartBarMasaTungguDibawahMendapatkanPekerjaan.destroy();
-            }
-
-            chartBarMasaTungguDibawahMendapatkanPekerjaan = new ApexCharts(document.querySelector("#chart-masa-tunggu-dibawah-mendapatkan-pekerjaan"), options);
-            chartBarMasaTungguDibawahMendapatkanPekerjaan.render();
-        }
-
-
-
-
-        function calculateTotalByPendapatanRataRataPerbulan(data) {
-            var statusTotals = {
-                "dibawah 5.000.000": 0,
-                "antara 5.000.000 - 10.000.000": 0,
-                "di atas 10.000.000": 0,
-                "Belum Terdata": 0
-            }
-
-            data.forEach(function(item) {
-                if (statusTotals.hasOwnProperty(item.pendapatan)) {
-                    statusTotals[item.pendapatan] += parseInt(item.jumlah);
-                }
-            });
-
-            return Object.keys(statusTotals).map(function(key) {
-                return {
-                    pendapatan: key,
-                    jumlah: statusTotals[key]
-                };
-            });
-
-        }
-
-        function initPendapatanRataRataPerbulanChart(data) {
-            var categories = [];
-            var series = [];
-
-            data.forEach(function(item) {
-                categories.push(item.pendapatan);
-                series.push(item.jumlah);
-            });
-
-            var options = {
-                series: series,
-                chart: {
-                    height: 250,
-                    type: 'pie',
-                },
-                labels: categories,
-            };
-
-            if (chartPiePendapatanRataRataPerbulan) {
-                chartPiePendapatanRataRataPerbulan.destroy();
-            }
-
-            chartPiePendapatanRataRataPerbulan = new ApexCharts(document.querySelector("#chart-pendapatan-rata-rata-perbulan"), options);
-            chartPiePendapatanRataRataPerbulan.render();
-        }
-
-        function calculateTotalByTingkatPekerjaan(data) {
-            var statusTotals = {
-                "Entry Level": 0,
-                "Mid-Level": 0,
-                "Senior Level": 0,
-                "Manajer/Supervisor": 0,
-                "Direktur/Executive": 0,
-                "Pemilik Usaha/Wirausaha": 0,
-                "Belum Terdata": 0
-            };
-
-            data.forEach(function(item) {
-                if (statusTotals.hasOwnProperty(item.tingkat_kerja)) {
-                    statusTotals[item.tingkat_kerja] += parseInt(item.total_lulusan);
-                }
-            });
-
-            return Object.keys(statusTotals).map(function(key) {
-                return {
-                    tingkat_kerja: key,
-                    total_lulusan: statusTotals[key]
-                };
-            });
-        }
-
-        function initTingkatTempatBekerjaChart(data) {
-            var categories = [];
-            var series = [];
-
-            data.forEach(function(item) {
-                categories.push(item.tingkat_kerja);
-                series.push(item.total_lulusan);
-            });
-
-            var options = {
-                series: series,
-                chart: {
-                    height: 250,
-                    type: 'pie',
-                },
-                labels: categories,
-            };
-
-            if (chartPieTingkatTempatBekerja) {
-                chartPieTingkatTempatBekerja.destroy();
-            }
-
-            chartPieTingkatTempatBekerja = new ApexCharts(document.querySelector("#chart-tingkat-tempat-bekerja"), options);
-            chartPieTingkatTempatBekerja.render();
-        }
-
-        function calculateTotalByJenisPekerjaanTempatBekerja(data) {
-            var statusTotals = {
-                "Instansi/ Institusi pemerintah": 0,
-                "BUMN/ BUMD": 0,
-                "Instansi/ Institusi swasta": 0,
-                "Organisasi non-profit/ Lembaga Swadaya Masyarakat": 0,
-                "Wiraswasta/ Perusahaan sendiri:": 0,
-                "Institusi/ Organisasi multilateral": 0,
-                "Lainnya": 0,
-                "Belum Terdata": 0
-            };
-
-            data.forEach(function(item) {
-                if (statusTotals.hasOwnProperty(item.jenis_perusahaan)) {
-                    statusTotals[item.jenis_perusahaan] += parseInt(item.total_lulusan);
-                }
-            });
-
-            return Object.keys(statusTotals).map(function(key) {
-                return {
-                    jenis_perusahaan: key,
-                    total_lulusan: statusTotals[key]
-                };
-            });
-        }
-
-        function initJenisPekerjaanTempatBekerjaChart(data) {
-            var categories = [];
-            var series = [];
-
-            data.forEach(function(item) {
-                categories.push(item.jenis_perusahaan);
-                series.push(item.total_lulusan);
-            });
-
-            var options = {
-                series: series,
-                chart: {
-                    height: 250,
-                    type: 'pie',
-                },
-                labels: categories,
-            };
-
-            if (chartPieJenisPekerjaanTempatBekerja) {
-                chartPieJenisPekerjaanTempatBekerja.destroy();
-            }
-
-            chartPieJenisPekerjaanTempatBekerja = new ApexCharts(document.querySelector("#chart-jenis-perusahaan-tempat-bekerja"), options);
-            chartPieJenisPekerjaanTempatBekerja.render();
-        }
-
-        function calculateTotalMasaTungguMendapatkanPekerjaan($data) {
-            var statusTotals = {
-                "Sudah mendapatkan pekerjaan sebelum lulus": 0,
-                "Dibawah 6 bulan setelah lulus": 0,
-                "Diatas 6 bulan setelah lulus": 0,
-                "Belum mendapatkan pekerjaan": 0,
-            };
-
-            $data.forEach(function(item) {
-                if (statusTotals.hasOwnProperty(item.masa_tunggu)) {
-                    statusTotals[item.masa_tunggu] += parseInt(item.total_lulusan);
-                }
-            });
-
-            return Object.keys(statusTotals).map(function(key) {
-                return {
-                    masa_tunggu: key,
-                    total_lulusan: statusTotals[key]
-                };
-            });
-        }
-
-        function initStatusMasaTungguMendapakatkanPekerjaan(data) {
-            var categories = [];
-            var series = [];
-
-            data.forEach(function(item) {
-                categories.push(item.masa_tunggu);
-                series.push(item.total_lulusan);
-            });
-
-            var options = {
-                series: series,
-                chart: {
-                    height: 250,
-                    type: 'pie',
-                },
-                labels: categories,
-            };
-
-            if (chartPieMasaTungguMendapatkanPekerjaan) {
-                chartPieMasaTungguMendapatkanPekerjaan.destroy();
-            }
-
-            chartPieMasaTungguMendapatkanPekerjaan = new ApexCharts(document.querySelector("#chart-masa-tunggu-mendapatkan-pekerjaan"), options);
-            chartPieMasaTungguMendapatkanPekerjaan.render();
-        }
-
-        function calculateTotalByStatusPekerjaanLulusan(data) {
-            var statusTotals = {
-                "Pegawai": 0,
-                "Wiraswasta": 0,
-                "Melanjutkan Pendidikan": 0,
-                "Sedang Mencari Kerja": 0,
-                "Belum Memungkinkan Bekerja": 0,
-                "Belum Terdata": 0
-            };
-
-            data.forEach(function(item) {
-                if (statusTotals.hasOwnProperty(item.status_pekerjaan)) {
-                    statusTotals[item.status_pekerjaan] += parseInt(item.total_lulusan);
-                }
-            });
-
-            return Object.keys(statusTotals).map(function(key) {
-                return {
-                    status_pekerjaan: key,
-                    total_lulusan: statusTotals[key]
-                };
-            });
-        }
-
-        function initStatusPekerjaanLulusanChart(data) {
-            var categories = [];
-            var series = [];
-
-            data.forEach(function(item) {
-                categories.push(item.status_pekerjaan);
-                series.push(item.total_lulusan);
-            });
-
-            var options = {
-                series: series,
-                chart: {
-                    height: 250,
-                    type: 'pie',
-                },
-                labels: categories,
-            };
-
-            if (chartPieStatusPekerjaanLulusan) {
-                chartPieStatusPekerjaanLulusan.destroy();
-            }
-
-            chartPieStatusPekerjaanLulusan = new ApexCharts(document.querySelector("#chart-status-pekerjaan-lulusan"), options);
-            chartPieStatusPekerjaanLulusan.render();
-        }
 
         function calculateTotalByHubunganStudi(data) {
             var statusTotals = {

@@ -42,7 +42,7 @@ class MainController extends BaseController
         $data = $biodataController->get_current_user();
         $data = $data["response"];
 
-        if($data == null){
+        if ($data == null) {
             return redirect()->to(base_url('/logout-v2'));
         }
 
@@ -206,7 +206,7 @@ class MainController extends BaseController
     {
         $data['total_responden_by_program_studi'] = $this->ModelAlumni->get_total_responden_by_program_studi();
         $data['total_responden'] = $this->ModelAlumni->get_total_responden()->total_responden;
-        $data['total_alumni_by_tahun_lulus'] = $this->ModelAlumni->get_total_alumni_by_tahun_lulus(2020)->total_alumni;
+        $data['total_alumni_by_tahun_lulus'] = $this->ModelAlumni->get_total_alumni_by_tahun_lulus()->total_alumni;
         $data['total_responden_by_aktivitas_lulusan'] = $this->ModelAlumni->get_total_responden_by_aktivitas_lulusan();
         $data['total_responden_by_sebaran_masa_tunggu'] = $this->ModelAlumni->get_total_responden_by_sebaran_masa_tunggu();
         $data['total_responden_by_jenis_institusi'] = $this->ModelAlumni->get_total_responden_by_jenis_institusi();
@@ -215,7 +215,24 @@ class MainController extends BaseController
         $data['total_responden_tingkat_pendidikan'] = $this->ModelAlumni->get_total_responden_tingkat_pendidikan();
         $data['total_responden_hubungan_studi'] = $this->ModelAlumni->get_total_responden_hubungan_studi();
 
+        $data['total_status_pekerjaan_lulusan'] = $this->ModelAlumni->get_total_status_pekerjaan_lulusan();
+        $data['total_masa_tunggu_mendapatkan_pekerjaan'] = $this->ModelAlumni->get_total_masa_tunggu_mendapatkan_pekerjaan();
+        $data['total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaaan'] = $this->ModelAlumni->get_total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaan();
+        $data['total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan'] = $this->ModelAlumni->get_total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan();
+        $data['total_jenis_pekerjaan_tempat_bekerja'] = $this->ModelAlumni->get_total_jenis_pekerjaan_tempat_bekerja();
+        $data['total_tingkat_tempat_bekerja'] = $this->ModelAlumni->get_total_tingkat_tempat_bekerja();
+        $data['total_pendapatan_rata_rata_perbulan'] = $this->ModelAlumni->get_total_rata_rata_pendapatan_per_bulan();
+        $data['content_data_aktivitas_dan_pekerjaan_lulusan'] = "Pengumpulan data Tracer Study dilakukan melalui kuesioner online di https://alumni.umi.ac.id/. diperoleh <b>" . format_ribuan($data['total_responden']) . "</b> alumni yang merespon survei dari <b>" . format_ribuan($data['total_alumni_by_tahun_lulus']) . "</b> target responden. Persentase response rate Tracer Study UMI jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi adalah <b>". round(($data['total_responden'] / $data['total_alumni_by_tahun_lulus']) * 100, 2) . "%.</b>";
+
         return view('admin/report', $data);
+    }
+
+    function post_admin_laporan()
+    {
+        // Request Post
+        $tahun_lulus = $this->request->getPost('tahun_lulus');
+        var_dump($tahun_lulus);
+        die();
     }
 
     // Admin Prodi
@@ -229,5 +246,4 @@ class MainController extends BaseController
         $data['total_kuesioner'] = $this->ModelLegalisir->get_total_kuesioner_pengguna_lulusan()->total_kuesioner;
         return view('admin-prodi/dashboard', $data);
     }
-
 }

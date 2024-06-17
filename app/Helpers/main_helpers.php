@@ -1,7 +1,8 @@
 <?php
 
 
-function get_data_kuesioner_jawaban($pertanyaan_id){
+function get_data_kuesioner_jawaban($pertanyaan_id)
+{
     $db = \Config\Database::connect('accext_tracer');
     $query = $db->table('kuesioner_jawaban')
         ->where('nimhsmsmh', session()->get('C_NPM'))
@@ -26,19 +27,19 @@ function get_data_berita_by_kategori($kategori)
 {
     $db = \Config\Database::connect('accext_tracer');
     $kode_prodi = session()->get('C_KODE_PRODI');
-    if($kode_prodi != null){
+    if ($kode_prodi != null) {
         $query = $db->table('berita')
             ->where('kategori', $kategori)
             ->where('kode_prodi', $kode_prodi)
             ->orderBy('id', 'DESC')
             ->get();
-    }else{
+    } else {
         $query = $db->table('berita')
             ->where('kategori', $kategori)
             ->orderBy('id', 'DESC')
             ->get();
     }
-            
+
     $results = $query->getResult();
     return $results;
 }
@@ -46,11 +47,11 @@ function get_data_berita_by_kategori($kategori)
 function get_data_legalisir($kode_prodi)
 {
     $db = \Config\Database::connect('accext_tracer');
-    if($kode_prodi == "" || $kode_prodi == null){
+    if ($kode_prodi == "" || $kode_prodi == null) {
         $query = $db->table('legalisir')
-        ->orderBy('id', 'DESC')
+            ->orderBy('id', 'DESC')
             ->get();
-    }else{
+    } else {
         $query = $db->table('legalisir')
             ->where('kode_prodi', $kode_prodi)
             ->orderBy('id', 'DESC')
@@ -448,4 +449,14 @@ function get_data_pertanyaan_by_kuesioner_id($id)
     }
 
     return $data;
+}
+
+function get_data_tahun_lulus()
+{
+    $tahun = date('Y');
+    $tahun_lulus = [];
+    for ($i = 2010; $i <= $tahun; $i++) {
+        $tahun_lulus[] = $i;
+    }
+    return $tahun_lulus;
 }
