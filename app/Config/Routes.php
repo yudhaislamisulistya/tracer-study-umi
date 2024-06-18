@@ -110,6 +110,9 @@ $routes->group('admin-prodi', ['filter' => 'auth'], function ($routes) {
             $routes->get('detail-chart/(:any)', 'KuesionerController::admin_kuesioner_prodi_detail_chart/$1', ['as' => 'admin_prodi_kuesioner_prodi_detail_chart']);
             $routes->get('download/(:any)', 'KuesionerController::admin_kuesioner_prodi_download/$1', ['as' => 'admin_prodi_kuesioner_prodi_download']);
         });
+
+        $routes->get('laporan', 'MainController::admin_prodi_laporan', ['as' => 'admin_prodi_laporan']);
+        $routes->post('laporan', 'MainController::post_admin_prodi_laporan', ['as' => 'admin_prodi_laporan_post']);
     });
 
     // Legalisir

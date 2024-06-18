@@ -10,7 +10,7 @@ view('layouts/header');
             <div class="row">
                 <div class="col-md-12">
                     <!-- make form for select tahun lulus alumni -->
-                    <form action="<?= route_to('admin_laporan_post') ?>" method="POST">
+                    <form action="<?= route_to('admin_prodi_laporan_post') ?>" method="POST">
                         <div class="form-group">
                             <label for="tahun_lulus">Tahun Lulus</label>
                             <select class="form-control" id="tahun_lulus" name="tahun_lulus">
@@ -25,31 +25,13 @@ view('layouts/header');
                                     <option value="<?= $item ?>" <?= $item == $tahun_lulus ? 'selected' : '' ?>>Tahun <?= $item ?></option>
                                 <?php endforeach; ?>
                             </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="program_studi">Program Studi</label>
-                            <select class="form-control" id="program_studi" name="program_studi">
-                                <?php if ($program_studi === "semua") : ?>
-                                    <option value="semua" selected>-- Semua Program Studi --</option>
-                                <?php else : ?>
-                                    <option value="semua">-- Semua Program Studi --</option>
-                                    <?php $selected_prodi = get_data_prodi($program_studi); ?>
-                                    <?php if ($selected_prodi) : ?>
-                                        <option value="<?= $selected_prodi->C_KODE_PRODI ?>" selected><?= $selected_prodi->NAMA_PRODI ?></option>
-                                    <?php endif; ?>
-                                <?php endif; ?>
-
-                                <?php foreach (get_data_program_studi() as $item) : ?>
-                                    <option value="<?= $item->C_KODE_PRODI ?>" <?= $item->C_KODE_PRODI == $program_studi ? 'selected' : '' ?>><?= $item->NAMA_PRODI ?></option>
-                                <?php endforeach; ?>
-                            </select>
                             <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                            <a href="<?= base_url('admin/laporan') ?>" class="btn btn-danger mt-3">Reset</a>
+                            <a href="<?= base_url('admin-prodi/kuesioner/laporan') ?>" class="btn btn-danger mt-3">Reset</a>
                         </div>
 
                     </form>
                 </div>
+
                 <?php
 
                 if ($total_responden == 0) {
@@ -57,6 +39,7 @@ view('layouts/header');
                 } else {
 
                 ?>
+
                     <div class="col-md-12">
                         <div class="card card-custom gutter-b">
                             <div class="card-header">
@@ -225,6 +208,7 @@ view('layouts/header');
                     </div>
                 </div>
             </div>
+
         </div>
     <?php
 

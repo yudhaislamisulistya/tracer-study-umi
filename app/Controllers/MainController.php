@@ -229,9 +229,57 @@ class MainController extends BaseController
         $data['total_tingkat_pendidikan_dan_pekerjaan'] = $this->ModelAlumni->get_total_tingkat_pendidikan_dan_pekerjaan();
         $data['total_kemampuan_lulusan'] = $this->ModelAlumni->get_total_kemampuan_lulusan();
         $data['total_analisis_likert_data_kemampuan_lulusan'] = $this->analisis_likert_data_kemampuan_lulusan($data['total_kemampuan_lulusan']);
-        $data['content_data_aktivitas_dan_pekerjaan_lulusan'] = "Pengumpulan data Tracer Study dilakukan melalui kuesioner online di https://alumni.umi.ac.id/. diperoleh <b>" . format_ribuan($data['total_responden']) . "</b> alumni yang merespon survei dari <b>" . format_ribuan($data['total_alumni_by_tahun_lulus']) . "</b> target responden. Persentase response rate Tracer Study UMI jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi adalah <b>" . round(($data['total_responden'] / $data['total_alumni_by_tahun_lulus']) * 100, 2) . "%.</b>";
+
+        if ($data['total_alumni_by_tahun_lulus'] > 0) {
+            $response_rate = round(($data['total_responden'] / $data['total_alumni_by_tahun_lulus']) * 100, 2);
+        } else {
+            $response_rate = 0;
+        }
+
+        $data['content_data_aktivitas_dan_pekerjaan_lulusan'] = "Pengumpulan data Tracer Study dilakukan melalui kuesioner online di https://alumni.umi.ac.id/. diperoleh <b>" . format_ribuan($data['total_responden']) . "</b> alumni yang merespon survei dari <b>" . format_ribuan($data['total_alumni_by_tahun_lulus']) . "</b> target responden. Persentase response rate Tracer Study UMI jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi adalah <b>" . $response_rate . "%.</b>";
 
         return view('admin/report', $data);
+    }
+
+    function admin_prodi_laporan()
+    {
+
+        $data['tahun_lulus'] = "semua";
+        $data['program_studi'] = session()->get('C_KODE_PRODI');
+        $data['total_responden_by_program_studi'] = $this->ModelAlumni->get_total_responden_by_program_studi($data['tahun_lulus'], $data['program_studi']);
+        $data['total_responden'] = $this->ModelAlumni->get_total_responden($data['tahun_lulus'], $data['program_studi'])->total_responden;
+        $data['total_alumni_by_tahun_lulus'] = $this->ModelAlumni->get_total_alumni_by_tahun_lulus($data['tahun_lulus'], $data['program_studi'])->total_alumni;
+        $data['total_responden_by_aktivitas_lulusan'] = $this->ModelAlumni->get_total_responden_by_aktivitas_lulusan();
+        $data['total_responden_by_sebaran_masa_tunggu'] = $this->ModelAlumni->get_total_responden_by_sebaran_masa_tunggu();
+        $data['total_responden_by_jenis_institusi'] = $this->ModelAlumni->get_total_responden_by_jenis_institusi();
+        $data['total_responden_by_tingkat_kerja'] = $this->ModelAlumni->get_total_responden_by_tingkat_kerja();
+        $data['total_responden_cek_penghasilan'] = $this->ModelAlumni->get_total_responden_cek_penghasilan();
+        $data['total_responden_tingkat_pendidikan'] = $this->ModelAlumni->get_total_responden_tingkat_pendidikan();
+        $data['total_responden_hubungan_studi'] = $this->ModelAlumni->get_total_responden_hubungan_studi();
+
+        $data['total_status_pekerjaan_lulusan'] = $this->ModelAlumni->get_total_status_pekerjaan_lulusan($data['tahun_lulus'], $data['program_studi']);
+        $data['total_masa_tunggu_mendapatkan_pekerjaan'] = $this->ModelAlumni->get_total_masa_tunggu_mendapatkan_pekerjaan($data['tahun_lulus'], $data['program_studi']);
+        $data['total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaaan'] = $this->ModelAlumni->get_total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaan($data['tahun_lulus'], $data['program_studi']);
+        $data['total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan'] = $this->ModelAlumni->get_total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan($data['tahun_lulus'], $data['program_studi']);
+        $data['total_jenis_pekerjaan_tempat_bekerja'] = $this->ModelAlumni->get_total_jenis_pekerjaan_tempat_bekerja($data['tahun_lulus'], $data['program_studi']);
+        $data['total_tingkat_tempat_bekerja'] = $this->ModelAlumni->get_total_tingkat_tempat_bekerja($data['tahun_lulus'], $data['program_studi']);
+        $data['total_pendapatan_rata_rata_perbulan'] = $this->ModelAlumni->get_total_rata_rata_pendapatan_per_bulan($data['tahun_lulus'], $data['program_studi']);
+        $data['total_hubungan_bidang_studi_dan_pekerjaan'] = $this->ModelAlumni->get_total_hubungan_bidang_studi_dan_pekerjaan($data['tahun_lulus'], $data['program_studi']);
+        $data['total_tingkat_pendidikan_dan_pekerjaan'] = $this->ModelAlumni->get_total_tingkat_pendidikan_dan_pekerjaan($data['tahun_lulus'], $data['program_studi']);
+        $data['total_kemampuan_lulusan'] = $this->ModelAlumni->get_total_kemampuan_lulusan();
+        $data['total_analisis_likert_data_kemampuan_lulusan'] = $this->analisis_likert_data_kemampuan_lulusan($data['total_kemampuan_lulusan']);
+
+
+        // Calculate the response rate and avoid division by zero
+        if ($data['total_alumni_by_tahun_lulus'] > 0) {
+            $response_rate = round(($data['total_responden'] / $data['total_alumni_by_tahun_lulus']) * 100, 2);
+        } else {
+            $response_rate = 0;
+        }
+
+        $data['content_data_aktivitas_dan_pekerjaan_lulusan'] = "Pengumpulan data Tracer Study dilakukan melalui kuesioner online di https://alumni.umi.ac.id/. diperoleh <b>" . format_ribuan($data['total_responden']) . "</b> alumni yang merespon survei dari <b>" . format_ribuan($data['total_alumni_by_tahun_lulus']) . "</b> target responden. Persentase response rate Tracer Study UMI jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi adalah <b>" . $response_rate . "%.</b>";
+
+        return view('admin-prodi/report', $data);
     }
 
     function analisis_likert_data_kemampuan_lulusan($data)
@@ -326,9 +374,59 @@ class MainController extends BaseController
         $data['total_tingkat_pendidikan_dan_pekerjaan'] = $this->ModelAlumni->get_total_tingkat_pendidikan_dan_pekerjaan($tahun_lulus, $program_studi);
         $data['total_kemampuan_lulusan'] = $this->ModelAlumni->get_total_kemampuan_lulusan();
         $data['total_analisis_likert_data_kemampuan_lulusan'] = $this->analisis_likert_data_kemampuan_lulusan($data['total_kemampuan_lulusan']);
-        $data['content_data_aktivitas_dan_pekerjaan_lulusan'] = "Pengumpulan data Tracer Study dilakukan melalui kuesioner online di https://alumni.umi.ac.id/. diperoleh <b>" . format_ribuan($data['total_responden']) . "</b> alumni yang merespon survei dari <b>" . format_ribuan($data['total_alumni_by_tahun_lulus']) . "</b> target responden. Persentase response rate Tracer Study UMI jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi adalah <b>" . round(($data['total_responden'] / $data['total_alumni_by_tahun_lulus']) * 100, 2) . "%.</b>";
+
+        if ($data['total_alumni_by_tahun_lulus'] > 0) {
+            $response_rate = round(($data['total_responden'] / $data['total_alumni_by_tahun_lulus']) * 100, 2);
+        } else {
+            $response_rate = 0;
+        }
+
+        $data['content_data_aktivitas_dan_pekerjaan_lulusan'] = "Pengumpulan data Tracer Study dilakukan melalui kuesioner online di https://alumni.umi.ac.id/. diperoleh <b>" . format_ribuan($data['total_responden']) . "</b> alumni yang merespon survei dari <b>" . format_ribuan($data['total_alumni_by_tahun_lulus']) . "</b> target responden. Persentase response rate Tracer Study UMI jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi adalah <b>" . $response_rate . "%.</b>";
 
         return view('admin/report', $data);
+    }
+
+    function post_admin_prodi_laporan()
+    {
+        // Request Post
+        $tahun_lulus = $this->request->getPost('tahun_lulus');
+        $program_studi = session()->get('C_KODE_PRODI');
+
+        $data['tahun_lulus'] = $tahun_lulus;
+        $data['program_studi'] = $program_studi;
+
+        $data['total_responden_by_program_studi'] = $this->ModelAlumni->get_total_responden_by_program_studi($tahun_lulus, $program_studi);
+        $data['total_responden'] = $this->ModelAlumni->get_total_responden($tahun_lulus, $program_studi)->total_responden;
+        $data['total_alumni_by_tahun_lulus'] = $this->ModelAlumni->get_total_alumni_by_tahun_lulus($tahun_lulus, $program_studi)->total_alumni;
+        $data['total_responden_by_aktivitas_lulusan'] = $this->ModelAlumni->get_total_responden_by_aktivitas_lulusan();
+        $data['total_responden_by_sebaran_masa_tunggu'] = $this->ModelAlumni->get_total_responden_by_sebaran_masa_tunggu();
+        $data['total_responden_by_jenis_institusi'] = $this->ModelAlumni->get_total_responden_by_jenis_institusi();
+        $data['total_responden_by_tingkat_kerja'] = $this->ModelAlumni->get_total_responden_by_tingkat_kerja();
+        $data['total_responden_cek_penghasilan'] = $this->ModelAlumni->get_total_responden_cek_penghasilan();
+        $data['total_responden_tingkat_pendidikan'] = $this->ModelAlumni->get_total_responden_tingkat_pendidikan();
+        $data['total_responden_hubungan_studi'] = $this->ModelAlumni->get_total_responden_hubungan_studi();
+
+        $data['total_status_pekerjaan_lulusan'] = $this->ModelAlumni->get_total_status_pekerjaan_lulusan($tahun_lulus, $program_studi);
+        $data['total_masa_tunggu_mendapatkan_pekerjaan'] = $this->ModelAlumni->get_total_masa_tunggu_mendapatkan_pekerjaan($tahun_lulus, $program_studi);
+        $data['total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaaan'] = $this->ModelAlumni->get_total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaan($tahun_lulus, $program_studi);
+        $data['total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan'] = $this->ModelAlumni->get_total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan($tahun_lulus, $program_studi);
+        $data['total_jenis_pekerjaan_tempat_bekerja'] = $this->ModelAlumni->get_total_jenis_pekerjaan_tempat_bekerja($tahun_lulus, $program_studi);
+        $data['total_tingkat_tempat_bekerja'] = $this->ModelAlumni->get_total_tingkat_tempat_bekerja($tahun_lulus, $program_studi);
+        $data['total_pendapatan_rata_rata_perbulan'] = $this->ModelAlumni->get_total_rata_rata_pendapatan_per_bulan($tahun_lulus, $program_studi);
+        $data['total_hubungan_bidang_studi_dan_pekerjaan'] = $this->ModelAlumni->get_total_hubungan_bidang_studi_dan_pekerjaan($tahun_lulus, $program_studi);
+        $data['total_tingkat_pendidikan_dan_pekerjaan'] = $this->ModelAlumni->get_total_tingkat_pendidikan_dan_pekerjaan($tahun_lulus, $program_studi);
+        $data['total_kemampuan_lulusan'] = $this->ModelAlumni->get_total_kemampuan_lulusan();
+        $data['total_analisis_likert_data_kemampuan_lulusan'] = $this->analisis_likert_data_kemampuan_lulusan($data['total_kemampuan_lulusan']);
+
+        if ($data['total_alumni_by_tahun_lulus'] > 0) {
+            $response_rate = round(($data['total_responden'] / $data['total_alumni_by_tahun_lulus']) * 100, 2);
+        } else {
+            $response_rate = 0;
+        }
+
+        $data['content_data_aktivitas_dan_pekerjaan_lulusan'] = "Pengumpulan data Tracer Study dilakukan melalui kuesioner online di https://alumni.umi.ac.id/. diperoleh <b>" . format_ribuan($data['total_responden']) . "</b> alumni yang merespon survei dari <b>" . format_ribuan($data['total_alumni_by_tahun_lulus']) . "</b> target responden. Persentase response rate Tracer Study UMI jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi adalah <b>" . $response_rate . "%.</b>";
+
+        return view('admin-prodi/report', $data);
     }
 
     // Admin Prodi
