@@ -460,3 +460,12 @@ function get_data_tahun_lulus()
     }
     return $tahun_lulus;
 }
+
+function get_data_prodi($kode_prodi){
+    $db = \Config\Database::connect('accext_tracer');
+    $query = $db->table('program_studi')
+        ->where('C_KODE_PRODI', $kode_prodi)
+        ->get();
+    $results = $query->getUnbufferedRow();
+    return $results;
+}

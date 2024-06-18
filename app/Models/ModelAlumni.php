@@ -142,10 +142,51 @@ class ModelAlumni extends Model
     }
 
     // Kuesioner
-    public function get_total_responden_by_program_studi()
+    public function get_total_responden_by_program_studi($tahun_lulus = 'semua', $program_studi = 'semua')
     {
         try {
-            $sql = "SELECT ps.NAMA_PRODI, COUNT(ls.lulusan_id) AS total_lulusan, (COUNT(ls.lulusan_id) / total.total_lulusan_all * 100) AS persentase FROM program_studi ps LEFT JOIN lulusan_satu ls ON ps.C_KODE_PRODI = ls.kdpstmsmh CROSS JOIN (SELECT COUNT(lulusan_id) AS total_lulusan_all FROM lulusan_satu) total GROUP BY ps.NAMA_PRODI ORDER BY total_lulusan DESC, ps.NAMA_PRODI";
+            // Base SQL
+            $sql = "
+            SELECT 
+                ps.NAMA_PRODI, 
+                COUNT(ls.lulusan_id) AS total_lulusan, 
+                (COUNT(ls.lulusan_id) / total.total_lulusan_all * 100) AS persentase 
+            FROM 
+                program_studi ps 
+                LEFT JOIN lulusan_satu ls ON ps.C_KODE_PRODI = ls.kdpstmsmh 
+                CROSS JOIN (SELECT COUNT(lulusan_id) AS total_lulusan_all FROM lulusan_satu";
+
+            // Conditions array for the subquery
+            $subquery_conditions = [];
+
+            // Conditions array for the main query
+            $conditions = [];
+
+            // Add conditions based on provided parameters
+            if ($tahun_lulus !== 'semua') {
+                $conditions[] = "ls.tahun_lulus = '$tahun_lulus'";
+                $subquery_conditions[] = "tahun_lulus = '$tahun_lulus'";
+            }
+            if ($program_studi !== 'semua') {
+                $conditions[] = "ls.kdpstmsmh = '$program_studi'";
+                $subquery_conditions[] = "kdpstmsmh = '$program_studi'";
+            }
+
+            // Add conditions to the subquery
+            if (!empty($subquery_conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $subquery_conditions);
+            }
+
+            $sql .= ") total";
+
+            // Add conditions to the main query
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            $sql .= " GROUP BY ps.NAMA_PRODI ORDER BY total_lulusan DESC, ps.NAMA_PRODI";
+
+            // Execute query
             $query = $this->dbext_tracer->query($sql);
             return $query->getResult();
         } catch (\Exception $th) {
@@ -153,14 +194,28 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_responden($tahun_lulus = null)
+
+    public function get_total_responden($tahun_lulus = 'semua', $program_studi = 'semua')
     {
         try {
-            if ($tahun_lulus == null) {
-                $sql = "SELECT COUNT(lulusan_id) AS total_responden FROM lulusan_satu;";
-            } else {
-                $sql = "SELECT COUNT(lulusan_id) AS total_responden FROM lulusan_satu WHERE tahun_lulus = '$tahun_lulus';";
+            $sql = "SELECT COUNT(lulusan_id) AS total_responden FROM lulusan_satu";
+
+            $conditions = [];
+
+            if ($tahun_lulus !== 'semua') {
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
             }
+
+            if ($program_studi !== 'semua') {
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+            }
+
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            $sql .= ";";
+
             $query = $this->dbext_tracer->query($sql);
             return $query->getRow();
         } catch (\Exception $th) {
@@ -168,21 +223,35 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_alumni_by_tahun_lulus($tahun_lulus = null)
+
+    public function get_total_alumni_by_tahun_lulus($tahun_lulus = 'semua', $program_studi = 'semua')
     {
         try {
+            $sql = "SELECT COUNT(*) AS total_alumni FROM alumni";
 
-            if ($tahun_lulus == null) {
-                $sql = "SELECT COUNT(*) AS total_alumni FROM alumni;";
-            } else {
-                $sql = "SELECT COUNT(*) AS total_alumni FROM alumni WHERE tahun_keluar = '$tahun_lulus';";
+            $conditions = [];
+
+            if ($tahun_lulus !== 'semua') {
+                $conditions[] = "tahun_keluar = '$tahun_lulus'";
             }
+
+            if ($program_studi !== 'semua') {
+                $conditions[] = "kode_prodi = '$program_studi'";
+            }
+
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            $sql .= ";";
+
             $query = $this->db_tracer->query($sql);
             return $query->getRow();
         } catch (\Exception $th) {
             return 0;
         }
     }
+
 
     public function get_total_responden_by_aktivitas_lulusan()
     {
@@ -425,29 +494,37 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_status_pekerjaan_lulusan($tahun_lulus = null)
+    public function get_total_status_pekerjaan_lulusan($tahun_lulus = 'semua', $program_studi = 'semua')
     {
         try {
-            if ($tahun_lulus == null) {
-                $sql = "
+            // Base SQL
+            $sql = "
             SELECT 
                 COALESCE(status_pekerjaan, 'Belum Terdata') AS status_pekerjaan, 
                 COUNT(*) AS total_lulusan 
-            FROM lulusan_satu 
-            GROUP BY status_pekerjaan 
-            ORDER BY status_pekerjaan
+            FROM lulusan_satu
         ";
-            } else {
-                $sql = "
-            SELECT 
-                COALESCE(status_pekerjaan, 'Belum Terdata') AS status_pekerjaan, 
-                COUNT(*) AS total_lulusan 
-            FROM lulusan_satu 
-            WHERE tahun_lulus = '$tahun_lulus' 
-            GROUP BY status_pekerjaan 
-            ORDER BY status_pekerjaan
-        ";
+
+            // Add WHERE conditions based on the provided parameters
+            $conditions = [];
+
+            if ($tahun_lulus !== 'semua' && $program_studi !== 'semua') {
+                // Both parameters are provided and not 'semua', use AND
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            } elseif ($tahun_lulus !== 'semua') {
+                // Only tahun_lulus is provided and not 'semua'
+                $sql .= " WHERE tahun_lulus = '$tahun_lulus'";
+            } elseif ($program_studi !== 'semua') {
+                // Only program_studi is provided and not 'semua'
+                $sql .= " WHERE kdpstmsmh = '$program_studi'";
             }
+
+            // Add GROUP BY and ORDER BY clauses
+            $sql .= " GROUP BY status_pekerjaan ORDER BY status_pekerjaan";
+
+            // Execute query
             $query = $this->dbext_tracer->query($sql);
             return $query->getResult();
         } catch (\Exception $th) {
@@ -455,29 +532,204 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_masa_tunggu_mendapatkan_pekerjaan($tahun_lulus = null)
+    public function get_total_masa_tunggu_mendapatkan_pekerjaan($tahun_lulus = 'semua', $program_studi = 'semua')
     {
         try {
-            if ($tahun_lulus == null) {
-                $sql = "
+            // Base SQL
+            $sql = "
             SELECT 
                 COALESCE(masa_tunggu, 'Belum mendapatkan pekerjaan') AS masa_tunggu,
                 COUNT(*) AS total_lulusan
             FROM lulusan_satu
-            GROUP BY masa_tunggu
-            ORDER BY masa_tunggu
         ";
-            } else {
-                $sql = "
+
+            // Add WHERE conditions based on the provided parameters
+            $conditions = [];
+
+            if ($tahun_lulus !== 'semua' && $program_studi !== 'semua') {
+                // Both parameters are provided and not 'semua', use AND
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            } elseif ($tahun_lulus !== 'semua') {
+                // Only tahun_lulus is provided and not 'semua'
+                $sql .= " WHERE tahun_lulus = '$tahun_lulus'";
+            } elseif ($program_studi !== 'semua') {
+                // Only program_studi is provided and not 'semua'
+                $sql .= " WHERE kdpstmsmh = '$program_studi'";
+            }
+
+            // Add GROUP BY and ORDER BY clauses
+            $sql .= " GROUP BY masa_tunggu ORDER BY masa_tunggu";
+
+            // Execute query
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+
+    public function get_total_jenis_pekerjaan_tempat_bekerja($tahun_lulus = 'semua', $program_studi = 'semua')
+    {
+        try {
+            // Base SQL
+            $sql = "
+            SELECT 
+                COALESCE(jenis_perusahaan, 'Belum Terdata') AS jenis_perusahaan,
+                COUNT(*) AS total_lulusan
+            FROM lulusan_satu
+        ";
+
+            // Add WHERE conditions based on the provided parameters
+            $conditions = [];
+
+            if ($tahun_lulus !== 'semua' && $program_studi !== 'semua') {
+                // Both parameters are provided and not 'semua', use AND
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            } elseif ($tahun_lulus !== 'semua') {
+                // Only tahun_lulus is provided and not 'semua'
+                $sql .= " WHERE tahun_lulus = '$tahun_lulus'";
+            } elseif ($program_studi !== 'semua') {
+                // Only program_studi is provided and not 'semua'
+                $sql .= " WHERE kdpstmsmh = '$program_studi'";
+            }
+
+            // Add GROUP BY and ORDER BY clauses
+            $sql .= " GROUP BY jenis_perusahaan ORDER BY jenis_perusahaan";
+
+            // Execute query
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+
+    public function get_total_tingkat_tempat_bekerja($tahun_lulus = 'semua', $program_studi = 'semua')
+    {
+        try {
+            // Base SQL
+            $sql = "
+            SELECT 
+                COALESCE(tingkat_kerja, 'Belum Terdata') AS tingkat_kerja,
+                COUNT(*) AS total_lulusan
+            FROM lulusan_satu
+        ";
+
+            // Add WHERE conditions based on the provided parameters
+            $conditions = [];
+
+            if ($tahun_lulus !== 'semua' && $program_studi !== 'semua') {
+                // Both parameters are provided and not 'semua', use AND
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            } elseif ($tahun_lulus !== 'semua') {
+                // Only tahun_lulus is provided and not 'semua'
+                $sql .= " WHERE tahun_lulus = '$tahun_lulus'";
+            } elseif ($program_studi !== 'semua') {
+                // Only program_studi is provided and not 'semua'
+                $sql .= " WHERE kdpstmsmh = '$program_studi'";
+            }
+
+            // Add GROUP BY and ORDER BY clauses
+            $sql .= " GROUP BY tingkat_kerja ORDER BY tingkat_kerja";
+
+            // Execute query
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+
+    public function get_total_rata_rata_pendapatan_per_bulan($tahun_lulus = 'semua', $program_studi = 'semua')
+    {
+        try {
+            // Base SQL
+            $sql = "
+            SELECT 
+                COALESCE(pendapatan, 'Belum Terdata') AS pendapatan,
+                COUNT(*) AS jumlah
+            FROM lulusan_satu
+        ";
+
+            // Add WHERE conditions based on the provided parameters
+            $conditions = [];
+
+            if ($tahun_lulus !== 'semua' && $program_studi !== 'semua') {
+                // Both parameters are provided and not 'semua', use AND
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            } elseif ($tahun_lulus !== 'semua') {
+                // Only tahun_lulus is provided and not 'semua'
+                $sql .= " WHERE tahun_lulus = '$tahun_lulus'";
+            } elseif ($program_studi !== 'semua') {
+                // Only program_studi is provided and not 'semua'
+                $sql .= " WHERE kdpstmsmh = '$program_studi'";
+            }
+
+            // Add GROUP BY and ORDER BY clauses
+            $sql .= " GROUP BY pendapatan ORDER BY pendapatan";
+
+            // Execute query
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+
+    public function get_total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaan($tahun_lulus = 'semua', $program_studi = 'semua')
+    {
+        try {
+            // Base SQL
+            $sql = "
             SELECT
-                COALESCE(masa_tunggu, 'Belum mendapatkan pekerjaan') AS masa_tunggu,
-                COUNT(*) AS total_lulusan
-            FROM lulusan_satu
-            WHERE tahun_lulus = '$tahun_lulus'
-            GROUP BY masa_tunggu
-            ORDER BY masa_tunggu
+                CASE 
+                    WHEN bulan_tunggu_6 IS NULL THEN 'Belum mendapatkan pekerjaan'
+                    WHEN bulan_tunggu_6 = 0 THEN '0 Bulan'
+                    WHEN bulan_tunggu_6 = 1 THEN '1 Bulan'
+                    WHEN bulan_tunggu_6 = 2 THEN '2 Bulan'
+                    WHEN bulan_tunggu_6 = 3 THEN '3 Bulan'
+                    WHEN bulan_tunggu_6 = 4 THEN '4 Bulan'
+                    WHEN bulan_tunggu_6 = 5 THEN '5 Bulan'
+                    WHEN bulan_tunggu_6 = 6 THEN '6 Bulan'
+                    ELSE 'Other'
+                END AS bulan_tunggu_6,
+                COUNT(*) AS jumlah 
+            FROM lulusan_satu 
         ";
+
+            // Conditions array
+            $conditions = [];
+
+            // Add conditions based on provided parameters
+            if ($tahun_lulus !== 'semua') {
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
             }
+            if ($program_studi !== 'semua') {
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+            }
+            $conditions[] = "bulan_tunggu_6 IS NULL OR bulan_tunggu_6 <= 6";
+
+            // Add conditions to SQL
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            // Group by and order by
+            $sql .= " GROUP BY bulan_tunggu_6 ORDER BY bulan_tunggu_6";
+
+            // Execute query
             $query = $this->dbext_tracer->query($sql);
             return $query->getResult();
         } catch (\Exception $th) {
@@ -485,29 +737,48 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_jenis_pekerjaan_tempat_bekerja($tahun_lulus = null)
+    public function get_total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan($tahun_lulus = 'semua', $program_studi = 'semua')
     {
         try {
-            if ($tahun_lulus == null) {
-                $sql = "
-            SELECT 
-                COALESCE(jenis_perusahaan, 'Belum Terdata') AS jenis_perusahaan,
-                COUNT(*) AS total_lulusan
-            FROM lulusan_satu
-            GROUP BY jenis_perusahaan
-            ORDER BY jenis_perusahaan
+            // Base SQL
+            $sql = "
+            SELECT
+                CASE 
+                    WHEN bulan_tunggu_6_plus IS NULL THEN 'Belum mendapatkan pekerjaan'
+                    WHEN bulan_tunggu_6_plus = 0 THEN '6 Bulan'
+                    WHEN bulan_tunggu_6_plus = 7 THEN '7 Bulan'
+                    WHEN bulan_tunggu_6_plus = 8 THEN '8 Bulan'
+                    WHEN bulan_tunggu_6_plus = 9 THEN '9 Bulan'
+                    WHEN bulan_tunggu_6_plus = 10 THEN '10 Bulan'
+                    WHEN bulan_tunggu_6_plus = 11 THEN '11 Bulan'
+                    WHEN bulan_tunggu_6_plus = 12 THEN '12 Bulan'
+                    ELSE 'Diatas 12 Bulan'
+                END AS bulan_tunggu_6_plus,
+                COUNT(*) AS jumlah 
+            FROM lulusan_satu 
         ";
-            } else {
-                $sql = "
-            SELECT 
-                COALESCE(jenis_perusahaan, 'Belum Terdata') AS jenis_perusahaan,
-                COUNT(*) AS total_lulusan
-            FROM lulusan_satu
-            WHERE tahun_lulus = '$tahun_lulus'
-            GROUP BY jenis_perusahaan
-            ORDER BY jenis_perusahaan
-        ";
+
+            // Conditions array
+            $conditions = [];
+
+            // Add conditions based on provided parameters
+            if ($tahun_lulus !== 'semua') {
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
             }
+            if ($program_studi !== 'semua') {
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+            }
+            $conditions[] = "bulan_tunggu_6_plus IS NULL OR bulan_tunggu_6_plus >= 6";
+
+            // Add conditions to SQL
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            // Group by and order by
+            $sql .= " GROUP BY bulan_tunggu_6_plus ORDER BY bulan_tunggu_6_plus";
+
+            // Execute query
             $query = $this->dbext_tracer->query($sql);
             return $query->getResult();
         } catch (\Exception $th) {
@@ -515,59 +786,78 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_tingkat_tempat_bekerja($tahun_lulus = null)
-    {
-        try {
-            if ($tahun_lulus == null) {
-                $sql = "
-            SELECT 
-                COALESCE(tingkat_kerja, 'Belum Terdata') AS tingkat_kerja,
-                COUNT(*) AS total_lulusan
-            FROM lulusan_satu
-            GROUP BY tingkat_kerja
-            ORDER BY tingkat_kerja
-        ";
-            } else {
-                $sql = "
-            SELECT 
-                COALESCE(tingkat_kerja, 'Belum Terdata') AS tingkat_kerja,
-                COUNT(*) AS total_lulusan
-            FROM lulusan_satu
-            WHERE tahun_lulus = '$tahun_lulus'
-            GROUP BY tingkat_kerja
-            ORDER BY tingkat_kerja
-        ";
-            }
-            $query = $this->dbext_tracer->query($sql);
-            return $query->getResult();
-        } catch (\Exception $th) {
-            return 0;
-        }
-    }
 
-    public function get_total_rata_rata_pendapatan_per_bulan($tahun_lulus = null)
+
+    public function get_total_hubungan_bidang_studi_dan_pekerjaan($tahun_lulus = 'semua', $program_studi = 'semua')
     {
         try {
-            if ($tahun_lulus == null) {
-                $sql = "
+            // Base SQL
+            $sql = "
             SELECT 
-                COALESCE(pendapatan, 'Belum Terdata') AS pendapatan,
+                COALESCE(hubungan_bidang_studi, 'Belum Terdata') AS hubungan_bidang_studi,
                 COUNT(*) AS jumlah
             FROM lulusan_satu
-            GROUP BY pendapatan
-            ORDER BY pendapatan
         ";
-            } else {
-                $sql = "
+
+            // Conditions array
+            $conditions = [];
+
+            // Add conditions based on provided parameters
+            if ($tahun_lulus !== 'semua') {
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
+            }
+            if ($program_studi !== 'semua') {
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+            }
+
+            // Add conditions to SQL
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            // Add GROUP BY and ORDER BY clauses
+            $sql .= " GROUP BY hubungan_bidang_studi ORDER BY hubungan_bidang_studi";
+
+            // Execute query
+            $query = $this->dbext_tracer->query($sql);
+            return $query->getResult();
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
+
+    public function get_total_tingkat_pendidikan_dan_pekerjaan($tahun_lulus = 'semua', $program_studi = 'semua')
+    {
+        try {
+            // Base SQL
+            $sql = "
             SELECT 
-                COALESCE(pendapatan, 'Belum Terdata') AS pendapatan,
+                COALESCE(kesesuaian_pendidikan, 'Belum Terdata') AS kesesuaian_pendidikan,
                 COUNT(*) AS jumlah
             FROM lulusan_satu
-            WHERE tahun_lulus = '$tahun_lulus'
-            GROUP BY pendapatan
-            ORDER BY pendapatan
         ";
+
+            // Conditions array
+            $conditions = [];
+
+            // Add conditions based on provided parameters
+            if ($tahun_lulus !== 'semua') {
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
             }
+            if ($program_studi !== 'semua') {
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+            }
+
+            // Add conditions to SQL
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            // Add GROUP BY and ORDER BY clauses
+            $sql .= " GROUP BY kesesuaian_pendidikan ORDER BY kesesuaian_pendidikan";
+
+            // Execute query
             $query = $this->dbext_tracer->query($sql);
             return $query->getResult();
         } catch (\Exception $th) {
@@ -575,99 +865,51 @@ class ModelAlumni extends Model
         }
     }
 
-    public function get_total_masa_tunggu_dibawah_6_bulan_mendapatkan_pekerjaan($tahun_lulus = null)
-    {
-        try {
-            if ($tahun_lulus == null) {
-                $sql = "
-                SELECT
-                    CASE 
-                        WHEN bulan_tunggu_6 IS NULL THEN 'Belum mendapatkan pekerjaan'
-                        WHEN bulan_tunggu_6 = 0 THEN '0 Bulan'
-                        WHEN bulan_tunggu_6 = 1 THEN '1 Bulan'
-                        WHEN bulan_tunggu_6 = 2 THEN '2 Bulan'
-                        WHEN bulan_tunggu_6 = 3 THEN '3 Bulan'
-                        WHEN bulan_tunggu_6 = 4 THEN '4 Bulan'
-                        WHEN bulan_tunggu_6 = 5 THEN '5 Bulan'
-                        WHEN bulan_tunggu_6 = 6 THEN '6 Bulan'
-                        ELSE 'Other'
-                    END AS bulan_tunggu_6,
-                    COUNT(*) AS jumlah 
-                FROM lulusan_satu 
-                WHERE bulan_tunggu_6 IS NULL OR bulan_tunggu_6 <= 6
-                GROUP BY bulan_tunggu_6
-            ";
-            } else {
-                $sql = "
-                SELECT 
-                    CASE 
-                        WHEN bulan_tunggu_6 IS NULL THEN 'Belum mendapatkan pekerjaan'
-                        WHEN bulan_tunggu_6 = 0 THEN '0 Bulan'
-                        WHEN bulan_tunggu_6 = 1 THEN '1 Bulan'
-                        WHEN bulan_tunggu_6 = 2 THEN '2 Bulan'
-                        WHEN bulan_tunggu_6 = 3 THEN '3 Bulan'
-                        WHEN bulan_tunggu_6 = 4 THEN '4 Bulan'
-                        WHEN bulan_tunggu_6 = 5 THEN '5 Bulan'
-                        WHEN bulan_tunggu_6 = 6 THEN '6 Bulan'
-                        ELSE 'Other'
-                    END AS bulan_tunggu_6,
-                    COUNT(*) AS jumlah 
-                FROM lulusan_satu 
-                WHERE (bulan_tunggu_6 IS NULL OR bulan_tunggu_6 <= 6) AND tahun_lulus = '$tahun_lulus'
-                GROUP BY bulan_tunggu_6
-            ";
-            }
-            $query = $this->dbext_tracer->query($sql);
-            return $query->getResult();
-        } catch (\Exception $th) {
-            return 0;
-        }
-    }
 
-    public function get_total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan($tahun_lulus = null)
+    public function get_total_kemampuan_lulusan($tahun_lulus = 'semua', $program_studi = 'semua')
     {
         try {
-            if ($tahun_lulus == null) {
-                $sql = "
-                SELECT
-                    CASE 
-                        WHEN bulan_tunggu_6_plus IS NULL THEN 'Belum mendapatkan pekerjaan'
-                        WHEN bulan_tunggu_6_plus = 0 THEN '6 Bulan'
-                        WHEN bulan_tunggu_6_plus = 7 THEN '7 Bulan'
-                        WHEN bulan_tunggu_6_plus = 8 THEN '8 Bulan'
-                        WHEN bulan_tunggu_6_plus = 9 THEN '9 Bulan'
-                        WHEN bulan_tunggu_6_plus = 10 THEN '10 Bulan'
-                        WHEN bulan_tunggu_6_plus = 11 THEN '11 Bulan'
-                        WHEN bulan_tunggu_6_plus = 12 THEN '12 Bulan'
-                        ELSE 'Diatas 12 Bulan'
-                    END AS bulan_tunggu_6_plus,
-                    COUNT(*) AS jumlah 
-                FROM lulusan_satu 
-                WHERE bulan_tunggu_6_plus IS NULL OR bulan_tunggu_6_plus >= 6
-                GROUP BY bulan_tunggu_6_plus
-            ";
-            } else {
-                $sql = "
-                SELECT 
-                    CASE 
-                        WHEN bulan_tunggu_6_plus IS NULL THEN 'Belum mendapatkan pekerjaan'
-                        WHEN bulan_tunggu_6_plus = 0 THEN '6 Bulan'
-                        WHEN bulan_tunggu_6_plus = 7 THEN '7 Bulan'
-                        WHEN bulan_tunggu_6_plus = 8 THEN '8 Bulan'
-                        WHEN bulan_tunggu_6_plus = 9 THEN '9 Bulan'
-                        WHEN bulan_tunggu_6_plus = 10 THEN '10 Bulan'
-                        WHEN bulan_tunggu_6_plus = 11 THEN '11 Bulan'
-                        WHEN bulan_tunggu_6_plus = 12 THEN '12 Bulan'
-                        ELSE 'Diatas 12 Bulan'
-                    END AS bulan_tunggu_6_plus,
-                    COUNT(*) AS jumlah 
-                FROM lulusan_satu 
-                WHERE (bulan_tunggu_6_plus IS NULL OR bulan_tunggu_6_plus >= 6) AND tahun_lulus = '$tahun_lulus'
-                GROUP BY bulan_tunggu_6_plus
-            ";
+            // Base SQL
+            $sql = "
+            SELECT 
+                SUM(etika_a) AS etika_a,
+                SUM(etika_b) AS etika_b,
+                SUM(keahlian_a) AS keahlian_a,
+                SUM(keahlian_b) AS keahlian_b,
+                SUM(bahasa_asing_a) AS bahasa_asing_a,
+                SUM(bahasa_asing_b) AS bahasa_asing_b,
+                SUM(teknologi_a) AS teknologi_a,
+                SUM(teknologi_b) AS teknologi_b,
+                SUM(komunikasi_a) AS komunikasi_a,
+                SUM(komunikasi_b) AS komunikasi_b,
+                SUM(kerjasama_a) AS kerjasama_a,
+                SUM(kerjasama_b) AS kerjasama_b,
+                SUM(pengembangan_diri_a) AS pengembangan_diri_a,
+                SUM(pengembangan_diri_b) AS pengembangan_diri_b,
+                SUM(kepemimpinan_a) AS kepemimpinan_a,
+                SUM(kepemimpinan_b) AS kepemimpinan_b
+            FROM lulusan_satu
+        ";
+
+            // Conditions array
+            $conditions = [];
+
+            // Add conditions based on provided parameters
+            if ($tahun_lulus !== 'semua') {
+                $conditions[] = "tahun_lulus = '$tahun_lulus'";
             }
+            if ($program_studi !== 'semua') {
+                $conditions[] = "kdpstmsmh = '$program_studi'";
+            }
+
+            // Add conditions to SQL
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            // Execute query
             $query = $this->dbext_tracer->query($sql);
-            return $query->getResult();
+            return $query->getRow();
         } catch (\Exception $th) {
             return 0;
         }

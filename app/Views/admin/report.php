@@ -14,32 +14,40 @@ view('layouts/header');
                         <div class="form-group">
                             <label for="tahun_lulus">Tahun Lulus</label>
                             <select class="form-control" id="tahun_lulus" name="tahun_lulus">
-                                <option value="semua">-- Semua Tahun Lulusan --</option>
-                                <?php
-                                foreach (get_data_tahun_lulus() as $item) {
-                                ?>
-                                    <option value="<?= $item ?>">Tahun <?= $item ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
+                                <?php if ($tahun_lulus === "semua") : ?>
+                                    <option value="semua" selected>-- Semua Tahun Lulusan --</option>
+                                <?php else : ?>
+                                    <option value="semua">-- Semua Tahun Lulusan --</option>
+                                    <option value="<?= $tahun_lulus ?>" selected>Tahun <?= $tahun_lulus ?></option>
+                                <?php endif; ?>
 
+                                <?php foreach (get_data_tahun_lulus() as $item) : ?>
+                                    <option value="<?= $item ?>" <?= $item == $tahun_lulus ? 'selected' : '' ?>>Tahun <?= $item ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
+
                         <div class="form-group">
                             <label for="program_studi">Program Studi</label>
-                            <select class="form-control" id="program_studi">
-                                <option value="semua">-- Semua Program Studi --</option>
-                                <?php
-                                foreach (get_data_program_studi() as $item) {
-                                ?>
-                                    <option value="<?= $item->C_KODE_PRODI ?>"><?= $item->NAMA_PRODI ?></option>
-                                <?php
-                                }
-                                ?>
+                            <select class="form-control" id="program_studi" name="program_studi">
+                                <?php if ($program_studi === "semua") : ?>
+                                    <option value="semua" selected>-- Semua Program Studi --</option>
+                                <?php else : ?>
+                                    <option value="semua">-- Semua Program Studi --</option>
+                                    <?php $selected_prodi = get_data_prodi($program_studi); ?>
+                                    <?php if ($selected_prodi) : ?>
+                                        <option value="<?= $selected_prodi->C_KODE_PRODI ?>" selected><?= $selected_prodi->NAMA_PRODI ?></option>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+
+                                <?php foreach (get_data_program_studi() as $item) : ?>
+                                    <option value="<?= $item->C_KODE_PRODI ?>" <?= $item->C_KODE_PRODI == $program_studi ? 'selected' : '' ?>><?= $item->NAMA_PRODI ?></option>
+                                <?php endforeach; ?>
                             </select>
                             <button type="submit" class="btn btn-primary mt-3">Submit</button>
                             <a href="<?= base_url('admin/laporan') ?>" class="btn btn-danger mt-3">Reset</a>
                         </div>
+
                     </form>
                 </div>
                 <div class="col-md-12">
@@ -94,31 +102,31 @@ view('layouts/header');
                                     <small style="color: red;">Total Responden : <?= format_ribuan($total_responden) ?></small>
                                 </caption>
                                 <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Data Status Pekerjaan Lulusan</h3>
+                                    <h5>Data Status Pekerjaan Lulusan</h5>
                                     <hr>
                                     <div id="chart-status-pekerjaan-lulusan"></div>
                                 </div>
                                 <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Masa Tunggu untuk Mendapatkan Pekerjaan</h3>
+                                    <h5>Masa Tunggu untuk Mendapatkan Pekerjaan</h5>
                                     </hr>
                                     <div id="chart-masa-tunggu-mendapatkan-pekerjaan"></div>
-                                    <h5>Masa Tunggu Dibawah 6 bulan Mendapatkan Pekerjaan setelah lulus </h5>
+                                    <h6>Masa Tunggu Dibawah 6 bulan Mendapatkan Pekerjaan setelah lulus </h6>
                                     <div id="chart-masa-tunggu-dibawah-mendapatkan-pekerjaan"></div>
-                                    <h5>Masa Tunggu Diatas 6 bulan Mendapatkan Pekerjaan setelah lulus </h5>
+                                    <h6>Masa Tunggu Diatas 6 bulan Mendapatkan Pekerjaan setelah lulus </h6>
                                     <div id="chart-masa-tunggu-diatas-mendapatkan-pekerjaan"></div>
                                 </div>
                                 <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Jenis Perusahaan Tempat Bekerja</h3>
+                                    <h5>Jenis Perusahaan Tempat Bekerja</h5>
                                     <hr>
                                     <div id="chart-jenis-perusahaan-tempat-bekerja"></div>
                                 </div>
                                 <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Tingkat Tempat Kerja</h3>
+                                    <h5>Tingkat Tempat Kerja</h5>
                                     <hr>
                                     <div id="chart-tingkat-tempat-bekerja"></div>
                                 </div>
                                 <div class="col-md-12" style="margin-top: 20px !important;">
-                                    <h3>Pendapatan Rata-Rata Perbulan</h3>
+                                    <h5>Pendapatan Rata-Rata Perbulan</h5>
                                     <hr>
                                     <div id="chart-pendapatan-rata-rata-perbulan"></div>
                                 </div>
@@ -143,35 +151,15 @@ view('layouts/header');
                             </div>
                         </div>
                         <div class="card-body collapse" id="collapseCardBody2">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="program_studi">Program Studi</label>
-                                        <select class="form-control" id="program_studi">
-                                            <option value="semua">-- Semua Program Studi --</option>
-                                            <?php
-                                            foreach (get_data_program_studi() as $item) {
-                                            ?>
-                                                <option value="<?= $item->C_KODE_PRODI ?>"><?= $item->NAMA_PRODI ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <h3>Data Status Pekerjaan Lulusan</h3>
-                                        <div id="chart-aktivitas-lulusan"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6" style="align-self: center; text-align: justify;">
-                                    <p style="font-size: 16px;">Alumni jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi memiliki beragam aktivitas. Alumni yang bekerja sebanyak <b id="totalRespondenYa"> 2.035</b> atau sebesar <b id="persentaseRespondenYa">57,7%</b> dari total responden <b><?= format_ribuan($total_responden) ?></b>. Selain itu, alumni yang melanjutkan studi cukup besar yakni sebesar <b id="persentaseRespondenMelanjutkanStudi">27,7%</b> dan alumni yang memilih menjadi wiraswasta sebesar <b id="persentaseRespondenWiraswasta">8,9%</b>​</p>
-
-                                    <p style="font-size: 16px;">Alumni jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi memiliki waktu cukup singkat memperoleh pekerjaan setelah lulus. Masa tunggu paling banyak di waktu 1 bulan setelah lulus dengan total <b id="totalResponse1Bulan">970 alumni</b>. Rata-rata masa tunggu alumni jenjang, Diploma, Sarjana, Magister, dan Doktor serta Profesi dalam memperoleh pekerjaan setelah lulus sebesar <b id="rerataHasilTunggu">2,86</b> <b>Bulan</b></p>
-                                </div>
-                                <div class="col-md-12">
-                                    <div id="chart-sebaran-masa-tunggu"></div>
-                                </div>
+                            <div class="col-md-12" style="margin-top: 20px !important;">
+                                <h5>Hubungan Bidang Studi dan Pekerjaan</h5>
+                                <hr>
+                                <div id="chart-hubungan-bidang-studi-dan-pekerjaan"></div>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 20px !important;">
+                                <h5>Tingkat Pendidikan dan Pekerjaan</h5>
+                                <hr>
+                                <div id="chart-tingkat-pendidikan-dan-pekerjaan"></div>
                             </div>
                         </div>
                     </div>
@@ -194,20 +182,39 @@ view('layouts/header');
                         </div>
                         <div class="card-body collapse" id="collapseCardBody3">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <h4>Jenis Institusi tempat alumni bekerja</h4>
-                                    <div id="chart-jenis-institusi"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4>Tingkat kerja atau posisi alumni saat ini</h4>
-                                    <div id="chart-tingkat-kerja"></div>
-                                </div>
-                                <div class="col-md-6 mt-5" style="margin-top: 50px !important;">
-                                    <h4>Status penghasilan berdasarkan UMP Sulawei selatan</h4>
-                                    <div id="chart-penghasilan-ump"></div>
+                                <div class="col-md-12">
+                                    <h5>Rata-rata Kompetensi</h5>
+                                    <hr>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Kompetensi</th>
+                                                <th>Bagian A</th>
+                                                <th>Bagian B</th>
+                                                <th>Perbedaan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($total_analisis_likert_data_kemampuan_lulusan['per_kompetensi'] as $kompetensi => $values) : ?>
+                                                <tr>
+                                                    <td><?php echo $kompetensi; ?></td>
+                                                    <td><?php echo $values['bagian_a']; ?></td>
+                                                    <td><?php echo $values['bagian_b']; ?></td>
+                                                    <td><?php echo $values['perbedaan']; ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                            <tr>
+                                                <td><strong>Rata-rata</strong></td>
+                                                <td><strong><?php echo $total_analisis_likert_data_kemampuan_lulusan['rata_rata_bagian_a']; ?></strong></td>
+                                                <td><strong><?php echo $total_analisis_likert_data_kemampuan_lulusan['rata_rata_bagian_b']; ?></strong></td>
+                                                <td>#</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -250,6 +257,10 @@ view('layouts/header');
         var chartBarMasaTungguDibawahMendapatkanPekerjaan;
         var total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan = <?php echo json_encode($total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan); ?>;
         var chartBarMasaTungguDiatasMendapatkanPekerjaan;
+        var total_hubungan_bidang_studi_dan_pekerjaan = <?php echo json_encode($total_hubungan_bidang_studi_dan_pekerjaan); ?>;
+        var chartPieHubunganBidangStudiDanPekerjaan;
+        var total_tingkat_pendidikan_dan_pekerjaan = <?php echo json_encode($total_tingkat_pendidikan_dan_pekerjaan); ?>;
+        var chartPieTingkatPendidikanDanPekerjaan;
 
         console.log('total_responden_by_aktivitas_lulusan:', total_masa_tunggu_dibawah_6_bulan_mendaapatkan_pekerjaan);
 
@@ -321,6 +332,12 @@ view('layouts/header');
             var totalDataMasaTungguDiatas6BulanMendapatkanPekerjaan = calculateTotalMasaTungguDiatas6BulanMendapatkanPekerjaan(total_masa_tunggu_diatas_6_bulan_mendapatkan_pekerjaan);
             initMasaTungguDiatasMendapatkanPekerjaanChart(totalDataMasaTungguDiatas6BulanMendapatkanPekerjaan);
 
+            var totalDataHubunganBidangStudiDanPekerjaan = calculateTotalHubunganBidangStudiDanPekerjaan(total_hubungan_bidang_studi_dan_pekerjaan);
+            initHubunganBidangStudiDanPekerjaanChart(totalDataHubunganBidangStudiDanPekerjaan);
+
+            var totalDataTingkatPendidikanDanPekerjaan = calculateTotalByTingkatPendidikanDanPekerjaan(total_tingkat_pendidikan_dan_pekerjaan);
+            initTingkatPendidikanDanPekerjaanChart(totalDataTingkatPendidikanDanPekerjaan);
+
             var totalData = calculateTotalByStatus(total_responden_by_aktivitas_lulusan);
             KTApexChartsDemo.init(totalData);
 
@@ -349,6 +366,147 @@ view('layouts/header');
                 updateLineChart(total_responden_by_sebaran_masa_tunggu, selectedProdi); // Pass selectedProdi to the update function
             });
         });
+
+        function calculateTotalByTingkatPendidikanDanPekerjaan(data) {
+            var statusTotals = {
+                "Sangat Sesuai": 0,
+                "Sesuai": 0,
+                "Cukup Sesuai": 0,
+                "Kurang Sesuai": 0,
+                "Tidak Sama Sekali": 0,
+                "Belum Terdata": 0
+            };
+
+            data.forEach(function(item) {
+                if (statusTotals.hasOwnProperty(item.kesesuaian_pendidikan)) {
+                    statusTotals[item.kesesuaian_pendidikan] += parseInt(item.jumlah);
+                }
+            });
+
+            return Object.keys(statusTotals).map(function(key) {
+                return {
+                    kesesuaian_pendidikan: key,
+                    jumlah: statusTotals[key]
+                };
+            });
+        }
+
+        function initTingkatPendidikanDanPekerjaanChart(data) {
+            var categories = [];
+            var series = [];
+            var colors = [];
+
+            // Warna default lainnya untuk kategori selain "Belum terdata"
+            var colorMapping = {
+                'Sangat Sesuai': '#00E396',
+                'Sesuai': '#FEB019',
+                'Cukup Sesuai': '#FF4560',
+                'Kurang Sesuai': '#775DD0',
+                'Tidak Sama Sekali': '#3F51B5',
+                'Belum Terdata': '#FF0000' // Warna merah untuk "Belum terdata"
+            };
+
+            data.forEach(function(item, index) {
+                categories.push(item.kesesuaian_pendidikan);
+                series.push(item.jumlah);
+
+                if (colorMapping.hasOwnProperty(item.kesesuaian_pendidikan)) {
+                    colors.push(colorMapping[item.kesesuaian_pendidikan]);
+                } else {
+                    colors.push('#D3D3D3'); // Light gray sebagai default
+                }
+            });
+
+            var options = {
+                series: series,
+                chart: {
+                    height: 250,
+                    type: 'pie',
+                },
+                labels: categories,
+                colors: colors, // Menetapkan warna untuk setiap segmen
+            };
+
+            if (chartPieTingkatPendidikanDanPekerjaan) {
+                chartPieTingkatPendidikanDanPekerjaan.destroy();
+            }
+
+            chartPieTingkatPendidikanDanPekerjaan = new ApexCharts(document.querySelector("#chart-tingkat-pendidikan-dan-pekerjaan"), options);
+            chartPieTingkatPendidikanDanPekerjaan.render();
+        }
+
+
+
+        function calculateTotalHubunganBidangStudiDanPekerjaan(data) {
+            var statusTotals = {
+                "Sangat Erat": 0,
+                "Erat": 0,
+                "Cukup Erat": 0,
+                "Kurang Erat": 0,
+                "Tidak Sama Sekali": 0,
+                "Belum Terdata": 0,
+            }
+
+            data.forEach(function(item) {
+                if (statusTotals.hasOwnProperty(item.hubungan_bidang_studi)) {
+                    statusTotals[item.hubungan_bidang_studi] += parseInt(item.jumlah);
+                }
+            });
+
+            return Object.keys(statusTotals).map(function(key) {
+                return {
+                    hubungan_bidang_studi: key,
+                    jumlah: statusTotals[key]
+                };
+            });
+        }
+
+        function initHubunganBidangStudiDanPekerjaanChart(data) {
+            var categories = [];
+            var series = [];
+            var colors = [];
+
+            // Warna default lainnya untuk kategori selain "Belum terdata"
+            var colorMapping = {
+                'Sangat Erat': '#00E396',
+                'Erat': '#FEB019',
+                'Cukup Erat': '#FF4560',
+                'Kurang Erat': '#775DD0',
+                'Tidak Sama Sekali': '#3F51B5',
+                'Belum Terdata': '#FF0000' // Warna merah untuk "Belum terdata"
+            };
+
+            data.forEach(function(item) {
+                categories.push(item.hubungan_bidang_studi);
+                series.push(item.jumlah);
+
+                // Menentukan warna berdasarkan pemetaan
+                if (colorMapping.hasOwnProperty(item.hubungan_bidang_studi)) {
+                    colors.push(colorMapping[item.hubungan_bidang_studi]);
+                } else {
+                    // Warna default jika kategori tidak ada dalam pemetaan
+                    colors.push('#D3D3D3'); // Light gray sebagai default
+                }
+
+            });
+
+            var options = {
+                series: series,
+                colors: colors,
+                chart: {
+                    height: 250,
+                    type: 'pie',
+                },
+                labels: categories,
+            };
+
+            if (chartPieHubunganBidangStudiDanPekerjaan) {
+                chartPieHubunganBidangStudiDanPekerjaan.destroy();
+            }
+
+            chartPieHubunganBidangStudiDanPekerjaan = new ApexCharts(document.querySelector("#chart-hubungan-bidang-studi-dan-pekerjaan"), options);
+            chartPieHubunganBidangStudiDanPekerjaan.render();
+        }
 
         function calculateTotalMasaTungguDiatas6BulanMendapatkanPekerjaan(data) {
             var statusTotals = {
@@ -518,14 +676,29 @@ view('layouts/header');
         function initPendapatanRataRataPerbulanChart(data) {
             var categories = [];
             var series = [];
+            var colors = [];
+
+            var colorMapping = {
+                'dibawah 5.000.000': '#00E396',
+                'antara 5.000.000 - 10.000.000': '#FEB019',
+                'di atas 10.000.000': '#FF4560',
+                'Belum Terdata': '#FF0000'
+            };
 
             data.forEach(function(item) {
                 categories.push(item.pendapatan);
                 series.push(item.jumlah);
+
+                if (colorMapping.hasOwnProperty(item.pendapatan)) {
+                    colors.push(colorMapping[item.pendapatan]);
+                } else {
+                    colors.push('#D3D3D3'); // Light gray sebagai default
+                }
             });
 
             var options = {
                 series: series,
+                colors: colors,
                 chart: {
                     height: 250,
                     type: 'pie',
@@ -569,14 +742,33 @@ view('layouts/header');
         function initTingkatTempatBekerjaChart(data) {
             var categories = [];
             var series = [];
+            var colors = [];
+
+            var colorMapping = {
+                'Entry Level': '#00E396',
+                'Mid-Level': '#FEB019',
+                'Senior Level': '#FF4560',
+                'Manajer/Supervisor': '#775DD0',
+                'Direktur/Executive': '#3F51B5',
+                'Pemilik Usaha/Wirausaha': '#D3D3D3',
+                'Belum Terdata': '#FF0000'
+            };
 
             data.forEach(function(item) {
                 categories.push(item.tingkat_kerja);
                 series.push(item.total_lulusan);
+
+                if (colorMapping.hasOwnProperty(item.tingkat_kerja)) {
+                    colors.push(colorMapping[item.tingkat_kerja]);
+                } else {
+                    colors.push('#D3D3D3'); // Light gray sebagai default
+                }
+
             });
 
             var options = {
                 series: series,
+                colors: colors,
                 chart: {
                     height: 250,
                     type: 'pie',
@@ -621,14 +813,34 @@ view('layouts/header');
         function initJenisPekerjaanTempatBekerjaChart(data) {
             var categories = [];
             var series = [];
+            var colors = [];
+
+            var colorMapping = {
+                'Instansi/ Institusi pemerintah': '#00E396',
+                'BUMN/ BUMD': '#FEB019',
+                'Instansi/ Institusi swasta': '#FF4560',
+                'Organisasi non-profit/ Lembaga Swadaya Masyarakat': '#775DD0',
+                'Wiraswasta/ Perusahaan sendiri:': '#3F51B5',
+                'Institusi/ Organisasi multilateral': '#D3D3D3',
+                'Lainnya': '#FF0000',
+                'Belum Terdata': '#FF0000'
+            };
 
             data.forEach(function(item) {
                 categories.push(item.jenis_perusahaan);
                 series.push(item.total_lulusan);
+
+                if (colorMapping.hasOwnProperty(item.jenis_perusahaan)) {
+                    colors.push(colorMapping[item.jenis_perusahaan]);
+                } else {
+                    colors.push('#D3D3D3'); // Light gray sebagai default
+                }
+
             });
 
             var options = {
                 series: series,
+                colors: colors,
                 chart: {
                     height: 250,
                     type: 'pie',
@@ -669,14 +881,29 @@ view('layouts/header');
         function initStatusMasaTungguMendapakatkanPekerjaan(data) {
             var categories = [];
             var series = [];
+            var colors = [];
+
+            var colorMapping = {
+                'Sudah mendapatkan pekerjaan sebelum lulus': '#00E396',
+                'Dibawah 6 bulan setelah lulus': '#FEB019',
+                'Diatas 6 bulan setelah lulus': '#FF4560',
+                'Belum mendapatkan pekerjaan': '#FF0000',
+            };
 
             data.forEach(function(item) {
                 categories.push(item.masa_tunggu);
                 series.push(item.total_lulusan);
+
+                if (colorMapping.hasOwnProperty(item.masa_tunggu)) {
+                    colors.push(colorMapping[item.masa_tunggu]);
+                } else {
+                    colors.push('#D3D3D3'); // Light gray sebagai default
+                }
             });
 
             var options = {
                 series: series,
+                colors: colors,
                 chart: {
                     height: 250,
                     type: 'pie',
@@ -719,14 +946,32 @@ view('layouts/header');
         function initStatusPekerjaanLulusanChart(data) {
             var categories = [];
             var series = [];
+            var colors = [];
+
+            var colorMapping = {
+                'Pegawai': '#00E396',
+                'Wiraswasta': '#FEB019',
+                'Melanjutkan Pendidikan': '#FF4560',
+                'Sedang Mencari Kerja': '#775DD0',
+                'Belum Memungkinkan Bekerja': '#3F51B5',
+                'Belum Terdata': '#FF0000'
+            };
 
             data.forEach(function(item) {
                 categories.push(item.status_pekerjaan);
                 series.push(item.total_lulusan);
+
+                if (colorMapping.hasOwnProperty(item.status_pekerjaan)) {
+                    colors.push(colorMapping[item.status_pekerjaan]);
+                } else {
+                    colors.push('#D3D3D3'); // Light gray sebagai default
+                }
+
             });
 
             var options = {
                 series: series,
+                colors: colors,
                 chart: {
                     height: 250,
                     type: 'pie',
